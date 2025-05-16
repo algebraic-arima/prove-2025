@@ -1,4 +1,4 @@
-CURRENT_DIR=.
+CURRENT_DIR=$(PWD)
 SLL_DIR=../sll
 
 -include CONFIGURE

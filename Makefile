@@ -1,6 +1,6 @@
 CURRENT_DIR=.
-SETS_DIR = sets
-COMPCERT_DIR = compcert_lib
+SETS_DIR = $(SL_DIR)sets
+COMPCERT_DIR = $(SL_DIR)compcert_lib
 PV_DIR = pv
 COQBIN=
 

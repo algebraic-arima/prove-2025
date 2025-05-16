@@ -19,3 +19,7 @@ SUB_CONFIGURE
 .nia.cache
 .nra.cache
 .csdp.cache
+
+monadlib/
+qcp-docker/
+qcp/
