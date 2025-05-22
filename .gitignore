@@ -22,4 +22,14 @@ SUB_CONFIGURE
 
 monadlib/
 qcp-docker/
-qcp/
+qcp/algorithm/
+qcp/arith/
+qcp/arith-hw/
+qcp/dll/
+qcp/dll-hw/
+qcp/sll/
+qcp/sll-hw/
+qcp/tree/
+qcp/tree-hw/
+
+
