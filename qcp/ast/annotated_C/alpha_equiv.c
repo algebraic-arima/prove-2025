@@ -1,5 +1,25 @@
 #include "ast.h"
 
+/*@ Import Coq From SimpleC.EE Require Import ast_lib */
+/*@ Import Coq From SimpleC.EE Require Import malloc */
+/*@ Import Coq From SimpleC.EE Require Import sll_tmpl */
+
+/*@ Extern Coq (var_name :: *)*/
+/*@ Extern Coq (const_type :: *)*/
+/*@ Extern Coq (quant_type :: *)*/
+/*@ Extern Coq (term_type :: *)*/
+/*@ Extern Coq (store_term : Z -> term -> Assertion)
+               (store_string : Z -> list Z -> Assertion)
+               (ctID : const_type -> Z)
+               (qtID : quant_type -> Z)
+               (ttID : term_type -> Z)
+               (termtypeID : term -> Z)
+               (TermVar: list Z -> term)
+               (TermConst: const_type -> Z -> term)
+               (TermApply: term -> term -> term)
+               (TermQuant: quant_type -> list Z -> term -> term)
+*/
+
 bool alpha_equiv(term *t1, term *t2)
 /*@ With term1 term2
       Require store_term(t1, term1) *

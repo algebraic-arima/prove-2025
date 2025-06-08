@@ -114,6 +114,7 @@ Fixpoint store_term (x: addr) (t: term): Assertion :=
                         &(x # "term" ->ₛ "content" .ₛ "Apply" .ₛ "right") # Ptr |-> z **
                         store_term y lt ** store_term z rt
     | TermQuant qtype qvar body => EX y z: addr,
+                                  &(x # "term" ->ₛ "content" .ₛ "Quant" .ₛ "type") # Int |-> qtID qtype **
                                   &(x # "term" ->ₛ "content" .ₛ "Quant" .ₛ "var") # Ptr |-> y **
                                   &(x # "term" ->ₛ "content" .ₛ "Quant" .ₛ "body") # Ptr |-> z **
                                   store_string y qvar ** store_term z body
@@ -135,6 +136,7 @@ Definition store_term' (x: addr) (t: term): Assertion :=
                           store_term y lt ** store_term z rt
     | TermQuant qtype qvar body => [| x <> NULL |] && 
                                    EX y z: addr,
+                                    &(x # "term" ->ₛ "content" .ₛ "Quant" .ₛ "type") # Int |-> qtID qtype **
                                     &(x # "term" ->ₛ "content" .ₛ "Quant" .ₛ "var") # Ptr |-> y **
                                     &(x # "term" ->ₛ "content" .ₛ "Quant" .ₛ "body") # Ptr |-> z **
                                     store_string y qvar ** store_term z body
@@ -213,6 +215,7 @@ Lemma store_term'_Quant: forall x t,
   store_term' x t |--
   EX qtype qvar body, [| t = TermQuant qtype qvar body |] && [| x <> NULL |] &&
   EX y z: addr,
+    &(x # "term" ->ₛ "content" .ₛ "Quant" .ₛ "type") # Int |-> qtID qtype **
     &(x # "term" ->ₛ "content" .ₛ "Quant" .ₛ "var") # Ptr |-> y **
     &(x # "term" ->ₛ "content" .ₛ "Quant" .ₛ "body") # Ptr |-> z **
     store_string y qvar ** store_term z body.

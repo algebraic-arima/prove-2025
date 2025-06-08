@@ -1,5 +1,7 @@
 {
     "files.associations": {
-        "ast.h": "c"
+        "ast.h": "c",
+        "cnf_trans.h": "c",
+        "int_array_def.h": "c"
     }
 }

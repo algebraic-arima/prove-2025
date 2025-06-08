@@ -151,7 +151,7 @@ term_list *copy_term_list(term_list *list)
 
 // free 函数
 void free_str(char *s)
-    /*@ Require s != 0 && exists n, n > 0 && store_undef_char_array(s, n)
+    /*@ Require s != 0 && exists n, store_string(s, n)
         Ensure emp
     */
     ;
@@ -179,21 +179,21 @@ void free_term_list(term_list *list)
 
 // string 相关函数
 char *strdup(const char *s)
-    /*@ With n str
-          Require store_char_array(s, n, str)
+    /*@ With str
+          Require store_string(s, str)
           Ensure __return != 0 &&
-                store_char_array(s, n, str) *
-                store_char_array(__return, n, str)
+                store_string(s, str) *
+                store_string(__return, str)
     */
     ;
 
 int strcmp(const char *s1, const char *s2)
-    /*@ With str1 str2 n1 n2
-          Require store_char_array(s1, n1, str1) *
-                  store_char_array(s2, n2, str2)
+    /*@ With str1 str2
+          Require store_string(s1, str1) *
+                  store_string(s2, str2)
           Ensure __return == list_Z_cmp(str1, str2) &&
-                store_char_array(s1, n1, str1) *
-                store_char_array(s2, n2, str2)
+                store_string(s1, str1) *
+                store_string(s2, str2)
     */
     ;
 

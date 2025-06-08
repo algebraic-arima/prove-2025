@@ -16,9 +16,9 @@ DEP_FLAG = -R $(SL_DIR)SeparationLogic SimpleC.SL -R $(SL_DIR)unifysl Logic -R $
 lib_FILES = \
 	malloc.v sll_tmpl.v smt_lang_lib.v cnf_trans_lib.v
 
-VC_code_FILE_NAME =
+VC_code_FILE_NAME = cnf_trans
 
-strategy_FILE_NAME =
+strategy_FILE_NAME = 
 
 VC_code_proof_FILES = \
   $(VC_code_FILE_NAME:%=VC/%_goal.v) \
