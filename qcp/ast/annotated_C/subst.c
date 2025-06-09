@@ -14,16 +14,19 @@ term *subst_var(char *den, char *src, term *t)
 {
   /*@ store_term(t, trm) 
       which implies
+        t != 0 && 
         data_at(&(t -> type), termtypeID(trm)) *
         store_term'(t, trm)
   */
   switch (t->type) {
     case Var: {
       /*@ termtypeID(trm) == 0 &&
+          t != 0 && 
           data_at(&(t -> type), termtypeID(trm)) *
           store_term'(t, trm)
           which implies
           exists y var,
+            t != 0 && 
             trm == TermVar(var) &&
             data_at(&(t -> type), termtypeID(trm)) *
             data_at(&(t -> content.Var), y) *
@@ -37,10 +40,12 @@ term *subst_var(char *den, char *src, term *t)
     }
     case Const: {
       /*@ termtypeID(trm) == 1 &&
+          t != 0 && 
           data_at(&(t -> type), termtypeID(trm)) *
           store_term'(t, trm)
           which implies
           exists con typ,
+            t != 0 && 
             trm == TermConst(typ, con) &&
             data_at(&(t -> type), termtypeID(trm)) *
             data_at(&(t -> content.Const.type), ctID(typ)) *
@@ -50,10 +55,12 @@ term *subst_var(char *den, char *src, term *t)
     }
     case Apply: {
       /*@ termtypeID(trm) == 2 &&
+          t != 0 && 
           data_at(&(t -> type), termtypeID(trm)) *
           store_term'(t, trm)
           which implies
           exists y z lt rt,
+            t != 0 && 
             trm == TermApply(lt, rt) &&
             data_at(&(t -> type), termtypeID(trm)) *
             data_at(&(t -> content.Apply.left), y) *
@@ -66,10 +73,12 @@ term *subst_var(char *den, char *src, term *t)
     }
     case Quant: {
       /*@ termtypeID(trm) == 3 &&
+          t != 0 && 
           data_at(&(t -> type), termtypeID(trm)) *
           store_term'(t, trm)
           which implies
           exists y z qt qvar qterm,
+            t != 0 && 
             trm == TermQuant(qt, qvar, qterm) &&
             data_at(&(t -> type), termtypeID(trm)) *
             data_at(&(t -> content.Quant.type), qtID(qt)) *
@@ -83,6 +92,8 @@ term *subst_var(char *den, char *src, term *t)
       break;
     }
     default: {
+      /*@ Branch clear all
+       */
       break;
     }
   }
@@ -103,12 +114,14 @@ term *subst_term(term *den, char *src, term *t)
 {
   /*@ store_term(t, trm) 
       which implies
+        t != 0 && 
         data_at(&(t -> type), termtypeID(trm)) *
         store_term'(t, trm)
   */
   switch (t->type) {
     case Var: {
       /*@ termtypeID(trm) == 0 &&
+          t != 0 && 
           data_at(&(t -> type), termtypeID(trm)) *
           store_term'(t, trm)
           which implies
@@ -136,10 +149,12 @@ term *subst_term(term *den, char *src, term *t)
     }
     case Const: {
       /*@ termtypeID(trm) == 1 &&
+          t != 0 && 
           data_at(&(t -> type), termtypeID(trm)) *
           store_term'(t, trm)
           which implies
           exists con typ,
+            t != 0 && 
             trm == TermConst(typ, con) &&
             data_at(&(t -> type), termtypeID(trm)) *
             data_at(&(t -> content.Const.type), ctID(typ)) *
@@ -149,10 +164,12 @@ term *subst_term(term *den, char *src, term *t)
     }
     case Apply: {
       /*@ termtypeID(trm) == 2 &&
+          t != 0 && 
           data_at(&(t -> type), termtypeID(trm)) *
           store_term'(t, trm)
           which implies
           exists y z lt rt,
+            t != 0 && 
             trm == TermApply(lt, rt) &&
             data_at(&(t -> type), termtypeID(trm)) *
             data_at(&(t -> content.Apply.left), y) *
@@ -165,10 +182,12 @@ term *subst_term(term *den, char *src, term *t)
     }
     case Quant: {
       /*@ termtypeID(trm) == 3 &&
+          t != 0 && 
           data_at(&(t -> type), termtypeID(trm)) *
           store_term'(t, trm)
           which implies
           exists y z qt qvar qterm,
+            t != 0 && 
             trm == TermQuant(qt, qvar, qterm) &&
             data_at(&(t -> type), termtypeID(trm)) *
             data_at(&(t -> content.Quant.type), qtID(qt)) *
@@ -182,6 +201,8 @@ term *subst_term(term *den, char *src, term *t)
       break;
     }
     default: {
+      /*@ Branch clear all
+       */
       break;
     }
   }

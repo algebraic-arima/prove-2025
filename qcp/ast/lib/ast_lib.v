@@ -118,20 +118,16 @@ Fixpoint store_term (x: addr) (t: term): Assertion :=
 
 Definition store_term' (x: addr) (t: term): Assertion :=
   match t with
-    | TermVar var => [| x <> NULL |] &&
-                     EX y: addr,
+    | TermVar var => EX y: addr,
                       &(x # "term" ->ₛ "content" .ₛ "Var") # Ptr |-> y **
                       store_string y var
-    | TermConst ctype content => [| x <> NULL |] &&
-                                 &(x # "term" ->ₛ "content" .ₛ "Const" .ₛ "type") # Int |-> ctID ctype **
+    | TermConst ctype content => &(x # "term" ->ₛ "content" .ₛ "Const" .ₛ "type") # Int |-> ctID ctype **
                                  &(x # "term" ->ₛ "content" .ₛ "Const" .ₛ "content") # Int |-> content
-    | TermApply lt rt => [| x <> NULL |] && 
-                         EX y z: addr,
+    | TermApply lt rt => EX y z: addr,
                           &(x # "term" ->ₛ "content" .ₛ "Apply" .ₛ "left") # Ptr |-> y **
                           &(x # "term" ->ₛ "content" .ₛ "Apply" .ₛ "right") # Ptr |-> z **
                           store_term y lt ** store_term z rt
-    | TermQuant qtype qvar body => [| x <> NULL |] && 
-                                   EX y z: addr,
+    | TermQuant qtype qvar body => EX y z: addr,
                                     &(x # "term" ->ₛ "content" .ₛ "Quant" .ₛ "type") # Int |-> qtID qtype **
                                     &(x # "term" ->ₛ "content" .ₛ "Quant" .ₛ "var") # Ptr |-> y **
                                     &(x # "term" ->ₛ "content" .ₛ "Quant" .ₛ "body") # Ptr |-> z **
@@ -140,6 +136,7 @@ Definition store_term' (x: addr) (t: term): Assertion :=
 
 Lemma store_term_unfold: forall x t,
   store_term x t |--
+  [| x <> NULL |] &&
   &(x # "term" ->ₛ "type") # Int |-> termtypeID t **
   store_term' x t.
 Proof.
@@ -149,6 +146,7 @@ Proof.
 Qed.
 
 Lemma store_term_fold: forall x t,
+  [| x <> NULL |] &&
   &(x # "term" ->ₛ "type") # Int |-> termtypeID t **
   store_term' x t |--
   store_term x t.
@@ -160,6 +158,7 @@ Qed.
 
 Lemma store_term'_Var: forall x t,
   termtypeID t = 0%Z ->
+  x <> NULL ->
   store_term' x t |--
   EX var, [| t = TermVar var |] && [| x <> NULL |] &&
   EX y: addr,
@@ -176,6 +175,7 @@ Qed.
 
 Lemma store_term'_Const: forall x t,
   termtypeID t = 1%Z ->
+  x <> NULL ->
   store_term' x t |--
   EX ctype content, [| t = TermConst ctype content |] && [| x <> NULL |] &&
   &(x # "term" ->ₛ "content" .ₛ "Const" .ₛ "type") # Int |-> ctID ctype **
@@ -191,11 +191,12 @@ Qed.
 
 Lemma store_term'_Apply: forall x t,
   termtypeID t = 2%Z ->
+  x <> NULL ->
   store_term' x t |--
   EX lt rt, [| t = TermApply lt rt |] && [| x <> NULL |] &&
   EX y z: addr,
     &(x # "term" ->ₛ "content" .ₛ "Apply" .ₛ "left") # Ptr |-> y **
-    &(x # "term" ->ₛ "content" .ₛ "Apply" .ₛ "right") # Ptr |-> z **
+    &(x # "term" ->ₛ "content" .ₛ "Apply" .ₛ  "right") # Ptr |-> z **
     store_term y lt ** store_term z rt.
 Proof.
   intros.
@@ -208,6 +209,7 @@ Qed.
 
 Lemma store_term'_Quant: forall x t,
   termtypeID t = 3%Z ->
+  x <> NULL ->
   store_term' x t |--
   EX qtype qvar body, [| t = TermQuant qtype qvar body |] && [| x <> NULL |] &&
   EX y z: addr,

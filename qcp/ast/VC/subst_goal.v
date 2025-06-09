@@ -24,7 +24,8 @@ Local Open Scope sac.
 
 Definition subst_var_safety_wit_1 := 
 forall (t_pre: Z) (src_pre: Z) (den_pre: Z) (den_str: (@list Z)) (src_str: (@list Z)) (trm: term) ,
-  [| (den_pre <> 0) |] 
+  [| (t_pre <> 0) |] 
+  &&  [| (den_pre <> 0) |] 
   &&  [| (src_pre <> 0) |] 
   &&  [| (t_pre <> 0) |]
   &&  ((( &( "t" ) )) # Ptr  |-> t_pre)
@@ -41,7 +42,8 @@ forall (t_pre: Z) (src_pre: Z) (den_pre: Z) (den_str: (@list Z)) (src_str: (@lis
 
 Definition subst_var_safety_wit_2 := 
 forall (t_pre: Z) (src_pre: Z) (den_pre: Z) (den_str: (@list Z)) (src_str: (@list Z)) (trm: term) ,
-  [| (den_pre <> 0) |] 
+  [| (t_pre <> 0) |] 
+  &&  [| (den_pre <> 0) |] 
   &&  [| (src_pre <> 0) |] 
   &&  [| (t_pre <> 0) |] 
   &&  [| ((termtypeID (trm)) <> 0) |]
@@ -59,7 +61,8 @@ forall (t_pre: Z) (src_pre: Z) (den_pre: Z) (den_str: (@list Z)) (src_str: (@lis
 
 Definition subst_var_safety_wit_3 := 
 forall (t_pre: Z) (src_pre: Z) (den_pre: Z) (den_str: (@list Z)) (src_str: (@list Z)) (trm: term) ,
-  [| (den_pre <> 0) |] 
+  [| (t_pre <> 0) |] 
+  &&  [| (den_pre <> 0) |] 
   &&  [| (src_pre <> 0) |] 
   &&  [| (t_pre <> 0) |] 
   &&  [| ((termtypeID (trm)) <> 0) |] 
@@ -78,7 +81,8 @@ forall (t_pre: Z) (src_pre: Z) (den_pre: Z) (den_str: (@list Z)) (src_str: (@lis
 
 Definition subst_var_safety_wit_4 := 
 forall (t_pre: Z) (src_pre: Z) (den_pre: Z) (den_str: (@list Z)) (src_str: (@list Z)) (trm: term) ,
-  [| (den_pre <> 0) |] 
+  [| (t_pre <> 0) |] 
+  &&  [| (den_pre <> 0) |] 
   &&  [| (src_pre <> 0) |] 
   &&  [| (t_pre <> 0) |] 
   &&  [| ((termtypeID (trm)) <> 0) |] 
@@ -96,31 +100,34 @@ forall (t_pre: Z) (src_pre: Z) (den_pre: Z) (den_str: (@list Z)) (src_str: (@lis
   &&  [| ((INT_MIN) <= 3) |]
 .
 
-Definition subst_var_return_wit_1_1 := 
+Definition subst_var_safety_wit_5 := 
 forall (t_pre: Z) (src_pre: Z) (den_pre: Z) (den_str: (@list Z)) (src_str: (@list Z)) (trm: term) ,
-  [| (den_pre <> 0) |] 
+  [| (t_pre <> 0) |] 
+  &&  [| (den_pre <> 0) |] 
   &&  [| (src_pre <> 0) |] 
   &&  [| (t_pre <> 0) |] 
   &&  [| ((termtypeID (trm)) <> 0) |] 
   &&  [| ((termtypeID (trm)) <> 1) |] 
   &&  [| ((termtypeID (trm)) <> 2) |] 
   &&  [| ((termtypeID (trm)) <> 3) |]
-  &&  ((&((t_pre)  # "term" ->ₛ "type")) # Int  |-> (termtypeID (trm)))
+  &&  ((( &( "t" ) )) # Ptr  |-> t_pre)
+  **  ((&((t_pre)  # "term" ->ₛ "type")) # Int  |-> (termtypeID (trm)))
   **  (store_term' t_pre trm )
+  **  ((( &( "src" ) )) # Ptr  |-> src_pre)
+  **  ((( &( "den" ) )) # Ptr  |-> den_pre)
   **  (store_string src_pre src_str )
   **  (store_string den_pre den_str )
 |--
-  [| (t_pre = t_pre) |]
-  &&  (store_term t_pre (term_subst_v (den_str) (src_str) (trm)) )
-  **  (store_string den_pre den_str )
-  **  (store_string src_pre src_str )
+  [| False |]
 .
 
-Definition subst_var_return_wit_1_2 := 
+Definition subst_var_return_wit_1_1 := 
 forall (t_pre: Z) (src_pre: Z) (den_pre: Z) (den_str: (@list Z)) (src_str: (@list Z)) (trm: term) (z: Z) (y: Z) (qt: quant_type) (qvar: (@list Z)) (qterm: term) (retval: Z) ,
   [| (retval = 0) |] 
   &&  [| (retval = (list_Z_cmp (qvar) (src_str))) |] 
+  &&  [| (t_pre <> 0) |] 
   &&  [| (trm = (TermQuant (qt) (qvar) (qterm))) |] 
+  &&  [| (t_pre <> 0) |] 
   &&  [| (den_pre <> 0) |] 
   &&  [| (src_pre <> 0) |] 
   &&  [| (t_pre <> 0) |] 
@@ -143,12 +150,14 @@ forall (t_pre: Z) (src_pre: Z) (den_pre: Z) (den_str: (@list Z)) (src_str: (@lis
   **  (store_string src_pre src_str )
 .
 
-Definition subst_var_return_wit_1_3 := 
+Definition subst_var_return_wit_1_2 := 
 forall (t_pre: Z) (src_pre: Z) (den_pre: Z) (den_str: (@list Z)) (src_str: (@list Z)) (trm: term) (z: Z) (y: Z) (qt: quant_type) (qvar: (@list Z)) (qterm: term) (retval_2: Z) (retval: Z) ,
   [| (retval = z) |] 
   &&  [| (retval_2 <> 0) |] 
   &&  [| (retval_2 = (list_Z_cmp (qvar) (src_str))) |] 
+  &&  [| (t_pre <> 0) |] 
   &&  [| (trm = (TermQuant (qt) (qvar) (qterm))) |] 
+  &&  [| (t_pre <> 0) |] 
   &&  [| (den_pre <> 0) |] 
   &&  [| (src_pre <> 0) |] 
   &&  [| (t_pre <> 0) |] 
@@ -171,11 +180,13 @@ forall (t_pre: Z) (src_pre: Z) (den_pre: Z) (den_str: (@list Z)) (src_str: (@lis
   **  (store_string src_pre src_str )
 .
 
-Definition subst_var_return_wit_1_4 := 
+Definition subst_var_return_wit_1_3 := 
 forall (t_pre: Z) (src_pre: Z) (den_pre: Z) (den_str: (@list Z)) (src_str: (@list Z)) (trm: term) (z: Z) (y: Z) (lt: term) (rt: term) (retval_2: Z) (retval: Z) ,
   [| (retval = z) |] 
   &&  [| (retval_2 = y) |] 
+  &&  [| (t_pre <> 0) |] 
   &&  [| (trm = (TermApply (lt) (rt))) |] 
+  &&  [| (t_pre <> 0) |] 
   &&  [| (den_pre <> 0) |] 
   &&  [| (src_pre <> 0) |] 
   &&  [| (t_pre <> 0) |] 
@@ -196,9 +207,11 @@ forall (t_pre: Z) (src_pre: Z) (den_pre: Z) (den_str: (@list Z)) (src_str: (@lis
   **  (store_string src_pre src_str )
 .
 
-Definition subst_var_return_wit_1_5 := 
+Definition subst_var_return_wit_1_4 := 
 forall (t_pre: Z) (src_pre: Z) (den_pre: Z) (den_str: (@list Z)) (src_str: (@list Z)) (trm: term) (typ: const_type) (con: Z) ,
-  [| (trm = (TermConst (typ) (con))) |] 
+  [| (t_pre <> 0) |] 
+  &&  [| (trm = (TermConst (typ) (con))) |] 
+  &&  [| (t_pre <> 0) |] 
   &&  [| (den_pre <> 0) |] 
   &&  [| (src_pre <> 0) |] 
   &&  [| (t_pre <> 0) |] 
@@ -216,11 +229,13 @@ forall (t_pre: Z) (src_pre: Z) (den_pre: Z) (den_str: (@list Z)) (src_str: (@lis
   **  (store_string src_pre src_str )
 .
 
-Definition subst_var_return_wit_1_6 := 
+Definition subst_var_return_wit_1_5 := 
 forall (t_pre: Z) (src_pre: Z) (den_pre: Z) (den_str: (@list Z)) (src_str: (@list Z)) (trm: term) (y: Z) (var: (@list Z)) (retval: Z) ,
   [| (retval <> 0) |] 
   &&  [| (retval = (list_Z_cmp (var) (src_str))) |] 
+  &&  [| (t_pre <> 0) |] 
   &&  [| (trm = (TermVar (var))) |] 
+  &&  [| (t_pre <> 0) |] 
   &&  [| (den_pre <> 0) |] 
   &&  [| (src_pre <> 0) |] 
   &&  [| (t_pre <> 0) |] 
@@ -237,12 +252,14 @@ forall (t_pre: Z) (src_pre: Z) (den_pre: Z) (den_str: (@list Z)) (src_str: (@lis
   **  (store_string src_pre src_str )
 .
 
-Definition subst_var_return_wit_1_7 := 
+Definition subst_var_return_wit_1_6 := 
 forall (t_pre: Z) (src_pre: Z) (den_pre: Z) (den_str: (@list Z)) (src_str: (@list Z)) (trm: term) (var: (@list Z)) (retval_2: Z) (retval: Z) ,
   [| (retval <> 0) |] 
   &&  [| (retval_2 = 0) |] 
   &&  [| (retval_2 = (list_Z_cmp (var) (src_str))) |] 
+  &&  [| (t_pre <> 0) |] 
   &&  [| (trm = (TermVar (var))) |] 
+  &&  [| (t_pre <> 0) |] 
   &&  [| (den_pre <> 0) |] 
   &&  [| (src_pre <> 0) |] 
   &&  [| (t_pre <> 0) |] 
@@ -278,7 +295,8 @@ forall (t_pre: Z) (src_pre: Z) (den_pre: Z) (den_str: (@list Z)) (src_str: (@lis
 
 Definition subst_var_partial_solve_wit_2_pure := 
 forall (t_pre: Z) (src_pre: Z) (den_pre: Z) (den_str: (@list Z)) (src_str: (@list Z)) (trm: term) ,
-  [| (den_pre <> 0) |] 
+  [| (t_pre <> 0) |] 
+  &&  [| (den_pre <> 0) |] 
   &&  [| (src_pre <> 0) |] 
   &&  [| (t_pre <> 0) |] 
   &&  [| ((termtypeID (trm)) = 0) |]
@@ -290,12 +308,14 @@ forall (t_pre: Z) (src_pre: Z) (den_pre: Z) (den_str: (@list Z)) (src_str: (@lis
   **  (store_string src_pre src_str )
   **  (store_string den_pre den_str )
 |--
-  [| ((termtypeID (trm)) = 0) |]
+  [| ((termtypeID (trm)) = 0) |] 
+  &&  [| (t_pre <> 0) |]
 .
 
 Definition subst_var_partial_solve_wit_2_aux := 
 forall (t_pre: Z) (src_pre: Z) (den_pre: Z) (den_str: (@list Z)) (src_str: (@list Z)) (trm: term) ,
-  [| (den_pre <> 0) |] 
+  [| (t_pre <> 0) |] 
+  &&  [| (den_pre <> 0) |] 
   &&  [| (src_pre <> 0) |] 
   &&  [| (t_pre <> 0) |] 
   &&  [| ((termtypeID (trm)) = 0) |]
@@ -305,6 +325,8 @@ forall (t_pre: Z) (src_pre: Z) (den_pre: Z) (den_str: (@list Z)) (src_str: (@lis
   **  (store_string den_pre den_str )
 |--
   [| ((termtypeID (trm)) = 0) |] 
+  &&  [| (t_pre <> 0) |] 
+  &&  [| (t_pre <> 0) |] 
   &&  [| (den_pre <> 0) |] 
   &&  [| (src_pre <> 0) |] 
   &&  [| (t_pre <> 0) |] 
@@ -319,7 +341,9 @@ Definition subst_var_partial_solve_wit_2 := subst_var_partial_solve_wit_2_pure -
 
 Definition subst_var_partial_solve_wit_3 := 
 forall (t_pre: Z) (src_pre: Z) (den_pre: Z) (den_str: (@list Z)) (src_str: (@list Z)) (trm: term) (y: Z) (var: (@list Z)) ,
-  [| (trm = (TermVar (var))) |] 
+  [| (t_pre <> 0) |] 
+  &&  [| (trm = (TermVar (var))) |] 
+  &&  [| (t_pre <> 0) |] 
   &&  [| (den_pre <> 0) |] 
   &&  [| (src_pre <> 0) |] 
   &&  [| (t_pre <> 0) |] 
@@ -330,7 +354,9 @@ forall (t_pre: Z) (src_pre: Z) (den_pre: Z) (den_str: (@list Z)) (src_str: (@lis
   **  (store_string src_pre src_str )
   **  (store_string den_pre den_str )
 |--
-  [| (trm = (TermVar (var))) |] 
+  [| (t_pre <> 0) |] 
+  &&  [| (trm = (TermVar (var))) |] 
+  &&  [| (t_pre <> 0) |] 
   &&  [| (den_pre <> 0) |] 
   &&  [| (src_pre <> 0) |] 
   &&  [| (t_pre <> 0) |] 
@@ -346,7 +372,9 @@ Definition subst_var_partial_solve_wit_4_pure :=
 forall (t_pre: Z) (src_pre: Z) (den_pre: Z) (den_str: (@list Z)) (src_str: (@list Z)) (trm: term) (y: Z) (var: (@list Z)) (retval: Z) ,
   [| (retval = 0) |] 
   &&  [| (retval = (list_Z_cmp (var) (src_str))) |] 
+  &&  [| (t_pre <> 0) |] 
   &&  [| (trm = (TermVar (var))) |] 
+  &&  [| (t_pre <> 0) |] 
   &&  [| (den_pre <> 0) |] 
   &&  [| (src_pre <> 0) |] 
   &&  [| (t_pre <> 0) |] 
@@ -367,7 +395,9 @@ Definition subst_var_partial_solve_wit_4_aux :=
 forall (t_pre: Z) (src_pre: Z) (den_pre: Z) (den_str: (@list Z)) (src_str: (@list Z)) (trm: term) (y: Z) (var: (@list Z)) (retval: Z) ,
   [| (retval = 0) |] 
   &&  [| (retval = (list_Z_cmp (var) (src_str))) |] 
+  &&  [| (t_pre <> 0) |] 
   &&  [| (trm = (TermVar (var))) |] 
+  &&  [| (t_pre <> 0) |] 
   &&  [| (den_pre <> 0) |] 
   &&  [| (src_pre <> 0) |] 
   &&  [| (t_pre <> 0) |] 
@@ -381,7 +411,9 @@ forall (t_pre: Z) (src_pre: Z) (den_pre: Z) (den_str: (@list Z)) (src_str: (@lis
   [| (y <> 0) |] 
   &&  [| (retval = 0) |] 
   &&  [| (retval = (list_Z_cmp (var) (src_str))) |] 
+  &&  [| (t_pre <> 0) |] 
   &&  [| (trm = (TermVar (var))) |] 
+  &&  [| (t_pre <> 0) |] 
   &&  [| (den_pre <> 0) |] 
   &&  [| (src_pre <> 0) |] 
   &&  [| (t_pre <> 0) |] 
@@ -399,7 +431,9 @@ Definition subst_var_partial_solve_wit_5 :=
 forall (t_pre: Z) (src_pre: Z) (den_pre: Z) (den_str: (@list Z)) (src_str: (@list Z)) (trm: term) (y: Z) (var: (@list Z)) (retval: Z) ,
   [| (retval = 0) |] 
   &&  [| (retval = (list_Z_cmp (var) (src_str))) |] 
+  &&  [| (t_pre <> 0) |] 
   &&  [| (trm = (TermVar (var))) |] 
+  &&  [| (t_pre <> 0) |] 
   &&  [| (den_pre <> 0) |] 
   &&  [| (src_pre <> 0) |] 
   &&  [| (t_pre <> 0) |] 
@@ -411,7 +445,9 @@ forall (t_pre: Z) (src_pre: Z) (den_pre: Z) (den_str: (@list Z)) (src_str: (@lis
 |--
   [| (retval = 0) |] 
   &&  [| (retval = (list_Z_cmp (var) (src_str))) |] 
+  &&  [| (t_pre <> 0) |] 
   &&  [| (trm = (TermVar (var))) |] 
+  &&  [| (t_pre <> 0) |] 
   &&  [| (den_pre <> 0) |] 
   &&  [| (src_pre <> 0) |] 
   &&  [| (t_pre <> 0) |] 
@@ -424,7 +460,8 @@ forall (t_pre: Z) (src_pre: Z) (den_pre: Z) (den_str: (@list Z)) (src_str: (@lis
 
 Definition subst_var_partial_solve_wit_6_pure := 
 forall (t_pre: Z) (src_pre: Z) (den_pre: Z) (den_str: (@list Z)) (src_str: (@list Z)) (trm: term) ,
-  [| (den_pre <> 0) |] 
+  [| (t_pre <> 0) |] 
+  &&  [| (den_pre <> 0) |] 
   &&  [| (src_pre <> 0) |] 
   &&  [| (t_pre <> 0) |] 
   &&  [| ((termtypeID (trm)) <> 0) |] 
@@ -437,12 +474,14 @@ forall (t_pre: Z) (src_pre: Z) (den_pre: Z) (den_str: (@list Z)) (src_str: (@lis
   **  (store_string src_pre src_str )
   **  (store_string den_pre den_str )
 |--
-  [| ((termtypeID (trm)) = 1) |]
+  [| ((termtypeID (trm)) = 1) |] 
+  &&  [| (t_pre <> 0) |]
 .
 
 Definition subst_var_partial_solve_wit_6_aux := 
 forall (t_pre: Z) (src_pre: Z) (den_pre: Z) (den_str: (@list Z)) (src_str: (@list Z)) (trm: term) ,
-  [| (den_pre <> 0) |] 
+  [| (t_pre <> 0) |] 
+  &&  [| (den_pre <> 0) |] 
   &&  [| (src_pre <> 0) |] 
   &&  [| (t_pre <> 0) |] 
   &&  [| ((termtypeID (trm)) <> 0) |] 
@@ -453,6 +492,8 @@ forall (t_pre: Z) (src_pre: Z) (den_pre: Z) (den_str: (@list Z)) (src_str: (@lis
   **  (store_string den_pre den_str )
 |--
   [| ((termtypeID (trm)) = 1) |] 
+  &&  [| (t_pre <> 0) |] 
+  &&  [| (t_pre <> 0) |] 
   &&  [| (den_pre <> 0) |] 
   &&  [| (src_pre <> 0) |] 
   &&  [| (t_pre <> 0) |] 
@@ -468,7 +509,8 @@ Definition subst_var_partial_solve_wit_6 := subst_var_partial_solve_wit_6_pure -
 
 Definition subst_var_partial_solve_wit_7_pure := 
 forall (t_pre: Z) (src_pre: Z) (den_pre: Z) (den_str: (@list Z)) (src_str: (@list Z)) (trm: term) ,
-  [| (den_pre <> 0) |] 
+  [| (t_pre <> 0) |] 
+  &&  [| (den_pre <> 0) |] 
   &&  [| (src_pre <> 0) |] 
   &&  [| (t_pre <> 0) |] 
   &&  [| ((termtypeID (trm)) <> 0) |] 
@@ -482,12 +524,14 @@ forall (t_pre: Z) (src_pre: Z) (den_pre: Z) (den_str: (@list Z)) (src_str: (@lis
   **  (store_string src_pre src_str )
   **  (store_string den_pre den_str )
 |--
-  [| ((termtypeID (trm)) = 2) |]
+  [| ((termtypeID (trm)) = 2) |] 
+  &&  [| (t_pre <> 0) |]
 .
 
 Definition subst_var_partial_solve_wit_7_aux := 
 forall (t_pre: Z) (src_pre: Z) (den_pre: Z) (den_str: (@list Z)) (src_str: (@list Z)) (trm: term) ,
-  [| (den_pre <> 0) |] 
+  [| (t_pre <> 0) |] 
+  &&  [| (den_pre <> 0) |] 
   &&  [| (src_pre <> 0) |] 
   &&  [| (t_pre <> 0) |] 
   &&  [| ((termtypeID (trm)) <> 0) |] 
@@ -499,6 +543,8 @@ forall (t_pre: Z) (src_pre: Z) (den_pre: Z) (den_str: (@list Z)) (src_str: (@lis
   **  (store_string den_pre den_str )
 |--
   [| ((termtypeID (trm)) = 2) |] 
+  &&  [| (t_pre <> 0) |] 
+  &&  [| (t_pre <> 0) |] 
   &&  [| (den_pre <> 0) |] 
   &&  [| (src_pre <> 0) |] 
   &&  [| (t_pre <> 0) |] 
@@ -515,7 +561,9 @@ Definition subst_var_partial_solve_wit_7 := subst_var_partial_solve_wit_7_pure -
 
 Definition subst_var_partial_solve_wit_8_pure := 
 forall (t_pre: Z) (src_pre: Z) (den_pre: Z) (den_str: (@list Z)) (src_str: (@list Z)) (trm: term) (z: Z) (y: Z) (lt: term) (rt: term) ,
-  [| (trm = (TermApply (lt) (rt))) |] 
+  [| (t_pre <> 0) |] 
+  &&  [| (trm = (TermApply (lt) (rt))) |] 
+  &&  [| (t_pre <> 0) |] 
   &&  [| (den_pre <> 0) |] 
   &&  [| (src_pre <> 0) |] 
   &&  [| (t_pre <> 0) |] 
@@ -540,7 +588,9 @@ forall (t_pre: Z) (src_pre: Z) (den_pre: Z) (den_str: (@list Z)) (src_str: (@lis
 
 Definition subst_var_partial_solve_wit_8_aux := 
 forall (t_pre: Z) (src_pre: Z) (den_pre: Z) (den_str: (@list Z)) (src_str: (@list Z)) (trm: term) (z: Z) (y: Z) (lt: term) (rt: term) ,
-  [| (trm = (TermApply (lt) (rt))) |] 
+  [| (t_pre <> 0) |] 
+  &&  [| (trm = (TermApply (lt) (rt))) |] 
+  &&  [| (t_pre <> 0) |] 
   &&  [| (den_pre <> 0) |] 
   &&  [| (src_pre <> 0) |] 
   &&  [| (t_pre <> 0) |] 
@@ -558,7 +608,9 @@ forall (t_pre: Z) (src_pre: Z) (den_pre: Z) (den_str: (@list Z)) (src_str: (@lis
   [| (den_pre <> 0) |] 
   &&  [| (src_pre <> 0) |] 
   &&  [| (y <> 0) |] 
+  &&  [| (t_pre <> 0) |] 
   &&  [| (trm = (TermApply (lt) (rt))) |] 
+  &&  [| (t_pre <> 0) |] 
   &&  [| (den_pre <> 0) |] 
   &&  [| (src_pre <> 0) |] 
   &&  [| (t_pre <> 0) |] 
@@ -579,7 +631,9 @@ Definition subst_var_partial_solve_wit_8 := subst_var_partial_solve_wit_8_pure -
 Definition subst_var_partial_solve_wit_9_pure := 
 forall (t_pre: Z) (src_pre: Z) (den_pre: Z) (den_str: (@list Z)) (src_str: (@list Z)) (trm: term) (z: Z) (y: Z) (lt: term) (rt: term) (retval: Z) ,
   [| (retval = y) |] 
+  &&  [| (t_pre <> 0) |] 
   &&  [| (trm = (TermApply (lt) (rt))) |] 
+  &&  [| (t_pre <> 0) |] 
   &&  [| (den_pre <> 0) |] 
   &&  [| (src_pre <> 0) |] 
   &&  [| (t_pre <> 0) |] 
@@ -605,7 +659,9 @@ forall (t_pre: Z) (src_pre: Z) (den_pre: Z) (den_str: (@list Z)) (src_str: (@lis
 Definition subst_var_partial_solve_wit_9_aux := 
 forall (t_pre: Z) (src_pre: Z) (den_pre: Z) (den_str: (@list Z)) (src_str: (@list Z)) (trm: term) (z: Z) (y: Z) (lt: term) (rt: term) (retval: Z) ,
   [| (retval = y) |] 
+  &&  [| (t_pre <> 0) |] 
   &&  [| (trm = (TermApply (lt) (rt))) |] 
+  &&  [| (t_pre <> 0) |] 
   &&  [| (den_pre <> 0) |] 
   &&  [| (src_pre <> 0) |] 
   &&  [| (t_pre <> 0) |] 
@@ -624,7 +680,9 @@ forall (t_pre: Z) (src_pre: Z) (den_pre: Z) (den_str: (@list Z)) (src_str: (@lis
   &&  [| (src_pre <> 0) |] 
   &&  [| (z <> 0) |] 
   &&  [| (retval = y) |] 
+  &&  [| (t_pre <> 0) |] 
   &&  [| (trm = (TermApply (lt) (rt))) |] 
+  &&  [| (t_pre <> 0) |] 
   &&  [| (den_pre <> 0) |] 
   &&  [| (src_pre <> 0) |] 
   &&  [| (t_pre <> 0) |] 
@@ -644,7 +702,8 @@ Definition subst_var_partial_solve_wit_9 := subst_var_partial_solve_wit_9_pure -
 
 Definition subst_var_partial_solve_wit_10_pure := 
 forall (t_pre: Z) (src_pre: Z) (den_pre: Z) (den_str: (@list Z)) (src_str: (@list Z)) (trm: term) ,
-  [| (den_pre <> 0) |] 
+  [| (t_pre <> 0) |] 
+  &&  [| (den_pre <> 0) |] 
   &&  [| (src_pre <> 0) |] 
   &&  [| (t_pre <> 0) |] 
   &&  [| ((termtypeID (trm)) <> 0) |] 
@@ -659,12 +718,14 @@ forall (t_pre: Z) (src_pre: Z) (den_pre: Z) (den_str: (@list Z)) (src_str: (@lis
   **  (store_string src_pre src_str )
   **  (store_string den_pre den_str )
 |--
-  [| ((termtypeID (trm)) = 3) |]
+  [| ((termtypeID (trm)) = 3) |] 
+  &&  [| (t_pre <> 0) |]
 .
 
 Definition subst_var_partial_solve_wit_10_aux := 
 forall (t_pre: Z) (src_pre: Z) (den_pre: Z) (den_str: (@list Z)) (src_str: (@list Z)) (trm: term) ,
-  [| (den_pre <> 0) |] 
+  [| (t_pre <> 0) |] 
+  &&  [| (den_pre <> 0) |] 
   &&  [| (src_pre <> 0) |] 
   &&  [| (t_pre <> 0) |] 
   &&  [| ((termtypeID (trm)) <> 0) |] 
@@ -677,6 +738,8 @@ forall (t_pre: Z) (src_pre: Z) (den_pre: Z) (den_str: (@list Z)) (src_str: (@lis
   **  (store_string den_pre den_str )
 |--
   [| ((termtypeID (trm)) = 3) |] 
+  &&  [| (t_pre <> 0) |] 
+  &&  [| (t_pre <> 0) |] 
   &&  [| (den_pre <> 0) |] 
   &&  [| (src_pre <> 0) |] 
   &&  [| (t_pre <> 0) |] 
@@ -694,7 +757,9 @@ Definition subst_var_partial_solve_wit_10 := subst_var_partial_solve_wit_10_pure
 
 Definition subst_var_partial_solve_wit_11 := 
 forall (t_pre: Z) (src_pre: Z) (den_pre: Z) (den_str: (@list Z)) (src_str: (@list Z)) (trm: term) (z: Z) (y: Z) (qt: quant_type) (qvar: (@list Z)) (qterm: term) ,
-  [| (trm = (TermQuant (qt) (qvar) (qterm))) |] 
+  [| (t_pre <> 0) |] 
+  &&  [| (trm = (TermQuant (qt) (qvar) (qterm))) |] 
+  &&  [| (t_pre <> 0) |] 
   &&  [| (den_pre <> 0) |] 
   &&  [| (src_pre <> 0) |] 
   &&  [| (t_pre <> 0) |] 
@@ -711,7 +776,9 @@ forall (t_pre: Z) (src_pre: Z) (den_pre: Z) (den_str: (@list Z)) (src_str: (@lis
   **  (store_string src_pre src_str )
   **  (store_string den_pre den_str )
 |--
-  [| (trm = (TermQuant (qt) (qvar) (qterm))) |] 
+  [| (t_pre <> 0) |] 
+  &&  [| (trm = (TermQuant (qt) (qvar) (qterm))) |] 
+  &&  [| (t_pre <> 0) |] 
   &&  [| (den_pre <> 0) |] 
   &&  [| (src_pre <> 0) |] 
   &&  [| (t_pre <> 0) |] 
@@ -733,7 +800,9 @@ Definition subst_var_partial_solve_wit_12_pure :=
 forall (t_pre: Z) (src_pre: Z) (den_pre: Z) (den_str: (@list Z)) (src_str: (@list Z)) (trm: term) (z: Z) (y: Z) (qt: quant_type) (qvar: (@list Z)) (qterm: term) (retval: Z) ,
   [| (retval <> 0) |] 
   &&  [| (retval = (list_Z_cmp (qvar) (src_str))) |] 
+  &&  [| (t_pre <> 0) |] 
   &&  [| (trm = (TermQuant (qt) (qvar) (qterm))) |] 
+  &&  [| (t_pre <> 0) |] 
   &&  [| (den_pre <> 0) |] 
   &&  [| (src_pre <> 0) |] 
   &&  [| (t_pre <> 0) |] 
@@ -762,7 +831,9 @@ Definition subst_var_partial_solve_wit_12_aux :=
 forall (t_pre: Z) (src_pre: Z) (den_pre: Z) (den_str: (@list Z)) (src_str: (@list Z)) (trm: term) (z: Z) (y: Z) (qt: quant_type) (qvar: (@list Z)) (qterm: term) (retval: Z) ,
   [| (retval <> 0) |] 
   &&  [| (retval = (list_Z_cmp (qvar) (src_str))) |] 
+  &&  [| (t_pre <> 0) |] 
   &&  [| (trm = (TermQuant (qt) (qvar) (qterm))) |] 
+  &&  [| (t_pre <> 0) |] 
   &&  [| (den_pre <> 0) |] 
   &&  [| (src_pre <> 0) |] 
   &&  [| (t_pre <> 0) |] 
@@ -784,7 +855,9 @@ forall (t_pre: Z) (src_pre: Z) (den_pre: Z) (den_str: (@list Z)) (src_str: (@lis
   &&  [| (z <> 0) |] 
   &&  [| (retval <> 0) |] 
   &&  [| (retval = (list_Z_cmp (qvar) (src_str))) |] 
+  &&  [| (t_pre <> 0) |] 
   &&  [| (trm = (TermQuant (qt) (qvar) (qterm))) |] 
+  &&  [| (t_pre <> 0) |] 
   &&  [| (den_pre <> 0) |] 
   &&  [| (src_pre <> 0) |] 
   &&  [| (t_pre <> 0) |] 
@@ -808,18 +881,21 @@ Definition subst_var_which_implies_wit_1 :=
 forall (trm: term) (t: Z) ,
   (store_term t trm )
 |--
-  ((&((t)  # "term" ->ₛ "type")) # Int  |-> (termtypeID (trm)))
+  [| (t <> 0) |]
+  &&  ((&((t)  # "term" ->ₛ "type")) # Int  |-> (termtypeID (trm)))
   **  (store_term' t trm )
 .
 
 Definition subst_var_which_implies_wit_2 := 
 forall (trm: term) (t: Z) ,
-  [| ((termtypeID (trm)) = 0) |]
+  [| ((termtypeID (trm)) = 0) |] 
+  &&  [| (t <> 0) |]
   &&  ((&((t)  # "term" ->ₛ "type")) # Int  |-> (termtypeID (trm)))
   **  (store_term' t trm )
 |--
   EX (y: Z)  (var: (@list Z)) ,
-  [| (trm = (TermVar (var))) |]
+  [| (t <> 0) |] 
+  &&  [| (trm = (TermVar (var))) |]
   &&  ((&((t)  # "term" ->ₛ "type")) # Int  |-> (termtypeID (trm)))
   **  ((&((t)  # "term" ->ₛ "content" .ₛ "Var")) # Ptr  |-> y)
   **  (store_string y var )
@@ -827,12 +903,14 @@ forall (trm: term) (t: Z) ,
 
 Definition subst_var_which_implies_wit_3 := 
 forall (trm: term) (t: Z) ,
-  [| ((termtypeID (trm)) = 1) |]
+  [| ((termtypeID (trm)) = 1) |] 
+  &&  [| (t <> 0) |]
   &&  ((&((t)  # "term" ->ₛ "type")) # Int  |-> (termtypeID (trm)))
   **  (store_term' t trm )
 |--
   EX (typ: const_type)  (con: Z) ,
-  [| (trm = (TermConst (typ) (con))) |]
+  [| (t <> 0) |] 
+  &&  [| (trm = (TermConst (typ) (con))) |]
   &&  ((&((t)  # "term" ->ₛ "type")) # Int  |-> (termtypeID (trm)))
   **  ((&((t)  # "term" ->ₛ "content" .ₛ "Const" .ₛ "type")) # Int  |-> (ctID (typ)))
   **  ((&((t)  # "term" ->ₛ "content" .ₛ "Const" .ₛ "content")) # Int  |-> con)
@@ -840,12 +918,14 @@ forall (trm: term) (t: Z) ,
 
 Definition subst_var_which_implies_wit_4 := 
 forall (trm: term) (t: Z) ,
-  [| ((termtypeID (trm)) = 2) |]
+  [| ((termtypeID (trm)) = 2) |] 
+  &&  [| (t <> 0) |]
   &&  ((&((t)  # "term" ->ₛ "type")) # Int  |-> (termtypeID (trm)))
   **  (store_term' t trm )
 |--
   EX (z: Z)  (y: Z)  (lt: term)  (rt: term) ,
-  [| (trm = (TermApply (lt) (rt))) |]
+  [| (t <> 0) |] 
+  &&  [| (trm = (TermApply (lt) (rt))) |]
   &&  ((&((t)  # "term" ->ₛ "type")) # Int  |-> (termtypeID (trm)))
   **  ((&((t)  # "term" ->ₛ "content" .ₛ "Apply" .ₛ "left")) # Ptr  |-> y)
   **  ((&((t)  # "term" ->ₛ "content" .ₛ "Apply" .ₛ "right")) # Ptr  |-> z)
@@ -855,12 +935,14 @@ forall (trm: term) (t: Z) ,
 
 Definition subst_var_which_implies_wit_5 := 
 forall (trm: term) (t: Z) ,
-  [| ((termtypeID (trm)) = 3) |]
+  [| ((termtypeID (trm)) = 3) |] 
+  &&  [| (t <> 0) |]
   &&  ((&((t)  # "term" ->ₛ "type")) # Int  |-> (termtypeID (trm)))
   **  (store_term' t trm )
 |--
   EX (z: Z)  (y: Z)  (qt: quant_type)  (qvar: (@list Z))  (qterm: term) ,
-  [| (trm = (TermQuant (qt) (qvar) (qterm))) |]
+  [| (t <> 0) |] 
+  &&  [| (trm = (TermQuant (qt) (qvar) (qterm))) |]
   &&  ((&((t)  # "term" ->ₛ "type")) # Int  |-> (termtypeID (trm)))
   **  ((&((t)  # "term" ->ₛ "content" .ₛ "Quant" .ₛ "type")) # Int  |-> (qtID (qt)))
   **  ((&((t)  # "term" ->ₛ "content" .ₛ "Quant" .ₛ "var")) # Ptr  |-> y)
@@ -873,7 +955,8 @@ forall (trm: term) (t: Z) ,
 
 Definition subst_term_safety_wit_1 := 
 forall (t_pre: Z) (src_pre: Z) (den_pre: Z) (den_term: term) (src_str: (@list Z)) (trm: term) ,
-  [| (den_pre <> 0) |] 
+  [| (t_pre <> 0) |] 
+  &&  [| (den_pre <> 0) |] 
   &&  [| (src_pre <> 0) |] 
   &&  [| (t_pre <> 0) |]
   &&  ((( &( "t" ) )) # Ptr  |-> t_pre)
@@ -890,7 +973,8 @@ forall (t_pre: Z) (src_pre: Z) (den_pre: Z) (den_term: term) (src_str: (@list Z)
 
 Definition subst_term_safety_wit_2 := 
 forall (t_pre: Z) (src_pre: Z) (den_pre: Z) (den_term: term) (src_str: (@list Z)) (trm: term) ,
-  [| (den_pre <> 0) |] 
+  [| (t_pre <> 0) |] 
+  &&  [| (den_pre <> 0) |] 
   &&  [| (src_pre <> 0) |] 
   &&  [| (t_pre <> 0) |] 
   &&  [| ((termtypeID (trm)) <> 0) |]
@@ -908,7 +992,8 @@ forall (t_pre: Z) (src_pre: Z) (den_pre: Z) (den_term: term) (src_str: (@list Z)
 
 Definition subst_term_safety_wit_3 := 
 forall (t_pre: Z) (src_pre: Z) (den_pre: Z) (den_term: term) (src_str: (@list Z)) (trm: term) ,
-  [| (den_pre <> 0) |] 
+  [| (t_pre <> 0) |] 
+  &&  [| (den_pre <> 0) |] 
   &&  [| (src_pre <> 0) |] 
   &&  [| (t_pre <> 0) |] 
   &&  [| ((termtypeID (trm)) <> 0) |] 
@@ -927,7 +1012,8 @@ forall (t_pre: Z) (src_pre: Z) (den_pre: Z) (den_term: term) (src_str: (@list Z)
 
 Definition subst_term_safety_wit_4 := 
 forall (t_pre: Z) (src_pre: Z) (den_pre: Z) (den_term: term) (src_str: (@list Z)) (trm: term) ,
-  [| (den_pre <> 0) |] 
+  [| (t_pre <> 0) |] 
+  &&  [| (den_pre <> 0) |] 
   &&  [| (src_pre <> 0) |] 
   &&  [| (t_pre <> 0) |] 
   &&  [| ((termtypeID (trm)) <> 0) |] 
@@ -945,30 +1031,34 @@ forall (t_pre: Z) (src_pre: Z) (den_pre: Z) (den_term: term) (src_str: (@list Z)
   &&  [| ((INT_MIN) <= 3) |]
 .
 
-Definition subst_term_return_wit_1_1 := 
+Definition subst_term_safety_wit_5 := 
 forall (t_pre: Z) (src_pre: Z) (den_pre: Z) (den_term: term) (src_str: (@list Z)) (trm: term) ,
-  [| (den_pre <> 0) |] 
+  [| (t_pre <> 0) |] 
+  &&  [| (den_pre <> 0) |] 
   &&  [| (src_pre <> 0) |] 
   &&  [| (t_pre <> 0) |] 
   &&  [| ((termtypeID (trm)) <> 0) |] 
   &&  [| ((termtypeID (trm)) <> 1) |] 
   &&  [| ((termtypeID (trm)) <> 2) |] 
   &&  [| ((termtypeID (trm)) <> 3) |]
-  &&  ((&((t_pre)  # "term" ->ₛ "type")) # Int  |-> (termtypeID (trm)))
+  &&  ((( &( "t" ) )) # Ptr  |-> t_pre)
+  **  ((&((t_pre)  # "term" ->ₛ "type")) # Int  |-> (termtypeID (trm)))
   **  (store_term' t_pre trm )
+  **  ((( &( "src" ) )) # Ptr  |-> src_pre)
+  **  ((( &( "den" ) )) # Ptr  |-> den_pre)
   **  (store_string src_pre src_str )
   **  (store_term den_pre den_term )
 |--
-  (store_term t_pre (term_subst_t (den_term) (src_str) (trm)) )
-  **  (store_term den_pre den_term )
-  **  (store_string src_pre src_str )
+  [| False |]
 .
 
-Definition subst_term_return_wit_1_2 := 
+Definition subst_term_return_wit_1_1 := 
 forall (t_pre: Z) (src_pre: Z) (den_pre: Z) (den_term: term) (src_str: (@list Z)) (trm: term) (z: Z) (y: Z) (qt: quant_type) (qvar: (@list Z)) (qterm: term) (retval: Z) ,
   [| (retval = 0) |] 
   &&  [| (retval = (list_Z_cmp (qvar) (src_str))) |] 
+  &&  [| (t_pre <> 0) |] 
   &&  [| (trm = (TermQuant (qt) (qvar) (qterm))) |] 
+  &&  [| (t_pre <> 0) |] 
   &&  [| (den_pre <> 0) |] 
   &&  [| (src_pre <> 0) |] 
   &&  [| (t_pre <> 0) |] 
@@ -990,11 +1080,13 @@ forall (t_pre: Z) (src_pre: Z) (den_pre: Z) (den_term: term) (src_str: (@list Z)
   **  (store_string src_pre src_str )
 .
 
-Definition subst_term_return_wit_1_3 := 
+Definition subst_term_return_wit_1_2 := 
 forall (t_pre: Z) (src_pre: Z) (den_pre: Z) (den_term: term) (src_str: (@list Z)) (trm: term) (y: Z) (qt: quant_type) (qvar: (@list Z)) (qterm: term) (retval_2: Z) (retval: Z) ,
   [| (retval_2 <> 0) |] 
   &&  [| (retval_2 = (list_Z_cmp (qvar) (src_str))) |] 
+  &&  [| (t_pre <> 0) |] 
   &&  [| (trm = (TermQuant (qt) (qvar) (qterm))) |] 
+  &&  [| (t_pre <> 0) |] 
   &&  [| (den_pre <> 0) |] 
   &&  [| (src_pre <> 0) |] 
   &&  [| (t_pre <> 0) |] 
@@ -1016,9 +1108,11 @@ forall (t_pre: Z) (src_pre: Z) (den_pre: Z) (den_term: term) (src_str: (@list Z)
   **  (store_string src_pre src_str )
 .
 
-Definition subst_term_return_wit_1_4 := 
+Definition subst_term_return_wit_1_3 := 
 forall (t_pre: Z) (src_pre: Z) (den_pre: Z) (den_term: term) (src_str: (@list Z)) (trm: term) (lt: term) (rt: term) (retval_2: Z) (retval: Z) ,
-  [| (trm = (TermApply (lt) (rt))) |] 
+  [| (t_pre <> 0) |] 
+  &&  [| (trm = (TermApply (lt) (rt))) |] 
+  &&  [| (t_pre <> 0) |] 
   &&  [| (den_pre <> 0) |] 
   &&  [| (src_pre <> 0) |] 
   &&  [| (t_pre <> 0) |] 
@@ -1038,9 +1132,11 @@ forall (t_pre: Z) (src_pre: Z) (den_pre: Z) (den_term: term) (src_str: (@list Z)
   **  (store_string src_pre src_str )
 .
 
-Definition subst_term_return_wit_1_5 := 
+Definition subst_term_return_wit_1_4 := 
 forall (t_pre: Z) (src_pre: Z) (den_pre: Z) (den_term: term) (src_str: (@list Z)) (trm: term) (typ: const_type) (con: Z) ,
-  [| (trm = (TermConst (typ) (con))) |] 
+  [| (t_pre <> 0) |] 
+  &&  [| (trm = (TermConst (typ) (con))) |] 
+  &&  [| (t_pre <> 0) |] 
   &&  [| (den_pre <> 0) |] 
   &&  [| (src_pre <> 0) |] 
   &&  [| (t_pre <> 0) |] 
@@ -1057,12 +1153,13 @@ forall (t_pre: Z) (src_pre: Z) (den_pre: Z) (den_term: term) (src_str: (@list Z)
   **  (store_string src_pre src_str )
 .
 
-Definition subst_term_return_wit_1_6 := 
+Definition subst_term_return_wit_1_5 := 
 forall (t_pre: Z) (src_pre: Z) (den_pre: Z) (den_term: term) (src_str: (@list Z)) (trm: term) (y: Z) (var: (@list Z)) (retval: Z) ,
   [| (retval <> 0) |] 
   &&  [| (retval = (list_Z_cmp (var) (src_str))) |] 
   &&  [| (t_pre <> 0) |] 
   &&  [| (trm = (TermVar (var))) |] 
+  &&  [| (t_pre <> 0) |] 
   &&  [| (den_pre <> 0) |] 
   &&  [| (src_pre <> 0) |] 
   &&  [| (t_pre <> 0) |] 
@@ -1078,13 +1175,14 @@ forall (t_pre: Z) (src_pre: Z) (den_pre: Z) (den_term: term) (src_str: (@list Z)
   **  (store_string src_pre src_str )
 .
 
-Definition subst_term_return_wit_1_7 := 
+Definition subst_term_return_wit_1_6 := 
 forall (t_pre: Z) (src_pre: Z) (den_pre: Z) (den_term: term) (src_str: (@list Z)) (trm: term) (var: (@list Z)) (retval_2: Z) (retval: Z) ,
   [| (retval <> 0) |] 
   &&  [| (retval_2 = 0) |] 
   &&  [| (retval_2 = (list_Z_cmp (var) (src_str))) |] 
   &&  [| (t_pre <> 0) |] 
   &&  [| (trm = (TermVar (var))) |] 
+  &&  [| (t_pre <> 0) |] 
   &&  [| (den_pre <> 0) |] 
   &&  [| (src_pre <> 0) |] 
   &&  [| (t_pre <> 0) |] 
@@ -1117,7 +1215,8 @@ forall (t_pre: Z) (src_pre: Z) (den_pre: Z) (den_term: term) (src_str: (@list Z)
 
 Definition subst_term_partial_solve_wit_2_pure := 
 forall (t_pre: Z) (src_pre: Z) (den_pre: Z) (den_term: term) (src_str: (@list Z)) (trm: term) ,
-  [| (den_pre <> 0) |] 
+  [| (t_pre <> 0) |] 
+  &&  [| (den_pre <> 0) |] 
   &&  [| (src_pre <> 0) |] 
   &&  [| (t_pre <> 0) |] 
   &&  [| ((termtypeID (trm)) = 0) |]
@@ -1129,12 +1228,14 @@ forall (t_pre: Z) (src_pre: Z) (den_pre: Z) (den_term: term) (src_str: (@list Z)
   **  (store_string src_pre src_str )
   **  (store_term den_pre den_term )
 |--
-  [| ((termtypeID (trm)) = 0) |]
+  [| ((termtypeID (trm)) = 0) |] 
+  &&  [| (t_pre <> 0) |]
 .
 
 Definition subst_term_partial_solve_wit_2_aux := 
 forall (t_pre: Z) (src_pre: Z) (den_pre: Z) (den_term: term) (src_str: (@list Z)) (trm: term) ,
-  [| (den_pre <> 0) |] 
+  [| (t_pre <> 0) |] 
+  &&  [| (den_pre <> 0) |] 
   &&  [| (src_pre <> 0) |] 
   &&  [| (t_pre <> 0) |] 
   &&  [| ((termtypeID (trm)) = 0) |]
@@ -1144,6 +1245,8 @@ forall (t_pre: Z) (src_pre: Z) (den_pre: Z) (den_term: term) (src_str: (@list Z)
   **  (store_term den_pre den_term )
 |--
   [| ((termtypeID (trm)) = 0) |] 
+  &&  [| (t_pre <> 0) |] 
+  &&  [| (t_pre <> 0) |] 
   &&  [| (den_pre <> 0) |] 
   &&  [| (src_pre <> 0) |] 
   &&  [| (t_pre <> 0) |] 
@@ -1160,6 +1263,7 @@ Definition subst_term_partial_solve_wit_3 :=
 forall (t_pre: Z) (src_pre: Z) (den_pre: Z) (den_term: term) (src_str: (@list Z)) (trm: term) (y: Z) (var: (@list Z)) ,
   [| (t_pre <> 0) |] 
   &&  [| (trm = (TermVar (var))) |] 
+  &&  [| (t_pre <> 0) |] 
   &&  [| (den_pre <> 0) |] 
   &&  [| (src_pre <> 0) |] 
   &&  [| (t_pre <> 0) |] 
@@ -1172,6 +1276,7 @@ forall (t_pre: Z) (src_pre: Z) (den_pre: Z) (den_term: term) (src_str: (@list Z)
 |--
   [| (t_pre <> 0) |] 
   &&  [| (trm = (TermVar (var))) |] 
+  &&  [| (t_pre <> 0) |] 
   &&  [| (den_pre <> 0) |] 
   &&  [| (src_pre <> 0) |] 
   &&  [| (t_pre <> 0) |] 
@@ -1189,6 +1294,7 @@ forall (t_pre: Z) (src_pre: Z) (den_pre: Z) (den_term: term) (src_str: (@list Z)
   &&  [| (retval = (list_Z_cmp (var) (src_str))) |] 
   &&  [| (t_pre <> 0) |] 
   &&  [| (trm = (TermVar (var))) |] 
+  &&  [| (t_pre <> 0) |] 
   &&  [| (den_pre <> 0) |] 
   &&  [| (src_pre <> 0) |] 
   &&  [| (t_pre <> 0) |] 
@@ -1212,6 +1318,7 @@ forall (t_pre: Z) (src_pre: Z) (den_pre: Z) (den_term: term) (src_str: (@list Z)
   &&  [| (retval = (list_Z_cmp (var) (src_str))) |] 
   &&  [| (t_pre <> 0) |] 
   &&  [| (trm = (TermVar (var))) |] 
+  &&  [| (t_pre <> 0) |] 
   &&  [| (den_pre <> 0) |] 
   &&  [| (src_pre <> 0) |] 
   &&  [| (t_pre <> 0) |] 
@@ -1228,6 +1335,7 @@ forall (t_pre: Z) (src_pre: Z) (den_pre: Z) (den_term: term) (src_str: (@list Z)
   &&  [| (retval = (list_Z_cmp (var) (src_str))) |] 
   &&  [| (t_pre <> 0) |] 
   &&  [| (trm = (TermVar (var))) |] 
+  &&  [| (t_pre <> 0) |] 
   &&  [| (den_pre <> 0) |] 
   &&  [| (src_pre <> 0) |] 
   &&  [| (t_pre <> 0) |] 
@@ -1247,6 +1355,7 @@ forall (t_pre: Z) (src_pre: Z) (den_pre: Z) (den_term: term) (src_str: (@list Z)
   &&  [| (retval = (list_Z_cmp (var) (src_str))) |] 
   &&  [| (t_pre <> 0) |] 
   &&  [| (trm = (TermVar (var))) |] 
+  &&  [| (t_pre <> 0) |] 
   &&  [| (den_pre <> 0) |] 
   &&  [| (src_pre <> 0) |] 
   &&  [| (t_pre <> 0) |] 
@@ -1259,6 +1368,7 @@ forall (t_pre: Z) (src_pre: Z) (den_pre: Z) (den_term: term) (src_str: (@list Z)
   &&  [| (retval = (list_Z_cmp (var) (src_str))) |] 
   &&  [| (t_pre <> 0) |] 
   &&  [| (trm = (TermVar (var))) |] 
+  &&  [| (t_pre <> 0) |] 
   &&  [| (den_pre <> 0) |] 
   &&  [| (src_pre <> 0) |] 
   &&  [| (t_pre <> 0) |] 
@@ -1274,6 +1384,7 @@ forall (t_pre: Z) (src_pre: Z) (den_pre: Z) (den_term: term) (src_str: (@list Z)
   &&  [| (retval = (list_Z_cmp (var) (src_str))) |] 
   &&  [| (t_pre <> 0) |] 
   &&  [| (trm = (TermVar (var))) |] 
+  &&  [| (t_pre <> 0) |] 
   &&  [| (den_pre <> 0) |] 
   &&  [| (src_pre <> 0) |] 
   &&  [| (t_pre <> 0) |] 
@@ -1285,6 +1396,7 @@ forall (t_pre: Z) (src_pre: Z) (den_pre: Z) (den_term: term) (src_str: (@list Z)
   &&  [| (retval = (list_Z_cmp (var) (src_str))) |] 
   &&  [| (t_pre <> 0) |] 
   &&  [| (trm = (TermVar (var))) |] 
+  &&  [| (t_pre <> 0) |] 
   &&  [| (den_pre <> 0) |] 
   &&  [| (src_pre <> 0) |] 
   &&  [| (t_pre <> 0) |] 
@@ -1295,7 +1407,8 @@ forall (t_pre: Z) (src_pre: Z) (den_pre: Z) (den_term: term) (src_str: (@list Z)
 
 Definition subst_term_partial_solve_wit_7_pure := 
 forall (t_pre: Z) (src_pre: Z) (den_pre: Z) (den_term: term) (src_str: (@list Z)) (trm: term) ,
-  [| (den_pre <> 0) |] 
+  [| (t_pre <> 0) |] 
+  &&  [| (den_pre <> 0) |] 
   &&  [| (src_pre <> 0) |] 
   &&  [| (t_pre <> 0) |] 
   &&  [| ((termtypeID (trm)) <> 0) |] 
@@ -1308,12 +1421,14 @@ forall (t_pre: Z) (src_pre: Z) (den_pre: Z) (den_term: term) (src_str: (@list Z)
   **  (store_string src_pre src_str )
   **  (store_term den_pre den_term )
 |--
-  [| ((termtypeID (trm)) = 1) |]
+  [| ((termtypeID (trm)) = 1) |] 
+  &&  [| (t_pre <> 0) |]
 .
 
 Definition subst_term_partial_solve_wit_7_aux := 
 forall (t_pre: Z) (src_pre: Z) (den_pre: Z) (den_term: term) (src_str: (@list Z)) (trm: term) ,
-  [| (den_pre <> 0) |] 
+  [| (t_pre <> 0) |] 
+  &&  [| (den_pre <> 0) |] 
   &&  [| (src_pre <> 0) |] 
   &&  [| (t_pre <> 0) |] 
   &&  [| ((termtypeID (trm)) <> 0) |] 
@@ -1324,6 +1439,8 @@ forall (t_pre: Z) (src_pre: Z) (den_pre: Z) (den_term: term) (src_str: (@list Z)
   **  (store_term den_pre den_term )
 |--
   [| ((termtypeID (trm)) = 1) |] 
+  &&  [| (t_pre <> 0) |] 
+  &&  [| (t_pre <> 0) |] 
   &&  [| (den_pre <> 0) |] 
   &&  [| (src_pre <> 0) |] 
   &&  [| (t_pre <> 0) |] 
@@ -1339,7 +1456,8 @@ Definition subst_term_partial_solve_wit_7 := subst_term_partial_solve_wit_7_pure
 
 Definition subst_term_partial_solve_wit_8_pure := 
 forall (t_pre: Z) (src_pre: Z) (den_pre: Z) (den_term: term) (src_str: (@list Z)) (trm: term) ,
-  [| (den_pre <> 0) |] 
+  [| (t_pre <> 0) |] 
+  &&  [| (den_pre <> 0) |] 
   &&  [| (src_pre <> 0) |] 
   &&  [| (t_pre <> 0) |] 
   &&  [| ((termtypeID (trm)) <> 0) |] 
@@ -1353,12 +1471,14 @@ forall (t_pre: Z) (src_pre: Z) (den_pre: Z) (den_term: term) (src_str: (@list Z)
   **  (store_string src_pre src_str )
   **  (store_term den_pre den_term )
 |--
-  [| ((termtypeID (trm)) = 2) |]
+  [| ((termtypeID (trm)) = 2) |] 
+  &&  [| (t_pre <> 0) |]
 .
 
 Definition subst_term_partial_solve_wit_8_aux := 
 forall (t_pre: Z) (src_pre: Z) (den_pre: Z) (den_term: term) (src_str: (@list Z)) (trm: term) ,
-  [| (den_pre <> 0) |] 
+  [| (t_pre <> 0) |] 
+  &&  [| (den_pre <> 0) |] 
   &&  [| (src_pre <> 0) |] 
   &&  [| (t_pre <> 0) |] 
   &&  [| ((termtypeID (trm)) <> 0) |] 
@@ -1370,6 +1490,8 @@ forall (t_pre: Z) (src_pre: Z) (den_pre: Z) (den_term: term) (src_str: (@list Z)
   **  (store_term den_pre den_term )
 |--
   [| ((termtypeID (trm)) = 2) |] 
+  &&  [| (t_pre <> 0) |] 
+  &&  [| (t_pre <> 0) |] 
   &&  [| (den_pre <> 0) |] 
   &&  [| (src_pre <> 0) |] 
   &&  [| (t_pre <> 0) |] 
@@ -1386,7 +1508,9 @@ Definition subst_term_partial_solve_wit_8 := subst_term_partial_solve_wit_8_pure
 
 Definition subst_term_partial_solve_wit_9_pure := 
 forall (t_pre: Z) (src_pre: Z) (den_pre: Z) (den_term: term) (src_str: (@list Z)) (trm: term) (z: Z) (y: Z) (lt: term) (rt: term) ,
-  [| (trm = (TermApply (lt) (rt))) |] 
+  [| (t_pre <> 0) |] 
+  &&  [| (trm = (TermApply (lt) (rt))) |] 
+  &&  [| (t_pre <> 0) |] 
   &&  [| (den_pre <> 0) |] 
   &&  [| (src_pre <> 0) |] 
   &&  [| (t_pre <> 0) |] 
@@ -1411,7 +1535,9 @@ forall (t_pre: Z) (src_pre: Z) (den_pre: Z) (den_term: term) (src_str: (@list Z)
 
 Definition subst_term_partial_solve_wit_9_aux := 
 forall (t_pre: Z) (src_pre: Z) (den_pre: Z) (den_term: term) (src_str: (@list Z)) (trm: term) (z: Z) (y: Z) (lt: term) (rt: term) ,
-  [| (trm = (TermApply (lt) (rt))) |] 
+  [| (t_pre <> 0) |] 
+  &&  [| (trm = (TermApply (lt) (rt))) |] 
+  &&  [| (t_pre <> 0) |] 
   &&  [| (den_pre <> 0) |] 
   &&  [| (src_pre <> 0) |] 
   &&  [| (t_pre <> 0) |] 
@@ -1429,7 +1555,9 @@ forall (t_pre: Z) (src_pre: Z) (den_pre: Z) (den_term: term) (src_str: (@list Z)
   [| (den_pre <> 0) |] 
   &&  [| (src_pre <> 0) |] 
   &&  [| (y <> 0) |] 
+  &&  [| (t_pre <> 0) |] 
   &&  [| (trm = (TermApply (lt) (rt))) |] 
+  &&  [| (t_pre <> 0) |] 
   &&  [| (den_pre <> 0) |] 
   &&  [| (src_pre <> 0) |] 
   &&  [| (t_pre <> 0) |] 
@@ -1449,7 +1577,9 @@ Definition subst_term_partial_solve_wit_9 := subst_term_partial_solve_wit_9_pure
 
 Definition subst_term_partial_solve_wit_10_pure := 
 forall (t_pre: Z) (src_pre: Z) (den_pre: Z) (den_term: term) (src_str: (@list Z)) (trm: term) (z: Z) (lt: term) (rt: term) (retval: Z) ,
-  [| (trm = (TermApply (lt) (rt))) |] 
+  [| (t_pre <> 0) |] 
+  &&  [| (trm = (TermApply (lt) (rt))) |] 
+  &&  [| (t_pre <> 0) |] 
   &&  [| (den_pre <> 0) |] 
   &&  [| (src_pre <> 0) |] 
   &&  [| (t_pre <> 0) |] 
@@ -1474,7 +1604,9 @@ forall (t_pre: Z) (src_pre: Z) (den_pre: Z) (den_term: term) (src_str: (@list Z)
 
 Definition subst_term_partial_solve_wit_10_aux := 
 forall (t_pre: Z) (src_pre: Z) (den_pre: Z) (den_term: term) (src_str: (@list Z)) (trm: term) (z: Z) (lt: term) (rt: term) (retval: Z) ,
-  [| (trm = (TermApply (lt) (rt))) |] 
+  [| (t_pre <> 0) |] 
+  &&  [| (trm = (TermApply (lt) (rt))) |] 
+  &&  [| (t_pre <> 0) |] 
   &&  [| (den_pre <> 0) |] 
   &&  [| (src_pre <> 0) |] 
   &&  [| (t_pre <> 0) |] 
@@ -1492,7 +1624,9 @@ forall (t_pre: Z) (src_pre: Z) (den_pre: Z) (den_term: term) (src_str: (@list Z)
   [| (den_pre <> 0) |] 
   &&  [| (src_pre <> 0) |] 
   &&  [| (z <> 0) |] 
+  &&  [| (t_pre <> 0) |] 
   &&  [| (trm = (TermApply (lt) (rt))) |] 
+  &&  [| (t_pre <> 0) |] 
   &&  [| (den_pre <> 0) |] 
   &&  [| (src_pre <> 0) |] 
   &&  [| (t_pre <> 0) |] 
@@ -1512,7 +1646,8 @@ Definition subst_term_partial_solve_wit_10 := subst_term_partial_solve_wit_10_pu
 
 Definition subst_term_partial_solve_wit_11_pure := 
 forall (t_pre: Z) (src_pre: Z) (den_pre: Z) (den_term: term) (src_str: (@list Z)) (trm: term) ,
-  [| (den_pre <> 0) |] 
+  [| (t_pre <> 0) |] 
+  &&  [| (den_pre <> 0) |] 
   &&  [| (src_pre <> 0) |] 
   &&  [| (t_pre <> 0) |] 
   &&  [| ((termtypeID (trm)) <> 0) |] 
@@ -1527,12 +1662,14 @@ forall (t_pre: Z) (src_pre: Z) (den_pre: Z) (den_term: term) (src_str: (@list Z)
   **  (store_string src_pre src_str )
   **  (store_term den_pre den_term )
 |--
-  [| ((termtypeID (trm)) = 3) |]
+  [| ((termtypeID (trm)) = 3) |] 
+  &&  [| (t_pre <> 0) |]
 .
 
 Definition subst_term_partial_solve_wit_11_aux := 
 forall (t_pre: Z) (src_pre: Z) (den_pre: Z) (den_term: term) (src_str: (@list Z)) (trm: term) ,
-  [| (den_pre <> 0) |] 
+  [| (t_pre <> 0) |] 
+  &&  [| (den_pre <> 0) |] 
   &&  [| (src_pre <> 0) |] 
   &&  [| (t_pre <> 0) |] 
   &&  [| ((termtypeID (trm)) <> 0) |] 
@@ -1545,6 +1682,8 @@ forall (t_pre: Z) (src_pre: Z) (den_pre: Z) (den_term: term) (src_str: (@list Z)
   **  (store_term den_pre den_term )
 |--
   [| ((termtypeID (trm)) = 3) |] 
+  &&  [| (t_pre <> 0) |] 
+  &&  [| (t_pre <> 0) |] 
   &&  [| (den_pre <> 0) |] 
   &&  [| (src_pre <> 0) |] 
   &&  [| (t_pre <> 0) |] 
@@ -1562,7 +1701,9 @@ Definition subst_term_partial_solve_wit_11 := subst_term_partial_solve_wit_11_pu
 
 Definition subst_term_partial_solve_wit_12 := 
 forall (t_pre: Z) (src_pre: Z) (den_pre: Z) (den_term: term) (src_str: (@list Z)) (trm: term) (z: Z) (y: Z) (qt: quant_type) (qvar: (@list Z)) (qterm: term) ,
-  [| (trm = (TermQuant (qt) (qvar) (qterm))) |] 
+  [| (t_pre <> 0) |] 
+  &&  [| (trm = (TermQuant (qt) (qvar) (qterm))) |] 
+  &&  [| (t_pre <> 0) |] 
   &&  [| (den_pre <> 0) |] 
   &&  [| (src_pre <> 0) |] 
   &&  [| (t_pre <> 0) |] 
@@ -1579,7 +1720,9 @@ forall (t_pre: Z) (src_pre: Z) (den_pre: Z) (den_term: term) (src_str: (@list Z)
   **  (store_string src_pre src_str )
   **  (store_term den_pre den_term )
 |--
-  [| (trm = (TermQuant (qt) (qvar) (qterm))) |] 
+  [| (t_pre <> 0) |] 
+  &&  [| (trm = (TermQuant (qt) (qvar) (qterm))) |] 
+  &&  [| (t_pre <> 0) |] 
   &&  [| (den_pre <> 0) |] 
   &&  [| (src_pre <> 0) |] 
   &&  [| (t_pre <> 0) |] 
@@ -1601,7 +1744,9 @@ Definition subst_term_partial_solve_wit_13_pure :=
 forall (t_pre: Z) (src_pre: Z) (den_pre: Z) (den_term: term) (src_str: (@list Z)) (trm: term) (z: Z) (y: Z) (qt: quant_type) (qvar: (@list Z)) (qterm: term) (retval: Z) ,
   [| (retval <> 0) |] 
   &&  [| (retval = (list_Z_cmp (qvar) (src_str))) |] 
+  &&  [| (t_pre <> 0) |] 
   &&  [| (trm = (TermQuant (qt) (qvar) (qterm))) |] 
+  &&  [| (t_pre <> 0) |] 
   &&  [| (den_pre <> 0) |] 
   &&  [| (src_pre <> 0) |] 
   &&  [| (t_pre <> 0) |] 
@@ -1630,7 +1775,9 @@ Definition subst_term_partial_solve_wit_13_aux :=
 forall (t_pre: Z) (src_pre: Z) (den_pre: Z) (den_term: term) (src_str: (@list Z)) (trm: term) (z: Z) (y: Z) (qt: quant_type) (qvar: (@list Z)) (qterm: term) (retval: Z) ,
   [| (retval <> 0) |] 
   &&  [| (retval = (list_Z_cmp (qvar) (src_str))) |] 
+  &&  [| (t_pre <> 0) |] 
   &&  [| (trm = (TermQuant (qt) (qvar) (qterm))) |] 
+  &&  [| (t_pre <> 0) |] 
   &&  [| (den_pre <> 0) |] 
   &&  [| (src_pre <> 0) |] 
   &&  [| (t_pre <> 0) |] 
@@ -1652,7 +1799,9 @@ forall (t_pre: Z) (src_pre: Z) (den_pre: Z) (den_term: term) (src_str: (@list Z)
   &&  [| (z <> 0) |] 
   &&  [| (retval <> 0) |] 
   &&  [| (retval = (list_Z_cmp (qvar) (src_str))) |] 
+  &&  [| (t_pre <> 0) |] 
   &&  [| (trm = (TermQuant (qt) (qvar) (qterm))) |] 
+  &&  [| (t_pre <> 0) |] 
   &&  [| (den_pre <> 0) |] 
   &&  [| (src_pre <> 0) |] 
   &&  [| (t_pre <> 0) |] 
@@ -1676,13 +1825,15 @@ Definition subst_term_which_implies_wit_1 :=
 forall (trm: term) (t: Z) ,
   (store_term t trm )
 |--
-  ((&((t)  # "term" ->ₛ "type")) # Int  |-> (termtypeID (trm)))
+  [| (t <> 0) |]
+  &&  ((&((t)  # "term" ->ₛ "type")) # Int  |-> (termtypeID (trm)))
   **  (store_term' t trm )
 .
 
 Definition subst_term_which_implies_wit_2 := 
 forall (trm: term) (t: Z) ,
-  [| ((termtypeID (trm)) = 0) |]
+  [| ((termtypeID (trm)) = 0) |] 
+  &&  [| (t <> 0) |]
   &&  ((&((t)  # "term" ->ₛ "type")) # Int  |-> (termtypeID (trm)))
   **  (store_term' t trm )
 |--
@@ -1707,12 +1858,14 @@ forall (trm: term) (var: (@list Z)) (y: Z) (t: Z) ,
 
 Definition subst_term_which_implies_wit_4 := 
 forall (trm: term) (t: Z) ,
-  [| ((termtypeID (trm)) = 1) |]
+  [| ((termtypeID (trm)) = 1) |] 
+  &&  [| (t <> 0) |]
   &&  ((&((t)  # "term" ->ₛ "type")) # Int  |-> (termtypeID (trm)))
   **  (store_term' t trm )
 |--
   EX (typ: const_type)  (con: Z) ,
-  [| (trm = (TermConst (typ) (con))) |]
+  [| (t <> 0) |] 
+  &&  [| (trm = (TermConst (typ) (con))) |]
   &&  ((&((t)  # "term" ->ₛ "type")) # Int  |-> (termtypeID (trm)))
   **  ((&((t)  # "term" ->ₛ "content" .ₛ "Const" .ₛ "type")) # Int  |-> (ctID (typ)))
   **  ((&((t)  # "term" ->ₛ "content" .ₛ "Const" .ₛ "content")) # Int  |-> con)
@@ -1720,12 +1873,14 @@ forall (trm: term) (t: Z) ,
 
 Definition subst_term_which_implies_wit_5 := 
 forall (trm: term) (t: Z) ,
-  [| ((termtypeID (trm)) = 2) |]
+  [| ((termtypeID (trm)) = 2) |] 
+  &&  [| (t <> 0) |]
   &&  ((&((t)  # "term" ->ₛ "type")) # Int  |-> (termtypeID (trm)))
   **  (store_term' t trm )
 |--
   EX (z: Z)  (y: Z)  (lt: term)  (rt: term) ,
-  [| (trm = (TermApply (lt) (rt))) |]
+  [| (t <> 0) |] 
+  &&  [| (trm = (TermApply (lt) (rt))) |]
   &&  ((&((t)  # "term" ->ₛ "type")) # Int  |-> (termtypeID (trm)))
   **  ((&((t)  # "term" ->ₛ "content" .ₛ "Apply" .ₛ "left")) # Ptr  |-> y)
   **  ((&((t)  # "term" ->ₛ "content" .ₛ "Apply" .ₛ "right")) # Ptr  |-> z)
@@ -1735,12 +1890,14 @@ forall (trm: term) (t: Z) ,
 
 Definition subst_term_which_implies_wit_6 := 
 forall (trm: term) (t: Z) ,
-  [| ((termtypeID (trm)) = 3) |]
+  [| ((termtypeID (trm)) = 3) |] 
+  &&  [| (t <> 0) |]
   &&  ((&((t)  # "term" ->ₛ "type")) # Int  |-> (termtypeID (trm)))
   **  (store_term' t trm )
 |--
   EX (z: Z)  (y: Z)  (qt: quant_type)  (qvar: (@list Z))  (qterm: term) ,
-  [| (trm = (TermQuant (qt) (qvar) (qterm))) |]
+  [| (t <> 0) |] 
+  &&  [| (trm = (TermQuant (qt) (qvar) (qterm))) |]
   &&  ((&((t)  # "term" ->ₛ "type")) # Int  |-> (termtypeID (trm)))
   **  ((&((t)  # "term" ->ₛ "content" .ₛ "Quant" .ₛ "type")) # Int  |-> (qtID (qt)))
   **  ((&((t)  # "term" ->ₛ "content" .ₛ "Quant" .ₛ "var")) # Ptr  |-> y)
@@ -1755,13 +1912,13 @@ Axiom proof_of_subst_var_safety_wit_1 : subst_var_safety_wit_1.
 Axiom proof_of_subst_var_safety_wit_2 : subst_var_safety_wit_2.
 Axiom proof_of_subst_var_safety_wit_3 : subst_var_safety_wit_3.
 Axiom proof_of_subst_var_safety_wit_4 : subst_var_safety_wit_4.
+Axiom proof_of_subst_var_safety_wit_5 : subst_var_safety_wit_5.
 Axiom proof_of_subst_var_return_wit_1_1 : subst_var_return_wit_1_1.
 Axiom proof_of_subst_var_return_wit_1_2 : subst_var_return_wit_1_2.
 Axiom proof_of_subst_var_return_wit_1_3 : subst_var_return_wit_1_3.
 Axiom proof_of_subst_var_return_wit_1_4 : subst_var_return_wit_1_4.
 Axiom proof_of_subst_var_return_wit_1_5 : subst_var_return_wit_1_5.
 Axiom proof_of_subst_var_return_wit_1_6 : subst_var_return_wit_1_6.
-Axiom proof_of_subst_var_return_wit_1_7 : subst_var_return_wit_1_7.
 Axiom proof_of_subst_var_partial_solve_wit_1 : subst_var_partial_solve_wit_1.
 Axiom proof_of_subst_var_partial_solve_wit_2_pure : subst_var_partial_solve_wit_2_pure.
 Axiom proof_of_subst_var_partial_solve_wit_2 : subst_var_partial_solve_wit_2.
@@ -1791,13 +1948,13 @@ Axiom proof_of_subst_term_safety_wit_1 : subst_term_safety_wit_1.
 Axiom proof_of_subst_term_safety_wit_2 : subst_term_safety_wit_2.
 Axiom proof_of_subst_term_safety_wit_3 : subst_term_safety_wit_3.
 Axiom proof_of_subst_term_safety_wit_4 : subst_term_safety_wit_4.
+Axiom proof_of_subst_term_safety_wit_5 : subst_term_safety_wit_5.
 Axiom proof_of_subst_term_return_wit_1_1 : subst_term_return_wit_1_1.
 Axiom proof_of_subst_term_return_wit_1_2 : subst_term_return_wit_1_2.
 Axiom proof_of_subst_term_return_wit_1_3 : subst_term_return_wit_1_3.
 Axiom proof_of_subst_term_return_wit_1_4 : subst_term_return_wit_1_4.
 Axiom proof_of_subst_term_return_wit_1_5 : subst_term_return_wit_1_5.
 Axiom proof_of_subst_term_return_wit_1_6 : subst_term_return_wit_1_6.
-Axiom proof_of_subst_term_return_wit_1_7 : subst_term_return_wit_1_7.
 Axiom proof_of_subst_term_partial_solve_wit_1 : subst_term_partial_solve_wit_1.
 Axiom proof_of_subst_term_partial_solve_wit_2_pure : subst_term_partial_solve_wit_2_pure.
 Axiom proof_of_subst_term_partial_solve_wit_2 : subst_term_partial_solve_wit_2.
