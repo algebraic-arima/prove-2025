@@ -15,7 +15,7 @@ Local Open Scope Z_scope.
 Local Open Scope sets.
 Local Open Scope string.
 Local Open Scope list.
-Require Import ast_lib.
+Import naive_C_Rules.
 From SimpleC.EE Require Import ast_lib.
 From SimpleC.EE Require Import malloc.
 From SimpleC.EE Require Import sll_tmpl.
@@ -36,6 +36,9 @@ Proof. Admitted.
 Lemma proof_of_subst_var_partial_solve_wit_1 : subst_var_partial_solve_wit_1.
 Proof. Admitted. 
 
+Lemma proof_of_subst_var_partial_solve_wit_2_pure : subst_var_partial_solve_wit_2_pure.
+Proof. Admitted. 
+
 Lemma proof_of_subst_var_partial_solve_wit_2 : subst_var_partial_solve_wit_2.
 Proof. Admitted. 
 
@@ -48,7 +51,13 @@ Proof. Admitted.
 Lemma proof_of_subst_var_partial_solve_wit_5 : subst_var_partial_solve_wit_5.
 Proof. Admitted. 
 
+Lemma proof_of_subst_var_partial_solve_wit_6_pure : subst_var_partial_solve_wit_6_pure.
+Proof. Admitted. 
+
 Lemma proof_of_subst_var_partial_solve_wit_6 : subst_var_partial_solve_wit_6.
+Proof. Admitted. 
+
+Lemma proof_of_subst_var_partial_solve_wit_7_pure : subst_var_partial_solve_wit_7_pure.
 Proof. Admitted. 
 
 Lemma proof_of_subst_var_partial_solve_wit_7 : subst_var_partial_solve_wit_7.
@@ -60,10 +69,16 @@ Proof. Admitted.
 Lemma proof_of_subst_var_partial_solve_wit_9 : subst_var_partial_solve_wit_9.
 Proof. Admitted. 
 
+Lemma proof_of_subst_var_partial_solve_wit_10_pure : subst_var_partial_solve_wit_10_pure.
+Proof. Admitted. 
+
 Lemma proof_of_subst_var_partial_solve_wit_10 : subst_var_partial_solve_wit_10.
 Proof. Admitted. 
 
 Lemma proof_of_subst_var_partial_solve_wit_11 : subst_var_partial_solve_wit_11.
+Proof. Admitted. 
+
+Lemma proof_of_subst_var_partial_solve_wit_12 : subst_var_partial_solve_wit_12.
 Proof. Admitted. 
 
 Lemma proof_of_subst_term_safety_wit_1 : subst_term_safety_wit_1.
@@ -79,6 +94,9 @@ Lemma proof_of_subst_term_safety_wit_4 : subst_term_safety_wit_4.
 Proof. Admitted. 
 
 Lemma proof_of_subst_term_partial_solve_wit_1 : subst_term_partial_solve_wit_1.
+Proof. Admitted. 
+
+Lemma proof_of_subst_term_partial_solve_wit_2_pure : subst_term_partial_solve_wit_2_pure.
 Proof. Admitted. 
 
 Lemma proof_of_subst_term_partial_solve_wit_2 : subst_term_partial_solve_wit_2.
@@ -99,7 +117,13 @@ Proof. Admitted.
 Lemma proof_of_subst_term_partial_solve_wit_6 : subst_term_partial_solve_wit_6.
 Proof. Admitted. 
 
+Lemma proof_of_subst_term_partial_solve_wit_7_pure : subst_term_partial_solve_wit_7_pure.
+Proof. Admitted. 
+
 Lemma proof_of_subst_term_partial_solve_wit_7 : subst_term_partial_solve_wit_7.
+Proof. Admitted. 
+
+Lemma proof_of_subst_term_partial_solve_wit_8_pure : subst_term_partial_solve_wit_8_pure.
 Proof. Admitted. 
 
 Lemma proof_of_subst_term_partial_solve_wit_8 : subst_term_partial_solve_wit_8.
@@ -111,9 +135,15 @@ Proof. Admitted.
 Lemma proof_of_subst_term_partial_solve_wit_10 : subst_term_partial_solve_wit_10.
 Proof. Admitted. 
 
+Lemma proof_of_subst_term_partial_solve_wit_11_pure : subst_term_partial_solve_wit_11_pure.
+Proof. Admitted. 
+
 Lemma proof_of_subst_term_partial_solve_wit_11 : subst_term_partial_solve_wit_11.
 Proof. Admitted. 
 
 Lemma proof_of_subst_term_partial_solve_wit_12 : subst_term_partial_solve_wit_12.
+Proof. Admitted. 
+
+Lemma proof_of_subst_term_partial_solve_wit_13 : subst_term_partial_solve_wit_13.
 Proof. Admitted. 
 

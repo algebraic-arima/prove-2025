@@ -1,26 +1,7 @@
 #include "ast.h"
 
-/*@ Import Coq From SimpleC.EE Require Import ast_lib */
-/*@ Import Coq From SimpleC.EE Require Import malloc */
-/*@ Import Coq From SimpleC.EE Require Import sll_tmpl */
-
-/*@ Extern Coq (var_name :: *)*/
-/*@ Extern Coq (const_type :: *)*/
-/*@ Extern Coq (quant_type :: *)*/
-/*@ Extern Coq (term_type :: *)*/
-/*@ Extern Coq (store_term : Z -> term -> Assertion)
-               (store_string : Z -> list Z -> Assertion)
-               (ctID : const_type -> Z)
-               (qtID : quant_type -> Z)
-               (ttID : term_type -> Z)
-               (termtypeID : term -> Z)
-               (TermVar: list Z -> term)
-               (TermConst: const_type -> Z -> term)
-               (TermApply: term -> term -> term)
-               (TermQuant: quant_type -> list Z -> term -> term)
-*/
-
 bool alpha_equiv(term *t1, term *t2)
+// here, store_term contains that t1!=0 and t2!=0, so maybe the first return false is redundant.
 /*@ With term1 term2
       Require store_term(t1, term1) *
               store_term(t2, term2)
@@ -31,8 +12,11 @@ bool alpha_equiv(term *t1, term *t2)
   if (t1 == (void *)0 || t2 == (void *)0) return false;
   /*@ store_term(t1, term1) * store_term(t2, term2)
       which implies
-      data_at(&(t1 -> type), termtypeID(term1)) *
-      data_at(&(t2 -> type), termtypeID(term2)) *
+      exists tt1 tt2,
+      tt1 == termtypeID(term1) &&
+      tt2 == termtypeID(term2) &&
+      data_at(&(t1 -> type), tt1) *
+      data_at(&(t2 -> type), tt2) *
       store_term'(t1, term1) *
       store_term'(t2, term2)
   */

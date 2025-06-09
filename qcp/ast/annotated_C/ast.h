@@ -1,9 +1,15 @@
-/*@ Import Coq Require Import ast_lib */
+/*@ Import Coq From SimpleC.EE Require Import ast_lib */
+/*@ Import Coq From SimpleC.EE Require Import malloc */
+/*@ Import Coq From SimpleC.EE Require Import sll_tmpl */
 
 /*@ Extern Coq (term :: *) */
 /*@ Extern Coq (var_sub :: *) */
 /*@ Extern Coq (solve_res :: *) */
 /*@ Extern Coq (ImplyProp :: *) */
+/*@ Extern Coq (var_name :: *)*/
+/*@ Extern Coq (const_type :: *)*/
+/*@ Extern Coq (quant_type :: *)*/
+/*@ Extern Coq (term_type :: *)*/
 /*@ Extern Coq (store_string : Z -> list Z -> Assertion)
                (store_term : Z -> term -> Assertion)
                (store_term' : Z -> term -> Assertion)
@@ -23,7 +29,14 @@
                (term_eqn : term -> term -> Z)
                (term_subst_v : list Z -> list Z -> term -> term)
                (term_subst_t : term -> list Z -> term -> term)
+               (ctID : const_type -> Z)
+               (qtID : quant_type -> Z)
+               (ttID : term_type -> Z)
                (termtypeID : term -> Z)
+               (TermVar: list Z -> term)
+               (TermConst: const_type -> Z -> term)
+               (TermApply: term -> term -> term)
+               (TermQuant: quant_type -> list Z -> term -> term)
 */
 
 

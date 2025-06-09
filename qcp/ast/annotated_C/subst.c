@@ -1,25 +1,5 @@
 #include "ast.h"
 
-/*@ Import Coq From SimpleC.EE Require Import ast_lib */
-/*@ Import Coq From SimpleC.EE Require Import malloc */
-/*@ Import Coq From SimpleC.EE Require Import sll_tmpl */
-
-/*@ Extern Coq (var_name :: *)*/
-/*@ Extern Coq (const_type :: *)*/
-/*@ Extern Coq (quant_type :: *)*/
-/*@ Extern Coq (term_type :: *)*/
-/*@ Extern Coq (store_term : Z -> term -> Assertion)
-               (store_string : Z -> list Z -> Assertion)
-               (ctID : const_type -> Z)
-               (qtID : quant_type -> Z)
-               (ttID : term_type -> Z)
-               (termtypeID : term -> Z)
-               (TermVar: list Z -> term)
-               (TermConst: const_type -> Z -> term)
-               (TermApply: term -> term -> term)
-               (TermQuant: quant_type -> list Z -> term -> term)
-*/
-
 term *subst_var(char *den, char *src, term *t)
 /*@ With trm src_str den_str
       Require den != 0 && src != 0 && t != 0 &&
@@ -39,7 +19,8 @@ term *subst_var(char *den, char *src, term *t)
   */
   switch (t->type) {
     case Var: {
-      /*@ data_at(&(t -> type), termtypeID(trm)) *
+      /*@ termtypeID(trm) == 0 &&
+          data_at(&(t -> type), termtypeID(trm)) *
           store_term'(t, trm)
           which implies
           exists y var,
@@ -55,10 +36,21 @@ term *subst_var(char *den, char *src, term *t)
       break;
     }
     case Const: {
+      /*@ termtypeID(trm) == 1 &&
+          data_at(&(t -> type), termtypeID(trm)) *
+          store_term'(t, trm)
+          which implies
+          exists con typ,
+            trm == TermConst(typ, con) &&
+            data_at(&(t -> type), termtypeID(trm)) *
+            data_at(&(t -> content.Const.type), ctID(typ)) *
+            data_at(&(t -> content.Const.content), con) 
+      */
       break;
     }
     case Apply: {
-      /*@ data_at(&(t -> type), termtypeID(trm)) *
+      /*@ termtypeID(trm) == 2 &&
+          data_at(&(t -> type), termtypeID(trm)) *
           store_term'(t, trm)
           which implies
           exists y z lt rt,
@@ -73,7 +65,8 @@ term *subst_var(char *den, char *src, term *t)
       break;
     }
     case Quant: {
-      /*@ data_at(&(t -> type), termtypeID(trm)) *
+      /*@ termtypeID(trm) == 3 &&
+          data_at(&(t -> type), termtypeID(trm)) *
           store_term'(t, trm)
           which implies
           exists y z qt qvar qterm,
@@ -102,8 +95,8 @@ term *subst_term(term *den, char *src, term *t)
               store_term(t, trm) *
               store_string(src, src_str) *
               store_term(den, den_term)
-      Ensure __return == t && t == t@pre && den == den@pre && src == src@pre &&
-             store_term(t, term_subst_t(den_term, src_str, trm)) *
+      Ensure den == den@pre && src == src@pre &&
+             store_term(__return, term_subst_t(den_term, src_str, trm)) *
              store_term(den, den_term) *
              store_string(src, src_str)
 */
@@ -115,10 +108,12 @@ term *subst_term(term *den, char *src, term *t)
   */
   switch (t->type) {
     case Var: {
-      /*@ data_at(&(t -> type), termtypeID(trm)) *
+      /*@ termtypeID(trm) == 0 &&
+          data_at(&(t -> type), termtypeID(trm)) *
           store_term'(t, trm)
           which implies
           exists y var,
+            t != 0 &&
             trm == TermVar(var) &&
             data_at(&(t -> type), termtypeID(trm)) *
             data_at(&(t -> content.Var), y) *
@@ -126,6 +121,7 @@ term *subst_term(term *den, char *src, term *t)
       */
       if (!strcmp(t->content.Var, src)) {
         /*@ exists y var,
+            t != 0 &&
             trm == TermVar(var) &&
             data_at(&(t -> type), termtypeID(trm)) *
             data_at(&(t -> content.Var), y) *
@@ -139,10 +135,21 @@ term *subst_term(term *den, char *src, term *t)
       break;
     }
     case Const: {
+      /*@ termtypeID(trm) == 1 &&
+          data_at(&(t -> type), termtypeID(trm)) *
+          store_term'(t, trm)
+          which implies
+          exists con typ,
+            trm == TermConst(typ, con) &&
+            data_at(&(t -> type), termtypeID(trm)) *
+            data_at(&(t -> content.Const.type), ctID(typ)) *
+            data_at(&(t -> content.Const.content), con) 
+      */
       break;
     }
     case Apply: {
-      /*@ data_at(&(t -> type), termtypeID(trm)) *
+      /*@ termtypeID(trm) == 2 &&
+          data_at(&(t -> type), termtypeID(trm)) *
           store_term'(t, trm)
           which implies
           exists y z lt rt,
@@ -157,7 +164,8 @@ term *subst_term(term *den, char *src, term *t)
       break;
     }
     case Quant: {
-      /*@ data_at(&(t -> type), termtypeID(trm)) *
+      /*@ termtypeID(trm) == 3 &&
+          data_at(&(t -> type), termtypeID(trm)) *
           store_term'(t, trm)
           which implies
           exists y z qt qvar qterm,
