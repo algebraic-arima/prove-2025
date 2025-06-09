@@ -29,7 +29,7 @@ term_list* check_list_gen(term* thm, term* target) {
   }
   term_list* check_list = (void*)0;
   term_list** tail_ptr = &check_list;
-  while (thm != (void*)0 && !alpha_equiv(thm, target)) {
+  while (thm != (void*)0 && alpha_equiv(thm, target) == 1) {
     ImplyProp* p = separate_imply(thm);
     if (p == (void*)0) {
       free_term_list(check_list);
@@ -54,7 +54,7 @@ solve_res* thm_apply(term* thm, var_sub_list* list, term* goal) {
   if (thm_ins == (void*)0) {
     res->type = bool_res;
     res->d.ans = false;
-  } else if (alpha_equiv(thm_ins, goal)) {
+  } else if (alpha_equiv(thm_ins, goal) == 0) {
     res->type = bool_res;
     res->d.ans = true;
   } else {

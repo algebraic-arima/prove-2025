@@ -39,8 +39,7 @@
                (TermQuant: quant_type -> list Z -> term -> term)
 */
 
-
-typedef enum { false, true } bool;
+typedef int bool;
 
 enum const_type {
   Num = 0,
@@ -212,6 +211,37 @@ int strcmp(const char *s1, const char *s2)
 
 /* END Given Functions */
 
-term *subst_var(char *den, char *src, term *t);
-term *subst_term(term *den, char *src, term *t);
-bool alpha_equiv(term *t1, term *t2);
+term *subst_var(char *den, char *src, term *t)
+    /*@ With trm src_str den_str
+          Require den != 0 && src != 0 && t != 0 &&
+                  store_term(t, trm) *
+                  store_string(src, src_str) *
+                  store_string(den, den_str)
+          Ensure __return == t && t == t@pre && den == den@pre && src == src@pre &&
+                store_term(t, term_subst_v(den_str, src_str, trm)) *
+                store_string(den, den_str) *
+                store_string(src, src_str)
+    */
+    ;
+
+term *subst_term(term *den, char *src, term *t)
+    /*@ With trm src_str den_term
+          Require den != 0 && src != 0 && t != 0 &&
+                  store_term(t, trm) *
+                  store_string(src, src_str) *
+                  store_term(den, den_term)
+          Ensure den == den@pre && src == src@pre &&
+                 store_term(__return, term_subst_t(den_term, src_str, trm)) *
+                 store_term(den, den_term) *
+                 store_string(src, src_str)
+    */
+   ;
+
+bool alpha_equiv(term *t1, term *t2)
+    /*@ With term1 term2
+          Require store_term(t1, term1) *
+                  store_term(t2, term2)
+          Ensure __return == term_eqn(term1, term2) && t1 == t1@pre && t2 == t2@pre
+      && store_term(t1, term1) * store_term(t2, term2)
+    */
+    ;

@@ -2,6 +2,15 @@
     "files.associations": {
         "ast.h": "c",
         "cnf_trans.h": "c",
-        "int_array_def.h": "c"
+        "int_array_def.h": "c",
+        "bit": "c",
+        "cmath": "c",
+        "compare": "c",
+        "concepts": "c",
+        "type_traits": "c",
+        "utility": "c",
+        "limits": "c",
+        "new": "c",
+        "typeinfo": "c"
     }
 }
