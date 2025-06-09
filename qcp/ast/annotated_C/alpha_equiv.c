@@ -13,6 +13,7 @@ bool alpha_equiv(term *t1, term *t2)
   /*@ store_term(t1, term1) * store_term(t2, term2)
       which implies
       exists tt1 tt2,
+      t1 != 0 && t2 != 0 &&
       tt1 == termtypeID(term1) &&
       tt2 == termtypeID(term2) &&
       data_at(&(t1 -> type), tt1) *
@@ -23,6 +24,16 @@ bool alpha_equiv(term *t1, term *t2)
   if (t1->type != t2->type) return false;
   switch (t1->type) {
     case Var: {
+      /*@ t1 -> type == t2 -> type &&
+          t1 -> type == 0 &&
+          store_term'(t1, term1) *
+          store_term'(t2, term2) 
+          which implies
+          exists str1 str2,
+            term1 == TermVar(str1) &&
+            term2 == TermVar(str2) &&
+
+      */
       return strcmp(t1->content.Var, t2->content.Var) == 0;
     }
     case Const: {
