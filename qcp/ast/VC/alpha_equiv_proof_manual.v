@@ -205,6 +205,8 @@ Proof.
   destruct (qtID qt1 =? qtID qt2)%Z eqn:Eq.
   + destruct (list_Z_eqb qv1 qv2) eqn:vEq; [ | congruence].
     rewrite Bool.andb_true_l.
+    pose proof (term_subst_v_same_name qv1 qv2 qterm2 vEq) as qtEq.
+    rewrite qtEq.
     tauto.
   + destruct (list_Z_eqb qv1 qv2) eqn:vEq; [ | congruence].
     rewrite Z.eqb_neq in Eq.
@@ -222,7 +224,12 @@ Proof.
   unfold term_eqn in *.
   unfold term_eqb.
   fold term_eqb.
-  Admitted. 
+  destruct (qtID qt1 =? qtID qt2)%Z eqn:Eq.
+  + rewrite Bool.andb_true_l.
+    tauto.
+  + rewrite Z.eqb_neq in Eq.
+    congruence.
+Qed.
 
 Lemma proof_of_alpha_equiv_return_wit_9_1 : alpha_equiv_return_wit_9_1.
 Proof. Admitted. 

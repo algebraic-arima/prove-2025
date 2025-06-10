@@ -1,13 +1,14 @@
 #include "ast.h"
 
-term* sub_thm(term* thm, var_sub_list* list) {
-  if (list == (void*)0) return thm;
-  if (thm->type == Quant) {
-    term* den = list->cur->sub_term;
-    return sub_thm(subst_term(den, list->cur->var, thm->content.Quant.body),
-                   list->next);
-  } else
-    return (void*)0;
+term* sub_thm(term* thm, var_sub_list* list){
+  if(list == (void*) 0) return thm;
+  if(thm->type == Quant && thm->content.Quant.type == Forall){
+      term* den = list->cur->sub_term;
+      if (strcmp(thm->content.Quant.var, list->cur->var))
+          return (void*) 0; //变量名不匹配
+      return sub_thm(subst_term(den, list->cur->var, thm->content.Quant.body), list->next);
+  }
+  else return (void*) 0;
 }
 
 // apply (apply (impl) h1) (h2)
