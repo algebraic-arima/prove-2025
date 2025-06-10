@@ -37,6 +37,7 @@
                (TermConst: const_type -> Z -> term)
                (TermApply: term -> term -> term)
                (TermQuant: quant_type -> list Z -> term -> term)
+               (term_not_contain_var: term -> list Z -> Prop)
 */
 
 typedef int bool;
@@ -208,6 +209,20 @@ int strcmp(const char *s1, const char *s2)
                 store_string(s2, str2)
     */
     ;
+
+// 返回一个在t1和t2中都没出现过的变量名
+char *fresh(term *t1, term *t2)
+  /*@ With term1 term2
+        Require store_term(t1, term1) *
+                store_term(t2, term2)
+        Ensure exists str, 
+               term_not_contain_var(term1, str) && 
+               term_not_contain_var(term2, str) &&
+               store_term(t1, term1) *
+               store_term(t2, term2) *
+               store_string(__return, str)
+  */
+  ;
 
 /* END Given Functions */
 

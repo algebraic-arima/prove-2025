@@ -15,6 +15,7 @@ Local Open Scope sets.
 Import ListNotations.
 Local Open Scope list.
 Require Import String.
+Require Import Coq.Program.Wf.
 Local Open Scope string.
 From SimpleC.EE Require Import sll_tmpl.
 From SimpleC.EE Require Import malloc.
@@ -408,21 +409,85 @@ Fixpoint term_subst_t (den: term) (src: var_name) (t: term): term :=
         TermQuant qtype qvar (term_subst_t den src body)
   end.
 
-Fixpoint term_eqb (t1 t2: term): bool :=
-  match t1, t2 with
-    | TermVar v1, TermVar v2 => list_Z_eqb v1 v2
-    | TermConst ctype1 content1, TermConst ctype2 content2 =>
-      (Z.eqb (ctID ctype1) (ctID ctype2)) && (negb (Z.eqb (ctID ctype1) 0) || Z.eqb content1 content2)
-    | TermApply lt1 rt1, TermApply lt2 rt2 =>
-      term_eqb lt1 lt2 && term_eqb rt1 rt2
-    | TermQuant qtype1 qvar1 body1, TermQuant qtype2 qvar2 body2 =>
-      (Z.eqb (qtID qtype1) (qtID qtype2)) &&
-      term_eqb body1 (term_subst_v qvar1 qvar2 body2)
-    | _, _ => false
+Fixpoint term_not_contain_var (t : term) (var : var_name) : Prop :=
+  match t with
+    | TermVar v => list_Z_eqb v var = false
+    | TermConst ctype content => True
+    | TermApply lt rt => term_not_contain_var lt var /\ term_not_contain_var rt var
+    | TermQuant qtype qvar body => list_Z_eqb var qvar = false /\ term_not_contain_var body var
+end.
+
+Fixpoint free_vars (t: term) : list var_name :=
+  match t with
+  | TermVar v => [v]
+  | TermConst _ _ => []
+  | TermApply f x => free_vars f ++ free_vars x
+  | TermQuant _ qvar body =>
+      List.filter (fun v => negb (list_Z_eqb v qvar)) (free_vars body)
   end.
 
-Definition term_eqn (t1 t2: term): Z :=
-  if term_eqb t1 t2 then 1 else 0.
+Fixpoint term_size (t: term) : Z :=
+  match t with
+  | TermVar _ => 1
+  | TermConst _ _ => 1
+  | TermApply f x => 1 + term_size f + term_size x
+  | TermQuant _ _ body => 1 + term_size body
+  end.
+
+Lemma term_size_p: forall t,
+  term_size t > 0.
+Proof.
+  unfold term_size.
+  induction t; try lia.
+Qed.
+
+Lemma term_subst_v_non_increase: forall old new t,
+  term_size (term_subst_v old new t) = term_size t.
+Proof.
+  unfold term_subst_v.
+  induction t.
+  + destruct (list_Z_eqb var new) eqn:Heq; [ | reflexivity].
+    unfold term_size; reflexivity.
+  + reflexivity.
+  + fold term_subst_v in *.
+    unfold term_size; fold term_size; lia.
+  + fold term_subst_v in *.
+    destruct (list_Z_eqb qvar new) eqn:Heq; [reflexivity | ].
+    unfold term_size; fold term_size; lia.
+Qed.
+
+Program Fixpoint term_alpha_eq (t1 t2: term) 
+  {measure (Z.to_nat (term_size t1) + Z.to_nat (term_size t2))} : Prop :=
+  match t1, t2 with
+  | TermVar v1, TermVar v2 => v1 = v2
+  | TermConst ctype1 content1, TermConst ctype2 content2 =>
+      ctID ctype1 = ctID ctype2 /\
+      (ctID ctype1 <> 0 \/ content1 = content2)
+  | TermApply lt1 rt1, TermApply lt2 rt2 =>
+      term_alpha_eq lt1 lt2 /\ term_alpha_eq rt1 rt2
+  | TermQuant qtype1 qvar1 body1, TermQuant qtype2 qvar2 body2 =>
+      qtID qtype1 = qtID qtype2 /\
+      qtID qtype1 = qtID qtype2 /\
+      exists fresh, 
+        term_not_contain_var t1 fresh /\
+        term_not_contain_var t2 fresh /\
+        term_alpha_eq 
+          (term_subst_v qvar1 fresh body1) 
+          (term_subst_v qvar2 fresh body2)
+  | _, _ => False
+  end.
+  
+Next Obligation.
+  unfold term_size; fold term_size.
+  pose proof term_size_p lt1.
+  pose proof term_size_p lt2.
+  pose proof term_size_p rt1.
+  pose proof term_size_p rt2.
+  rewrite !Z2Nat.inj_add; try lia.
+Qed.
+
+Definition term_eqn (t1 t2: term): Prop :=
+  term_alpha_eq t1 t2.
 
 Fixpoint sub_thm (thm: term) (l: var_sub_list): term :=
   match l with 
