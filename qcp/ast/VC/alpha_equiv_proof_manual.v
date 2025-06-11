@@ -21,223 +21,61 @@ From SimpleC.EE Require Import malloc.
 From SimpleC.EE Require Import sll_tmpl.
 Local Open Scope sac.
 
-Lemma proof_of_alpha_equiv_entail_wit_1 : alpha_equiv_entail_wit_1.
-Proof.
-  pre_process.
-  unfold termtypeID in *.
-  destruct term1; lia.
-Qed.
+Lemma proof_of_alpha_equiv_entail_wit_1_1 : alpha_equiv_entail_wit_1_1.
+Proof. Admitted. 
+
+Lemma proof_of_alpha_equiv_entail_wit_1_2 : alpha_equiv_entail_wit_1_2.
+Proof. Admitted. 
 
 Lemma proof_of_alpha_equiv_return_wit_1_1 : alpha_equiv_return_wit_1_1.
-Proof.
-  pre_process.
-  unfold list_Z_cmp in H0.
-  destruct (list_Z_eqb str1 str2) eqn:Heq; [ contradiction | ].
-  unfold store_term, term_eqn, term_eqb.
-  rewrite H3, H4.
-  Exists y z.
-  entailer!.
-  rewrite Heq.
-  reflexivity.
-Qed.
+Proof. Admitted. 
 
 Lemma proof_of_alpha_equiv_return_wit_1_2 : alpha_equiv_return_wit_1_2.
-Proof.
-  pre_process.
-  rewrite H in H0.
-  unfold list_Z_cmp in H0.
-  destruct (list_Z_eqb str1 str2) eqn:Heq; [ | discriminate ].
-  unfold store_term, term_eqn, term_eqb.
-  rewrite H3, H4.
-  Exists y z.
-  entailer!.
-  rewrite Heq.
-  reflexivity.
-Qed.
+Proof. Admitted. 
 
 Lemma proof_of_alpha_equiv_return_wit_2 : alpha_equiv_return_wit_2.
-Proof.
-  pre_process.
-  unfold store_term, term_eqn, term_eqb.
-  rewrite H2, H3.
-  entailer!.
-  destruct (ctID typ1 =? ctID typ2)%Z eqn:E.
-  + apply Z.eqb_eq in E.
-    contradiction.
-  + rewrite Bool.andb_false_l.
-    reflexivity.
-Qed.
+Proof. Admitted. 
 
 Lemma proof_of_alpha_equiv_return_wit_3_1 : alpha_equiv_return_wit_3_1.
-Proof. 
-  pre_process.
-  unfold store_term.
-  rewrite H4, H5.
-  entailer!.
-  unfold term_eqn, term_eqb.
-  rewrite H1 at 1.
-  rewrite Z.eqb_refl.
-  rewrite Bool.andb_true_l.
-  destruct (con1 =? con2)%Z eqn:E.
-  + apply Z.eqb_eq in E.
-    contradiction.
-  + unfold negb.
-    rewrite H0.
-    reflexivity.
-Qed.
+Proof. Admitted. 
 
 Lemma proof_of_alpha_equiv_return_wit_3_2 : alpha_equiv_return_wit_3_2.
-Proof.
-  pre_process.
-  unfold store_term.
-  rewrite H4, H5.
-  entailer!.
-  unfold term_eqn, term_eqb.
-  rewrite H1 at 1.
-  rewrite Z.eqb_refl.
-  rewrite Bool.andb_true_l.
-  destruct (con1 =? con2)%Z eqn:E.
-  + unfold negb.
-    rewrite H0.
-    reflexivity. 
-  + apply Z.eqb_neq in E.
-    contradiction.
-Qed.
+Proof. Admitted. 
 
 Lemma proof_of_alpha_equiv_return_wit_4 : alpha_equiv_return_wit_4.
-Proof.
-  pre_process.
-  unfold store_term.
-  rewrite H3, H4.
-  entailer!.
-  unfold term_eqn, term_eqb.
-  rewrite H0 at 1.
-  rewrite Z.eqb_refl.
-  rewrite Bool.andb_true_l.
-  destruct (con1 =? con2)%Z eqn:E.
-  + unfold negb.
-    destruct (ctID typ1 =? 0)%Z eqn:Eq; [ | reflexivity].
-    apply Z.eqb_eq in E, Eq.
-    contradiction.
-  + unfold negb.
-    apply Z.eqb_neq in E.
-    destruct (ctID typ1 =? 0)%Z eqn:Eq; [ | reflexivity].
-    apply Z.eqb_eq in Eq.
-    contradiction.
-Qed.  
+Proof. Admitted. 
 
 Lemma proof_of_alpha_equiv_return_wit_5_1 : alpha_equiv_return_wit_5_1.
-Proof.
-  pre_process.
-  unfold store_term.
-  rewrite H5, H6.
-  fold store_term.
-  Exists y1 z1 y2 z2.
-  entailer!.
-  unfold term_eqn in *.
-  unfold term_eqb.
-  fold term_eqb.
-  destruct (term_eqb rt1 rt2) eqn:Eqr; [ | contradiction].
-  destruct (term_eqb lt1 lt2) eqn:Eql; [ | contradiction].
-  reflexivity.
-Qed.
+Proof. Admitted. 
 
 Lemma proof_of_alpha_equiv_return_wit_5_2 : alpha_equiv_return_wit_5_2.
-Proof.
-  pre_process.
-  unfold store_term.
-  rewrite H5, H6.
-  fold store_term.
-  Exists y1 z1 y2 z2.
-  entailer!.
-  unfold term_eqn in *.
-  unfold term_eqb.
-  fold term_eqb.
-  destruct (term_eqb lt1 lt2) eqn:Eql; [ | contradiction].
-  destruct (term_eqb rt1 rt2) eqn:Eqr; [ | reflexivity].
-  congruence.
-Qed.
+Proof. Admitted. 
 
 Lemma proof_of_alpha_equiv_return_wit_5_3 : alpha_equiv_return_wit_5_3.
-Proof.
-  pre_process.
-  unfold store_term.
-  rewrite H3, H4.
-  fold store_term.
-  Exists y1 z1 y2 z2.
-  entailer!.
-  unfold term_eqn in *.
-  unfold term_eqb.
-  fold term_eqb.
-  destruct (term_eqb lt1 lt2) eqn:Eql; [ | reflexivity].
-  congruence.
-Qed.
+Proof. Admitted. 
 
 Lemma proof_of_alpha_equiv_return_wit_6 : alpha_equiv_return_wit_6.
-Proof.
-  pre_process.
-  unfold store_term.
-  rewrite H2, H3.
-  fold store_term.
-  Exists y1 z1 y2 z2.
-  entailer!.
-  unfold term_eqn in *.
-  unfold term_eqb.
-  fold term_eqb.
-  destruct (qtID qt1 =? qtID qt2)%Z eqn:Eq; [ | reflexivity].
-  apply Z.eqb_eq in Eq.
-  congruence.
-Qed.
+Proof. Admitted. 
 
 Lemma proof_of_alpha_equiv_return_wit_7 : alpha_equiv_return_wit_7.
-Proof.
-  pre_process.
-  unfold store_term.
-  rewrite H5, H6.
-  fold store_term.
-  Exists y1 z1 y2 z2.
-  entailer!.
-  unfold term_eqn in *.
-  unfold term_eqb.
-  fold term_eqb.
-  rewrite H0 in H1. 
-  unfold list_Z_cmp in H1.
-  destruct (qtID qt1 =? qtID qt2)%Z eqn:Eq.
-  + destruct (list_Z_eqb qv1 qv2) eqn:vEq; [ | congruence].
-    rewrite Bool.andb_true_l.
-    pose proof (term_subst_v_same_name qv1 qv2 qterm2 vEq) as qtEq.
-    rewrite qtEq.
-    tauto.
-  + destruct (list_Z_eqb qv1 qv2) eqn:vEq; [ | congruence].
-    rewrite Z.eqb_neq in Eq.
-    congruence.
-Qed.
-
-Lemma proof_of_alpha_equiv_return_wit_8 : alpha_equiv_return_wit_8.
-Proof.
-  pre_process.
-  unfold store_term.
-  rewrite H9, H10.
-  fold store_term.
-  Exists y1 z1 y2 z2.
-  entailer!.  
-  unfold term_eqn in *.
-  unfold term_eqb.
-  fold term_eqb.
-  destruct (qtID qt1 =? qtID qt2)%Z eqn:Eq.
-  + rewrite Bool.andb_true_l.
-    tauto.
-  + rewrite Z.eqb_neq in Eq.
-    congruence.
-Qed.
-
-Lemma proof_of_alpha_equiv_return_wit_9_1 : alpha_equiv_return_wit_9_1.
 Proof. Admitted. 
 
-Lemma proof_of_alpha_equiv_return_wit_9_2 : alpha_equiv_return_wit_9_2.
+Lemma proof_of_alpha_equiv_return_wit_8_1 : alpha_equiv_return_wit_8_1.
 Proof. Admitted. 
 
-Lemma proof_of_alpha_equiv_return_wit_10 : alpha_equiv_return_wit_10.
+Lemma proof_of_alpha_equiv_return_wit_8_2 : alpha_equiv_return_wit_8_2.
+Proof. Admitted. 
+
+Lemma proof_of_alpha_equiv_return_wit_9 : alpha_equiv_return_wit_9.
+Proof. Admitted. 
+
+Lemma proof_of_alpha_equiv_partial_solve_wit_15_pure : alpha_equiv_partial_solve_wit_15_pure.
+Proof. Admitted. 
+
+Lemma proof_of_alpha_equiv_partial_solve_wit_17_pure : alpha_equiv_partial_solve_wit_17_pure.
+Proof. Admitted. 
+
+Lemma proof_of_alpha_equiv_partial_solve_wit_21_pure : alpha_equiv_partial_solve_wit_21_pure.
 Proof. Admitted. 
 
 Lemma proof_of_alpha_equiv_which_implies_wit_1 : alpha_equiv_which_implies_wit_1.
@@ -256,5 +94,8 @@ Lemma proof_of_alpha_equiv_which_implies_wit_5 : alpha_equiv_which_implies_wit_5
 Proof. Admitted. 
 
 Lemma proof_of_alpha_equiv_which_implies_wit_6 : alpha_equiv_which_implies_wit_6.
+Proof. Admitted. 
+
+Lemma proof_of_alpha_equiv_which_implies_wit_7 : alpha_equiv_which_implies_wit_7.
 Proof. Admitted. 
 

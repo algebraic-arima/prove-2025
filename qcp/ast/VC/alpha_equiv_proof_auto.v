@@ -108,13 +108,13 @@ Proof. Admitted.
 Lemma proof_of_alpha_equiv_partial_solve_wit_10 : alpha_equiv_partial_solve_wit_10.
 Proof. Admitted. 
 
+Lemma proof_of_alpha_equiv_partial_solve_wit_11_pure : alpha_equiv_partial_solve_wit_11_pure.
+Proof. Admitted. 
+
 Lemma proof_of_alpha_equiv_partial_solve_wit_11 : alpha_equiv_partial_solve_wit_11.
 Proof. Admitted. 
 
 Lemma proof_of_alpha_equiv_partial_solve_wit_12 : alpha_equiv_partial_solve_wit_12.
-Proof. Admitted. 
-
-Lemma proof_of_alpha_equiv_partial_solve_wit_13_pure : alpha_equiv_partial_solve_wit_13_pure.
 Proof. Admitted. 
 
 Lemma proof_of_alpha_equiv_partial_solve_wit_13 : alpha_equiv_partial_solve_wit_13.
@@ -124,5 +124,23 @@ Lemma proof_of_alpha_equiv_partial_solve_wit_14 : alpha_equiv_partial_solve_wit_
 Proof. Admitted. 
 
 Lemma proof_of_alpha_equiv_partial_solve_wit_15 : alpha_equiv_partial_solve_wit_15.
+Proof. Admitted. 
+
+Lemma proof_of_alpha_equiv_partial_solve_wit_16 : alpha_equiv_partial_solve_wit_16.
+Proof. Admitted. 
+
+Lemma proof_of_alpha_equiv_partial_solve_wit_17 : alpha_equiv_partial_solve_wit_17.
+Proof. Admitted. 
+
+Lemma proof_of_alpha_equiv_partial_solve_wit_18 : alpha_equiv_partial_solve_wit_18.
+Proof. Admitted. 
+
+Lemma proof_of_alpha_equiv_partial_solve_wit_19 : alpha_equiv_partial_solve_wit_19.
+Proof. Admitted. 
+
+Lemma proof_of_alpha_equiv_partial_solve_wit_20 : alpha_equiv_partial_solve_wit_20.
+Proof. Admitted. 
+
+Lemma proof_of_alpha_equiv_partial_solve_wit_21 : alpha_equiv_partial_solve_wit_21.
 Proof. Admitted. 
 
