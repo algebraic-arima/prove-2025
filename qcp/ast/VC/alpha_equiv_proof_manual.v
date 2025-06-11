@@ -28,7 +28,20 @@ Lemma proof_of_alpha_equiv_entail_wit_1_2 : alpha_equiv_entail_wit_1_2.
 Proof. Admitted. 
 
 Lemma proof_of_alpha_equiv_return_wit_1_1 : alpha_equiv_return_wit_1_1.
-Proof. Admitted. 
+Proof. 
+    pre_process.
+    unfold list_Z_cmp in H0.
+    destruct (list_Z_eqb str1 str2) eqn:Heq; [ contradiction | ].
+    unfold store_term, term_alpha_eqn, prop_to_z.
+    rewrite H3, H4.
+    Exists y z.
+    entailer!.
+    destruct (term_alpha_eq_dec (TermVar str1) (TermVar str2)) as [Halpha | Hnotalpha].
+    + inversion Halpha.
+      pose proof list_Z_eq2eqb str1 str2 H13.
+      congruence.
+    + reflexivity.
+Qed.
 
 Lemma proof_of_alpha_equiv_return_wit_1_2 : alpha_equiv_return_wit_1_2.
 Proof. Admitted. 

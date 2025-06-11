@@ -644,7 +644,7 @@ Proof.
   reflexivity.
 Qed.
 
-Inductive term_alpha_eq : term -> term -> Prop :=
+(* Inductive term_alpha_eq : term -> term -> Prop :=
   | AlphaVar : forall v1 v2,
       v1 = v2 ->
       term_alpha_eq (TermVar v1) (TermVar v2)
@@ -660,6 +660,28 @@ Inductive term_alpha_eq : term -> term -> Prop :=
       (list_Z_eqb qvar1 qvar2 = true) /\ (term_alpha_eq body1 body2) \/
       (term_alpha_eq body1 (term_subst_v qvar1 qvar2 body2)) /\
       (term_alpha_eq (term_subst_v qvar2 qvar1 body1) body2) ->
+      term_alpha_eq (TermQuant qtype1 qvar1 body1) (TermQuant qtype2 qvar2 body2). *)
+
+Inductive term_alpha_eq : term -> term -> Prop :=
+  | AlphaVar : forall v1 v2,
+      v1 = v2 ->
+      term_alpha_eq (TermVar v1) (TermVar v2)
+  | AlphaConst : forall ctype1 content1 ctype2 content2,
+      ctID ctype1 = ctID ctype2 ->
+      (ctID ctype1 <> 0 \/ content1 = content2) ->
+      term_alpha_eq (TermConst ctype1 content1) (TermConst ctype2 content2)
+  | AlphaApply : forall lt1 rt1 lt2 rt2,
+      term_alpha_eq lt1 lt2 -> term_alpha_eq rt1 rt2 ->
+      term_alpha_eq (TermApply lt1 rt1) (TermApply lt2 rt2)
+  | AlphaQuant : forall qtype1 qvar1 body1 qtype2 qvar2 body2,
+      qtID qtype1 = qtID qtype2 ->
+      (list_Z_eqb qvar1 qvar2 = true) /\ (term_alpha_eq body1 body2) \/
+      (exists fresh,
+        term_not_contain_var (TermQuant qtype1 qvar1 body1) fresh /\
+        term_not_contain_var (TermQuant qtype2 qvar2 body2) fresh /\
+        term_alpha_eq 
+          (term_subst_v fresh qvar1 body1) 
+          (term_subst_v fresh qvar2 body2)) ->
       term_alpha_eq (TermQuant qtype1 qvar1 body1) (TermQuant qtype2 qvar2 body2).
 
 Fixpoint term_eq (t1 t2: term) : bool :=
@@ -804,7 +826,7 @@ Proof.
     apply list_Z_eq2eqb; reflexivity.
 Qed.
 
-Lemma term_alpha_eq_symm : forall (t1 t2 : term),
+(* Lemma term_alpha_eq_symm : forall (t1 t2 : term),
   term_alpha_eq t1 t2 ->
   term_alpha_eq t2 t1.
 Proof.
@@ -830,10 +852,19 @@ Proof.
       * apply list_Z_eq2eqb; reflexivity.
       * apply H10, H8.
     - right.
-      destruct H7 as [x Hx].
-      split.
-      * admit.
-      * apply (IHt1 (term_subst_v qvar qvar0 t2) x).
+      destruct H7 as [x [Ha [Hb Hc]]].
+      exists x.
+      split; [exact Hb | split; [exact Ha | ]].
+      induction (term_subst_v x qvar t1), (term_subst_v x qvar0 t2); try inversion Hc.
+      * apply AlphaVar; auto.
+      * apply AlphaConst; try auto.
+        rewrite <- H10.
+        destruct H12; [left; auto | right; auto].
+      * apply AlphaApply. admit. admit.
+      * apply AlphaQuant; [auto | ].
+        destruct H14.
+          
+      fold term_subst_v.
 Admitted.
 
 Lemma term_alpha_eq_trans : forall (t1 t2 t3 : term),
@@ -841,7 +872,7 @@ Lemma term_alpha_eq_trans : forall (t1 t2 t3 : term),
   term_alpha_eq t2 t3 ->
   term_alpha_eq t1 t3.
 Proof.
-Admitted.
+Admitted. *)
 
 Lemma term_subst_v_same_name : forall (den src : var_name) (t : term),
   list_Z_eqb den src = true ->
@@ -871,4 +902,12 @@ Proof.
       left. split.
       * apply list_Z_eq2eqb; reflexivity.
       * apply IHt, H.
-Qed.   
+Qed.
+
+Definition prop_to_z {P : Prop} (dec : {P} + {~ P}) : Z :=
+  if dec then 1 else 0.
+
+Axiom term_alpha_eq_dec : forall t1 t2, {term_alpha_eq t1 t2} + {~ term_alpha_eq t1 t2}.
+
+Definition term_alpha_eqn (t1 t2: term) : Z :=
+  prop_to_z (term_alpha_eq_dec t1 t2).

@@ -369,7 +369,7 @@ forall (t2_pre: Z) (t1_pre: Z) (term2: term) (term1: term) ,
 
 Definition alpha_equiv_entail_wit_1_2 := 
 forall (t2_pre: Z) (t1_pre: Z) (term2: term) (term1: term) (qt2: quant_type) (qv2: (@list Z)) (qterm2: term) (qt1: quant_type) (qv1: (@list Z)) (qterm1: term) (retval: Z) (str: (@list Z)) (z2: Z) (z1: Z) (y2: Z) (y1: Z) (qt2_2: quant_type) (qv2_2: (@list Z)) (qterm2_2: term) (qt1_2: quant_type) (qv1_2: (@list Z)) (qterm1_2: term) (retval_2: Z) (retval_3: Z) (retval_4: Z) (retval_5: Z) (retval_6: Z) ,
-  [| (retval_6 = (term_eqn ((term_subst_v (str) (qv1_2) (qterm1_2))) ((term_subst_v (str) (qv2_2) (qterm2_2))))) |] 
+  [| (retval_6 = (term_alpha_eqn ((term_subst_v (str) (qv1_2) (qterm1_2))) ((term_subst_v (str) (qv2_2) (qterm2_2))))) |] 
   &&  [| (retval_5 = retval_4) |] 
   &&  [| (retval_4 <> 0) |] 
   &&  [| (retval_3 = retval_2) |] 
@@ -436,7 +436,7 @@ forall (t2_pre: Z) (t1_pre: Z) (term2: term) (term1: term) (z: Z) (y: Z) (str2: 
   **  ((&((t1_pre)  # "term" ->ₛ "content" .ₛ "Var")) # Ptr  |-> y)
   **  ((&((t2_pre)  # "term" ->ₛ "content" .ₛ "Var")) # Ptr  |-> z)
 |--
-  [| (0 = (term_eqn (term1) (term2))) |]
+  [| (0 = (term_alpha_eqn (term1) (term2))) |]
   &&  (store_term t1_pre term1 )
   **  (store_term t2_pre term2 )
 .
@@ -462,7 +462,7 @@ forall (t2_pre: Z) (t1_pre: Z) (term2: term) (term1: term) (z: Z) (y: Z) (str2: 
   **  ((&((t1_pre)  # "term" ->ₛ "content" .ₛ "Var")) # Ptr  |-> y)
   **  ((&((t2_pre)  # "term" ->ₛ "content" .ₛ "Var")) # Ptr  |-> z)
 |--
-  [| (1 = (term_eqn (term1) (term2))) |]
+  [| (1 = (term_alpha_eqn (term1) (term2))) |]
   &&  (store_term t1_pre term1 )
   **  (store_term t2_pre term2 )
 .
@@ -488,7 +488,7 @@ forall (t2_pre: Z) (t1_pre: Z) (term2: term) (term1: term) (typ2: const_type) (c
   **  ((&((t1_pre)  # "term" ->ₛ "content" .ₛ "Const" .ₛ "content")) # Int  |-> con1)
   **  ((&((t2_pre)  # "term" ->ₛ "content" .ₛ "Const" .ₛ "content")) # Int  |-> con2)
 |--
-  [| (0 = (term_eqn (term1) (term2))) |]
+  [| (0 = (term_alpha_eqn (term1) (term2))) |]
   &&  (store_term t1_pre term1 )
   **  (store_term t2_pre term2 )
 .
@@ -516,7 +516,7 @@ forall (t2_pre: Z) (t1_pre: Z) (term2: term) (term1: term) (typ2: const_type) (c
   **  ((&((t1_pre)  # "term" ->ₛ "content" .ₛ "Const" .ₛ "content")) # Int  |-> con1)
   **  ((&((t2_pre)  # "term" ->ₛ "content" .ₛ "Const" .ₛ "content")) # Int  |-> con2)
 |--
-  [| (0 = (term_eqn (term1) (term2))) |]
+  [| (0 = (term_alpha_eqn (term1) (term2))) |]
   &&  (store_term t1_pre term1 )
   **  (store_term t2_pre term2 )
 .
@@ -544,7 +544,7 @@ forall (t2_pre: Z) (t1_pre: Z) (term2: term) (term1: term) (typ2: const_type) (c
   **  ((&((t1_pre)  # "term" ->ₛ "content" .ₛ "Const" .ₛ "content")) # Int  |-> con1)
   **  ((&((t2_pre)  # "term" ->ₛ "content" .ₛ "Const" .ₛ "content")) # Int  |-> con2)
 |--
-  [| (1 = (term_eqn (term1) (term2))) |]
+  [| (1 = (term_alpha_eqn (term1) (term2))) |]
   &&  (store_term t1_pre term1 )
   **  (store_term t2_pre term2 )
 .
@@ -571,7 +571,7 @@ forall (t2_pre: Z) (t1_pre: Z) (term2: term) (term1: term) (typ2: const_type) (c
   **  ((&((t1_pre)  # "term" ->ₛ "content" .ₛ "Const" .ₛ "content")) # Int  |-> con1)
   **  ((&((t2_pre)  # "term" ->ₛ "content" .ₛ "Const" .ₛ "content")) # Int  |-> con2)
 |--
-  [| (1 = (term_eqn (term1) (term2))) |]
+  [| (1 = (term_alpha_eqn (term1) (term2))) |]
   &&  (store_term t1_pre term1 )
   **  (store_term t2_pre term2 )
 .
@@ -579,9 +579,9 @@ forall (t2_pre: Z) (t1_pre: Z) (term2: term) (term1: term) (typ2: const_type) (c
 Definition alpha_equiv_return_wit_5_1 := 
 forall (t2_pre: Z) (t1_pre: Z) (term2: term) (term1: term) (z2: Z) (z1: Z) (y2: Z) (y1: Z) (lt2: term) (rt2: term) (lt1: term) (rt1: term) (retval_2: Z) (retval: Z) ,
   [| (retval <> 0) |] 
-  &&  [| (retval = (term_eqn (rt1) (rt2))) |] 
+  &&  [| (retval = (term_alpha_eqn (rt1) (rt2))) |] 
   &&  [| (retval_2 <> 0) |] 
-  &&  [| (retval_2 = (term_eqn (lt1) (lt2))) |] 
+  &&  [| (retval_2 = (term_alpha_eqn (lt1) (lt2))) |] 
   &&  [| (t1_pre <> 0) |] 
   &&  [| (t2_pre <> 0) |] 
   &&  [| (term1 = (TermApply (lt1) (rt1))) |] 
@@ -605,7 +605,7 @@ forall (t2_pre: Z) (t1_pre: Z) (term2: term) (term1: term) (z2: Z) (z1: Z) (y2: 
   **  ((&((t1_pre)  # "term" ->ₛ "content" .ₛ "Apply" .ₛ "right")) # Ptr  |-> z1)
   **  ((&((t2_pre)  # "term" ->ₛ "content" .ₛ "Apply" .ₛ "right")) # Ptr  |-> z2)
 |--
-  [| (1 = (term_eqn (term1) (term2))) |]
+  [| (1 = (term_alpha_eqn (term1) (term2))) |]
   &&  (store_term t1_pre term1 )
   **  (store_term t2_pre term2 )
 .
@@ -613,9 +613,9 @@ forall (t2_pre: Z) (t1_pre: Z) (term2: term) (term1: term) (z2: Z) (z1: Z) (y2: 
 Definition alpha_equiv_return_wit_5_2 := 
 forall (t2_pre: Z) (t1_pre: Z) (term2: term) (term1: term) (z2: Z) (z1: Z) (y2: Z) (y1: Z) (lt2: term) (rt2: term) (lt1: term) (rt1: term) (retval_2: Z) (retval: Z) ,
   [| (retval = 0) |] 
-  &&  [| (retval = (term_eqn (rt1) (rt2))) |] 
+  &&  [| (retval = (term_alpha_eqn (rt1) (rt2))) |] 
   &&  [| (retval_2 <> 0) |] 
-  &&  [| (retval_2 = (term_eqn (lt1) (lt2))) |] 
+  &&  [| (retval_2 = (term_alpha_eqn (lt1) (lt2))) |] 
   &&  [| (t1_pre <> 0) |] 
   &&  [| (t2_pre <> 0) |] 
   &&  [| (term1 = (TermApply (lt1) (rt1))) |] 
@@ -639,7 +639,7 @@ forall (t2_pre: Z) (t1_pre: Z) (term2: term) (term1: term) (z2: Z) (z1: Z) (y2: 
   **  ((&((t1_pre)  # "term" ->ₛ "content" .ₛ "Apply" .ₛ "right")) # Ptr  |-> z1)
   **  ((&((t2_pre)  # "term" ->ₛ "content" .ₛ "Apply" .ₛ "right")) # Ptr  |-> z2)
 |--
-  [| (0 = (term_eqn (term1) (term2))) |]
+  [| (0 = (term_alpha_eqn (term1) (term2))) |]
   &&  (store_term t1_pre term1 )
   **  (store_term t2_pre term2 )
 .
@@ -647,7 +647,7 @@ forall (t2_pre: Z) (t1_pre: Z) (term2: term) (term1: term) (z2: Z) (z1: Z) (y2: 
 Definition alpha_equiv_return_wit_5_3 := 
 forall (t2_pre: Z) (t1_pre: Z) (term2: term) (term1: term) (z2: Z) (z1: Z) (y2: Z) (y1: Z) (lt2: term) (rt2: term) (lt1: term) (rt1: term) (retval: Z) ,
   [| (retval = 0) |] 
-  &&  [| (retval = (term_eqn (lt1) (lt2))) |] 
+  &&  [| (retval = (term_alpha_eqn (lt1) (lt2))) |] 
   &&  [| (t1_pre <> 0) |] 
   &&  [| (t2_pre <> 0) |] 
   &&  [| (term1 = (TermApply (lt1) (rt1))) |] 
@@ -671,7 +671,7 @@ forall (t2_pre: Z) (t1_pre: Z) (term2: term) (term1: term) (z2: Z) (z1: Z) (y2: 
   **  (store_term z1 rt1 )
   **  (store_term z2 rt2 )
 |--
-  [| (0 = (term_eqn (term1) (term2))) |]
+  [| (0 = (term_alpha_eqn (term1) (term2))) |]
   &&  (store_term t1_pre term1 )
   **  (store_term t2_pre term2 )
 .
@@ -705,14 +705,14 @@ forall (t2_pre: Z) (t1_pre: Z) (term2: term) (term1: term) (z2: Z) (z1: Z) (y2: 
   **  (store_string y2 qv2 )
   **  (store_term z2 qterm2 )
 |--
-  [| (0 = (term_eqn (term1) (term2))) |]
+  [| (0 = (term_alpha_eqn (term1) (term2))) |]
   &&  (store_term t1_pre term1 )
   **  (store_term t2_pre term2 )
 .
 
 Definition alpha_equiv_return_wit_7 := 
 forall (t2_pre: Z) (t1_pre: Z) (term2: term) (term1: term) (z2: Z) (z1: Z) (y2: Z) (y1: Z) (qt2: quant_type) (qv2: (@list Z)) (qterm2: term) (qt1: quant_type) (qv1: (@list Z)) (qterm1: term) (retval_2: Z) (retval: Z) ,
-  [| (retval = (term_eqn (qterm1) (qterm2))) |] 
+  [| (retval = (term_alpha_eqn (qterm1) (qterm2))) |] 
   &&  [| (retval_2 = 0) |] 
   &&  [| (retval_2 = (list_Z_cmp (qv1) (qv2))) |] 
   &&  [| ((qtID (qt1)) = (qtID (qt2))) |] 
@@ -742,7 +742,7 @@ forall (t2_pre: Z) (t1_pre: Z) (term2: term) (term1: term) (z2: Z) (z1: Z) (y2: 
   **  ((&((t1_pre)  # "term" ->ₛ "content" .ₛ "Quant" .ₛ "body")) # Ptr  |-> z1)
   **  ((&((t2_pre)  # "term" ->ₛ "content" .ₛ "Quant" .ₛ "body")) # Ptr  |-> z2)
 |--
-  [| (retval = (term_eqn (term1) (term2))) |]
+  [| (retval = (term_alpha_eqn (term1) (term2))) |]
   &&  (store_term t1_pre term1 )
   **  (store_term t2_pre term2 )
 .
@@ -754,7 +754,7 @@ forall (t2_pre: Z) (t1_pre: Z) (term2: term) (term1: term) ,
   &&  (store_term t1_pre term1 )
   **  (store_term t2_pre term2 )
 |--
-  [| (0 = (term_eqn (term1) (term2))) |]
+  [| (0 = (term_alpha_eqn (term1) (term2))) |]
   &&  (store_term t1_pre term1 )
   **  (store_term t2_pre term2 )
 .
@@ -765,7 +765,7 @@ forall (t2_pre: Z) (t1_pre: Z) (term2: term) (term1: term) ,
   &&  (store_term t1_pre term1 )
   **  (store_term t2_pre term2 )
 |--
-  [| (0 = (term_eqn (term1) (term2))) |]
+  [| (0 = (term_alpha_eqn (term1) (term2))) |]
   &&  (store_term t1_pre term1 )
   **  (store_term t2_pre term2 )
 .
@@ -782,7 +782,7 @@ forall (t2_pre: Z) (t1_pre: Z) (term2: term) (term1: term) ,
   **  (store_term' t1_pre term1 )
   **  (store_term' t2_pre term2 )
 |--
-  [| (0 = (term_eqn (term1) (term2))) |]
+  [| (0 = (term_alpha_eqn (term1) (term2))) |]
   &&  (store_term t1_pre term1 )
   **  (store_term t2_pre term2 )
 .
@@ -1054,7 +1054,7 @@ forall (t2_pre: Z) (t1_pre: Z) (term2: term) (term1: term) (z2: Z) (z1: Z) (y2: 
 Definition alpha_equiv_partial_solve_wit_7 := 
 forall (t2_pre: Z) (t1_pre: Z) (term2: term) (term1: term) (z2: Z) (z1: Z) (y2: Z) (y1: Z) (lt2: term) (rt2: term) (lt1: term) (rt1: term) (retval: Z) ,
   [| (retval <> 0) |] 
-  &&  [| (retval = (term_eqn (lt1) (lt2))) |] 
+  &&  [| (retval = (term_alpha_eqn (lt1) (lt2))) |] 
   &&  [| (t1_pre <> 0) |] 
   &&  [| (t2_pre <> 0) |] 
   &&  [| (term1 = (TermApply (lt1) (rt1))) |] 
@@ -1079,7 +1079,7 @@ forall (t2_pre: Z) (t1_pre: Z) (term2: term) (term1: term) (z2: Z) (z1: Z) (y2: 
   **  (store_term z2 rt2 )
 |--
   [| (retval <> 0) |] 
-  &&  [| (retval = (term_eqn (lt1) (lt2))) |] 
+  &&  [| (retval = (term_alpha_eqn (lt1) (lt2))) |] 
   &&  [| (t1_pre <> 0) |] 
   &&  [| (t2_pre <> 0) |] 
   &&  [| (term1 = (TermApply (lt1) (rt1))) |] 
@@ -1998,7 +1998,7 @@ forall (t2_pre: Z) (t1_pre: Z) (term2: term) (term1: term) (qt2: quant_type) (qv
 
 Definition alpha_equiv_partial_solve_wit_19 := 
 forall (t2_pre: Z) (t1_pre: Z) (term2: term) (term1: term) (qt2: quant_type) (qv2: (@list Z)) (qterm2: term) (qt1: quant_type) (qv1: (@list Z)) (qterm1: term) (retval: Z) (str: (@list Z)) (retval_2: Z) (z2: Z) (z1: Z) (y2: Z) (y1: Z) (qt2_2: quant_type) (qv2_2: (@list Z)) (qterm2_2: term) (qt1_2: quant_type) (qv1_2: (@list Z)) (qterm1_2: term) (retval_3: Z) (retval_4: Z) (retval_5: Z) (retval_6: Z) (retval_7: Z) ,
-  [| (retval_7 = (term_eqn ((term_subst_v (str) (qv1_2) (qterm1_2))) ((term_subst_v (str) (qv2_2) (qterm2_2))))) |] 
+  [| (retval_7 = (term_alpha_eqn ((term_subst_v (str) (qv1_2) (qterm1_2))) ((term_subst_v (str) (qv2_2) (qterm2_2))))) |] 
   &&  [| (retval_6 = retval_5) |] 
   &&  [| (retval_5 <> 0) |] 
   &&  [| (retval_4 = retval_3) |] 
@@ -2041,7 +2041,7 @@ forall (t2_pre: Z) (t1_pre: Z) (term2: term) (term1: term) (qt2: quant_type) (qv
   **  ((&((t1_pre)  # "term" ->ₛ "content" .ₛ "Quant" .ₛ "body")) # Ptr  |-> z1)
   **  ((&((t2_pre)  # "term" ->ₛ "content" .ₛ "Quant" .ₛ "body")) # Ptr  |-> z2)
 |--
-  [| (retval_7 = (term_eqn ((term_subst_v (str) (qv1_2) (qterm1_2))) ((term_subst_v (str) (qv2_2) (qterm2_2))))) |] 
+  [| (retval_7 = (term_alpha_eqn ((term_subst_v (str) (qv1_2) (qterm1_2))) ((term_subst_v (str) (qv2_2) (qterm2_2))))) |] 
   &&  [| (retval_6 = retval_5) |] 
   &&  [| (retval_5 <> 0) |] 
   &&  [| (retval_4 = retval_3) |] 
@@ -2087,7 +2087,7 @@ forall (t2_pre: Z) (t1_pre: Z) (term2: term) (term1: term) (qt2: quant_type) (qv
 
 Definition alpha_equiv_partial_solve_wit_20 := 
 forall (t2_pre: Z) (t1_pre: Z) (term2: term) (term1: term) (qt2: quant_type) (qv2: (@list Z)) (qterm2: term) (qt1: quant_type) (qv1: (@list Z)) (qterm1: term) (retval: Z) (str: (@list Z)) (retval_2: Z) (z2: Z) (z1: Z) (y2: Z) (y1: Z) (qt2_2: quant_type) (qv2_2: (@list Z)) (qterm2_2: term) (qt1_2: quant_type) (qv1_2: (@list Z)) (qterm1_2: term) (retval_3: Z) (retval_4: Z) (retval_5: Z) (retval_6: Z) (retval_7: Z) ,
-  [| (retval_7 = (term_eqn ((term_subst_v (str) (qv1_2) (qterm1_2))) ((term_subst_v (str) (qv2_2) (qterm2_2))))) |] 
+  [| (retval_7 = (term_alpha_eqn ((term_subst_v (str) (qv1_2) (qterm1_2))) ((term_subst_v (str) (qv2_2) (qterm2_2))))) |] 
   &&  [| (retval_6 = retval_5) |] 
   &&  [| (retval_5 <> 0) |] 
   &&  [| (retval_4 = retval_3) |] 
@@ -2129,7 +2129,7 @@ forall (t2_pre: Z) (t1_pre: Z) (term2: term) (term1: term) (qt2: quant_type) (qv
   **  ((&((t1_pre)  # "term" ->ₛ "content" .ₛ "Quant" .ₛ "body")) # Ptr  |-> z1)
   **  ((&((t2_pre)  # "term" ->ₛ "content" .ₛ "Quant" .ₛ "body")) # Ptr  |-> z2)
 |--
-  [| (retval_7 = (term_eqn ((term_subst_v (str) (qv1_2) (qterm1_2))) ((term_subst_v (str) (qv2_2) (qterm2_2))))) |] 
+  [| (retval_7 = (term_alpha_eqn ((term_subst_v (str) (qv1_2) (qterm1_2))) ((term_subst_v (str) (qv2_2) (qterm2_2))))) |] 
   &&  [| (retval_6 = retval_5) |] 
   &&  [| (retval_5 <> 0) |] 
   &&  [| (retval_4 = retval_3) |] 
@@ -2174,7 +2174,7 @@ forall (t2_pre: Z) (t1_pre: Z) (term2: term) (term1: term) (qt2: quant_type) (qv
 
 Definition alpha_equiv_partial_solve_wit_21_pure := 
 forall (t2_pre: Z) (t1_pre: Z) (term2: term) (term1: term) (qt2: quant_type) (qv2: (@list Z)) (qterm2: term) (qt1: quant_type) (qv1: (@list Z)) (qterm1: term) (retval_2: Z) (str: (@list Z)) (retval: Z) (z2: Z) (z1: Z) (y2: Z) (y1: Z) (qt2_2: quant_type) (qv2_2: (@list Z)) (qterm2_2: term) (qt1_2: quant_type) (qv1_2: (@list Z)) (qterm1_2: term) (retval_3: Z) (retval_4: Z) (retval_5: Z) (retval_6: Z) (retval_7: Z) ,
-  [| (retval_7 = (term_eqn ((term_subst_v (str) (qv1_2) (qterm1_2))) ((term_subst_v (str) (qv2_2) (qterm2_2))))) |] 
+  [| (retval_7 = (term_alpha_eqn ((term_subst_v (str) (qv1_2) (qterm1_2))) ((term_subst_v (str) (qv2_2) (qterm2_2))))) |] 
   &&  [| (retval_6 = retval_5) |] 
   &&  [| (retval_5 <> 0) |] 
   &&  [| (retval_4 = retval_3) |] 
@@ -2226,7 +2226,7 @@ forall (t2_pre: Z) (t1_pre: Z) (term2: term) (term1: term) (qt2: quant_type) (qv
 
 Definition alpha_equiv_partial_solve_wit_21_aux := 
 forall (t2_pre: Z) (t1_pre: Z) (term2: term) (term1: term) (qt2: quant_type) (qv2: (@list Z)) (qterm2: term) (qt1: quant_type) (qv1: (@list Z)) (qterm1: term) (retval: Z) (str: (@list Z)) (retval_2: Z) (z2: Z) (z1: Z) (y2: Z) (y1: Z) (qt2_2: quant_type) (qv2_2: (@list Z)) (qterm2_2: term) (qt1_2: quant_type) (qv1_2: (@list Z)) (qterm1_2: term) (retval_3: Z) (retval_4: Z) (retval_5: Z) (retval_6: Z) (retval_7: Z) ,
-  [| (retval_7 = (term_eqn ((term_subst_v (str) (qv1_2) (qterm1_2))) ((term_subst_v (str) (qv2_2) (qterm2_2))))) |] 
+  [| (retval_7 = (term_alpha_eqn ((term_subst_v (str) (qv1_2) (qterm1_2))) ((term_subst_v (str) (qv2_2) (qterm2_2))))) |] 
   &&  [| (retval_6 = retval_5) |] 
   &&  [| (retval_5 <> 0) |] 
   &&  [| (retval_4 = retval_3) |] 
@@ -2268,7 +2268,7 @@ forall (t2_pre: Z) (t1_pre: Z) (term2: term) (term1: term) (qt2: quant_type) (qv
   **  ((&((t2_pre)  # "term" ->ₛ "content" .ₛ "Quant" .ₛ "body")) # Ptr  |-> z2)
 |--
   [| (retval_2 <> 0) |] 
-  &&  [| (retval_7 = (term_eqn ((term_subst_v (str) (qv1_2) (qterm1_2))) ((term_subst_v (str) (qv2_2) (qterm2_2))))) |] 
+  &&  [| (retval_7 = (term_alpha_eqn ((term_subst_v (str) (qv1_2) (qterm1_2))) ((term_subst_v (str) (qv2_2) (qterm2_2))))) |] 
   &&  [| (retval_6 = retval_5) |] 
   &&  [| (retval_5 <> 0) |] 
   &&  [| (retval_4 = retval_3) |] 
