@@ -26,7 +26,7 @@
                (store_solve_res' : Z -> solve_res -> Assertion)
                (store_ImplyProp : Z -> Z -> Z -> term -> term -> Assertion)
                (list_Z_cmp : list Z -> list Z -> Z)
-               (term_alpha_eqn : term -> term -> Z)
+               (term_alpha_eq : term -> term -> Prop)
                (term_subst_v : list Z -> list Z -> term -> term)
                (term_subst_t : term -> list Z -> term -> term)
                (ctID : const_type -> Z)
@@ -254,9 +254,10 @@ term *subst_term(term *den, char *src, term *t)
 
 bool alpha_equiv(term *t1, term *t2)
     /*@ With term1 term2
-          Require store_term(t1, term1) *
-                  store_term(t2, term2)
-          Ensure __return == term_alpha_eqn(term1, term2) && t1 == t1@pre && t2 == t2@pre
-      && store_term(t1, term1) * store_term(t2, term2)
+      Require store_term(t1, term1) *
+              store_term(t2, term2)
+      Ensure (__return == 1 && term_alpha_eq(term1, term2) || __return == 0 && term_alpha_eq(term1, term2))
+       && t1 == t1@pre && t2 == t2@pre
+       && store_term(t1, term1) * store_term(t2, term2)
     */
     ;

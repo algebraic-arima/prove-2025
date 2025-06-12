@@ -254,6 +254,76 @@ forall (t2_pre: Z) (t1_pre: Z) (term2: term) (term1: term) ,
 .
 
 Definition alpha_equiv_safety_wit_13 := 
+forall (t2_pre: Z) (t1_pre: Z) (term2: term) (term1: term) (z2: Z) (z1: Z) (y2: Z) (y1: Z) (lt2: term) (rt2: term) (lt1: term) (rt1: term) (retval_2: Z) (retval: Z) ,
+  [| (retval = 0) |] 
+  &&  [| ~((term_alpha_eq rt1 rt2 )) |] 
+  &&  [| (retval_2 <> 0) |] 
+  &&  [| (retval_2 = 0) |] 
+  &&  [| ~((term_alpha_eq lt1 lt2 )) |] 
+  &&  [| (t1_pre <> 0) |] 
+  &&  [| (t2_pre <> 0) |] 
+  &&  [| (term1 = (TermApply (lt1) (rt1))) |] 
+  &&  [| (term2 = (TermApply (lt2) (rt2))) |] 
+  &&  [| ((termtypeID (term1)) = (termtypeID (term2))) |] 
+  &&  [| (t1_pre <> 0) |] 
+  &&  [| (t2_pre <> 0) |] 
+  &&  [| (t2_pre <> 0) |] 
+  &&  [| (t1_pre <> 0) |] 
+  &&  [| ((termtypeID (term1)) <> 0) |] 
+  &&  [| ((termtypeID (term1)) <> 1) |] 
+  &&  [| ((termtypeID (term1)) = 2) |]
+  &&  (store_term z1 rt1 )
+  **  (store_term z2 rt2 )
+  **  (store_term y1 lt1 )
+  **  (store_term y2 lt2 )
+  **  ((( &( "t1" ) )) # Ptr  |-> t1_pre)
+  **  ((( &( "t2" ) )) # Ptr  |-> t2_pre)
+  **  ((&((t1_pre)  # "term" ->ₛ "type")) # Int  |-> (termtypeID (term1)))
+  **  ((&((t2_pre)  # "term" ->ₛ "type")) # Int  |-> (termtypeID (term2)))
+  **  ((&((t1_pre)  # "term" ->ₛ "content" .ₛ "Apply" .ₛ "left")) # Ptr  |-> y1)
+  **  ((&((t2_pre)  # "term" ->ₛ "content" .ₛ "Apply" .ₛ "left")) # Ptr  |-> y2)
+  **  ((&((t1_pre)  # "term" ->ₛ "content" .ₛ "Apply" .ₛ "right")) # Ptr  |-> z1)
+  **  ((&((t2_pre)  # "term" ->ₛ "content" .ₛ "Apply" .ₛ "right")) # Ptr  |-> z2)
+|--
+  [| False |]
+.
+
+Definition alpha_equiv_safety_wit_14 := 
+forall (t2_pre: Z) (t1_pre: Z) (term2: term) (term1: term) (z2: Z) (z1: Z) (y2: Z) (y1: Z) (lt2: term) (rt2: term) (lt1: term) (rt1: term) (retval_2: Z) (retval: Z) ,
+  [| (retval = 1) |] 
+  &&  [| (term_alpha_eq rt1 rt2 ) |] 
+  &&  [| (retval_2 <> 0) |] 
+  &&  [| (retval_2 = 0) |] 
+  &&  [| ~((term_alpha_eq lt1 lt2 )) |] 
+  &&  [| (t1_pre <> 0) |] 
+  &&  [| (t2_pre <> 0) |] 
+  &&  [| (term1 = (TermApply (lt1) (rt1))) |] 
+  &&  [| (term2 = (TermApply (lt2) (rt2))) |] 
+  &&  [| ((termtypeID (term1)) = (termtypeID (term2))) |] 
+  &&  [| (t1_pre <> 0) |] 
+  &&  [| (t2_pre <> 0) |] 
+  &&  [| (t2_pre <> 0) |] 
+  &&  [| (t1_pre <> 0) |] 
+  &&  [| ((termtypeID (term1)) <> 0) |] 
+  &&  [| ((termtypeID (term1)) <> 1) |] 
+  &&  [| ((termtypeID (term1)) = 2) |]
+  &&  (store_term z1 rt1 )
+  **  (store_term z2 rt2 )
+  **  (store_term y1 lt1 )
+  **  (store_term y2 lt2 )
+  **  ((( &( "t1" ) )) # Ptr  |-> t1_pre)
+  **  ((( &( "t2" ) )) # Ptr  |-> t2_pre)
+  **  ((&((t1_pre)  # "term" ->ₛ "type")) # Int  |-> (termtypeID (term1)))
+  **  ((&((t2_pre)  # "term" ->ₛ "type")) # Int  |-> (termtypeID (term2)))
+  **  ((&((t1_pre)  # "term" ->ₛ "content" .ₛ "Apply" .ₛ "left")) # Ptr  |-> y1)
+  **  ((&((t2_pre)  # "term" ->ₛ "content" .ₛ "Apply" .ₛ "left")) # Ptr  |-> y2)
+  **  ((&((t1_pre)  # "term" ->ₛ "content" .ₛ "Apply" .ₛ "right")) # Ptr  |-> z1)
+  **  ((&((t2_pre)  # "term" ->ₛ "content" .ₛ "Apply" .ₛ "right")) # Ptr  |-> z2)
+|--
+  [| False |]
+.
+
+Definition alpha_equiv_safety_wit_15 := 
 forall (t2_pre: Z) (t1_pre: Z) (term2: term) (term1: term) ,
   [| ((termtypeID (term1)) = (termtypeID (term2))) |] 
   &&  [| (t1_pre <> 0) |] 
@@ -274,7 +344,7 @@ forall (t2_pre: Z) (t1_pre: Z) (term2: term) (term1: term) ,
   &&  [| ((INT_MIN) <= 3) |]
 .
 
-Definition alpha_equiv_safety_wit_14 := 
+Definition alpha_equiv_safety_wit_16 := 
 forall (t2_pre: Z) (t1_pre: Z) (term2: term) (term1: term) (z2: Z) (z1: Z) (y2: Z) (y1: Z) (qt2: quant_type) (qv2: (@list Z)) (qterm2: term) (qt1: quant_type) (qv1: (@list Z)) (qterm1: term) ,
   [| ((qtID (qt1)) <> (qtID (qt2))) |] 
   &&  [| (t1_pre <> 0) |] 
@@ -309,7 +379,7 @@ forall (t2_pre: Z) (t1_pre: Z) (term2: term) (term1: term) (z2: Z) (z1: Z) (y2: 
   &&  [| ((INT_MIN) <= 0) |]
 .
 
-Definition alpha_equiv_safety_wit_15 := 
+Definition alpha_equiv_safety_wit_17 := 
 forall (t2_pre: Z) (t1_pre: Z) (term2: term) (term1: term) (z2: Z) (z1: Z) (y2: Z) (y1: Z) (qt2: quant_type) (qv2: (@list Z)) (qterm2: term) (qt1: quant_type) (qv1: (@list Z)) (qterm1: term) (retval: Z) ,
   [| (retval = (list_Z_cmp (qv1) (qv2))) |] 
   &&  [| ((qtID (qt1)) = (qtID (qt2))) |] 
@@ -345,7 +415,7 @@ forall (t2_pre: Z) (t1_pre: Z) (term2: term) (term1: term) (z2: Z) (z1: Z) (y2: 
   &&  [| ((INT_MIN) <= 0) |]
 .
 
-Definition alpha_equiv_entail_wit_1_1 := 
+Definition alpha_equiv_entail_wit_1 := 
 forall (t2_pre: Z) (t1_pre: Z) (term2: term) (term1: term) ,
   [| ((termtypeID (term1)) = (termtypeID (term2))) |] 
   &&  [| (t1_pre <> 0) |] 
@@ -362,54 +432,6 @@ forall (t2_pre: Z) (t1_pre: Z) (term2: term) (term1: term) ,
   **  ((&((t2_pre)  # "term" ->ₛ "type")) # Int  |-> (termtypeID (term2)))
   **  (store_term' t1_pre term1 )
   **  (store_term' t2_pre term2 )
-|--
-  [| False |]
-  &&  emp
-.
-
-Definition alpha_equiv_entail_wit_1_2 := 
-forall (t2_pre: Z) (t1_pre: Z) (term2: term) (term1: term) (qt2: quant_type) (qv2: (@list Z)) (qterm2: term) (qt1: quant_type) (qv1: (@list Z)) (qterm1: term) (retval: Z) (str: (@list Z)) (z2: Z) (z1: Z) (y2: Z) (y1: Z) (qt2_2: quant_type) (qv2_2: (@list Z)) (qterm2_2: term) (qt1_2: quant_type) (qv1_2: (@list Z)) (qterm1_2: term) (retval_2: Z) (retval_3: Z) (retval_4: Z) (retval_5: Z) (retval_6: Z) ,
-  [| (retval_6 = (term_alpha_eqn ((term_subst_v (str) (qv1_2) (qterm1_2))) ((term_subst_v (str) (qv2_2) (qterm2_2))))) |] 
-  &&  [| (retval_5 = retval_4) |] 
-  &&  [| (retval_4 <> 0) |] 
-  &&  [| (retval_3 = retval_2) |] 
-  &&  [| (retval_2 <> 0) |] 
-  &&  [| (t1_pre <> 0) |] 
-  &&  [| (t2_pre <> 0) |] 
-  &&  [| (term1 = (TermQuant (qt1_2) (qv1_2) (qterm1_2))) |] 
-  &&  [| (term2 = (TermQuant (qt2_2) (qv2_2) (qterm2_2))) |] 
-  &&  [| (term_not_contain_var term1 str ) |] 
-  &&  [| (term_not_contain_var term2 str ) |] 
-  &&  [| (retval <> 0) |] 
-  &&  [| (retval = (list_Z_cmp (qv1) (qv2))) |] 
-  &&  [| ((qtID (qt1)) = (qtID (qt2))) |] 
-  &&  [| (t1_pre <> 0) |] 
-  &&  [| (t2_pre <> 0) |] 
-  &&  [| (term1 = (TermQuant (qt1) (qv1) (qterm1))) |] 
-  &&  [| (term2 = (TermQuant (qt2) (qv2) (qterm2))) |] 
-  &&  [| ((termtypeID (term1)) = (termtypeID (term2))) |] 
-  &&  [| (t1_pre <> 0) |] 
-  &&  [| (t2_pre <> 0) |] 
-  &&  [| (t2_pre <> 0) |] 
-  &&  [| (t1_pre <> 0) |] 
-  &&  [| ((termtypeID (term1)) <> 0) |] 
-  &&  [| ((termtypeID (term1)) <> 1) |] 
-  &&  [| ((termtypeID (term1)) <> 2) |] 
-  &&  [| ((termtypeID (term1)) = 3) |]
-  &&  (store_string y2 qv2_2 )
-  **  (store_term z2 qterm2_2 )
-  **  (store_string y1 qv1_2 )
-  **  (store_term z1 qterm1_2 )
-  **  ((( &( "t1" ) )) # Ptr  |-> t1_pre)
-  **  ((( &( "t2" ) )) # Ptr  |-> t2_pre)
-  **  ((&((t1_pre)  # "term" ->ₛ "type")) # Int  |-> (termtypeID (term1)))
-  **  ((&((t2_pre)  # "term" ->ₛ "type")) # Int  |-> (termtypeID (term2)))
-  **  ((&((t1_pre)  # "term" ->ₛ "content" .ₛ "Quant" .ₛ "type")) # Int  |-> (qtID (qt1_2)))
-  **  ((&((t2_pre)  # "term" ->ₛ "content" .ₛ "Quant" .ₛ "type")) # Int  |-> (qtID (qt2_2)))
-  **  ((&((t1_pre)  # "term" ->ₛ "content" .ₛ "Quant" .ₛ "var")) # Ptr  |-> y1)
-  **  ((&((t2_pre)  # "term" ->ₛ "content" .ₛ "Quant" .ₛ "var")) # Ptr  |-> y2)
-  **  ((&((t1_pre)  # "term" ->ₛ "content" .ₛ "Quant" .ₛ "body")) # Ptr  |-> z1)
-  **  ((&((t2_pre)  # "term" ->ₛ "content" .ₛ "Quant" .ₛ "body")) # Ptr  |-> z2)
 |--
   [| False |]
   &&  emp
@@ -436,9 +458,15 @@ forall (t2_pre: Z) (t1_pre: Z) (term2: term) (term1: term) (z: Z) (y: Z) (str2: 
   **  ((&((t1_pre)  # "term" ->ₛ "content" .ₛ "Var")) # Ptr  |-> y)
   **  ((&((t2_pre)  # "term" ->ₛ "content" .ₛ "Var")) # Ptr  |-> z)
 |--
-  [| (0 = (term_alpha_eqn (term1) (term2))) |]
+  ([| (0 = 0) |] 
+  &&  [| ~((term_alpha_eq term1 term2 )) |]
   &&  (store_term t1_pre term1 )
-  **  (store_term t2_pre term2 )
+  **  (store_term t2_pre term2 ))
+  ||
+  ([| (0 = 1) |] 
+  &&  [| (term_alpha_eq term1 term2 ) |]
+  &&  (store_term t1_pre term1 )
+  **  (store_term t2_pre term2 ))
 .
 
 Definition alpha_equiv_return_wit_1_2 := 
@@ -462,9 +490,15 @@ forall (t2_pre: Z) (t1_pre: Z) (term2: term) (term1: term) (z: Z) (y: Z) (str2: 
   **  ((&((t1_pre)  # "term" ->ₛ "content" .ₛ "Var")) # Ptr  |-> y)
   **  ((&((t2_pre)  # "term" ->ₛ "content" .ₛ "Var")) # Ptr  |-> z)
 |--
-  [| (1 = (term_alpha_eqn (term1) (term2))) |]
+  ([| (1 = 0) |] 
+  &&  [| ~((term_alpha_eq term1 term2 )) |]
   &&  (store_term t1_pre term1 )
-  **  (store_term t2_pre term2 )
+  **  (store_term t2_pre term2 ))
+  ||
+  ([| (1 = 1) |] 
+  &&  [| (term_alpha_eq term1 term2 ) |]
+  &&  (store_term t1_pre term1 )
+  **  (store_term t2_pre term2 ))
 .
 
 Definition alpha_equiv_return_wit_2 := 
@@ -488,9 +522,15 @@ forall (t2_pre: Z) (t1_pre: Z) (term2: term) (term1: term) (typ2: const_type) (c
   **  ((&((t1_pre)  # "term" ->ₛ "content" .ₛ "Const" .ₛ "content")) # Int  |-> con1)
   **  ((&((t2_pre)  # "term" ->ₛ "content" .ₛ "Const" .ₛ "content")) # Int  |-> con2)
 |--
-  [| (0 = (term_alpha_eqn (term1) (term2))) |]
+  ([| (0 = 0) |] 
+  &&  [| ~((term_alpha_eq term1 term2 )) |]
   &&  (store_term t1_pre term1 )
-  **  (store_term t2_pre term2 )
+  **  (store_term t2_pre term2 ))
+  ||
+  ([| (0 = 1) |] 
+  &&  [| (term_alpha_eq term1 term2 ) |]
+  &&  (store_term t1_pre term1 )
+  **  (store_term t2_pre term2 ))
 .
 
 Definition alpha_equiv_return_wit_3_1 := 
@@ -516,9 +556,15 @@ forall (t2_pre: Z) (t1_pre: Z) (term2: term) (term1: term) (typ2: const_type) (c
   **  ((&((t1_pre)  # "term" ->ₛ "content" .ₛ "Const" .ₛ "content")) # Int  |-> con1)
   **  ((&((t2_pre)  # "term" ->ₛ "content" .ₛ "Const" .ₛ "content")) # Int  |-> con2)
 |--
-  [| (0 = (term_alpha_eqn (term1) (term2))) |]
+  ([| (0 = 0) |] 
+  &&  [| ~((term_alpha_eq term1 term2 )) |]
   &&  (store_term t1_pre term1 )
-  **  (store_term t2_pre term2 )
+  **  (store_term t2_pre term2 ))
+  ||
+  ([| (0 = 1) |] 
+  &&  [| (term_alpha_eq term1 term2 ) |]
+  &&  (store_term t1_pre term1 )
+  **  (store_term t2_pre term2 ))
 .
 
 Definition alpha_equiv_return_wit_3_2 := 
@@ -544,9 +590,15 @@ forall (t2_pre: Z) (t1_pre: Z) (term2: term) (term1: term) (typ2: const_type) (c
   **  ((&((t1_pre)  # "term" ->ₛ "content" .ₛ "Const" .ₛ "content")) # Int  |-> con1)
   **  ((&((t2_pre)  # "term" ->ₛ "content" .ₛ "Const" .ₛ "content")) # Int  |-> con2)
 |--
-  [| (1 = (term_alpha_eqn (term1) (term2))) |]
+  ([| (1 = 0) |] 
+  &&  [| ~((term_alpha_eq term1 term2 )) |]
   &&  (store_term t1_pre term1 )
-  **  (store_term t2_pre term2 )
+  **  (store_term t2_pre term2 ))
+  ||
+  ([| (1 = 1) |] 
+  &&  [| (term_alpha_eq term1 term2 ) |]
+  &&  (store_term t1_pre term1 )
+  **  (store_term t2_pre term2 ))
 .
 
 Definition alpha_equiv_return_wit_4 := 
@@ -571,17 +623,25 @@ forall (t2_pre: Z) (t1_pre: Z) (term2: term) (term1: term) (typ2: const_type) (c
   **  ((&((t1_pre)  # "term" ->ₛ "content" .ₛ "Const" .ₛ "content")) # Int  |-> con1)
   **  ((&((t2_pre)  # "term" ->ₛ "content" .ₛ "Const" .ₛ "content")) # Int  |-> con2)
 |--
-  [| (1 = (term_alpha_eqn (term1) (term2))) |]
+  ([| (1 = 0) |] 
+  &&  [| ~((term_alpha_eq term1 term2 )) |]
   &&  (store_term t1_pre term1 )
-  **  (store_term t2_pre term2 )
+  **  (store_term t2_pre term2 ))
+  ||
+  ([| (1 = 1) |] 
+  &&  [| (term_alpha_eq term1 term2 ) |]
+  &&  (store_term t1_pre term1 )
+  **  (store_term t2_pre term2 ))
 .
 
 Definition alpha_equiv_return_wit_5_1 := 
 forall (t2_pre: Z) (t1_pre: Z) (term2: term) (term1: term) (z2: Z) (z1: Z) (y2: Z) (y1: Z) (lt2: term) (rt2: term) (lt1: term) (rt1: term) (retval_2: Z) (retval: Z) ,
   [| (retval <> 0) |] 
-  &&  [| (retval = (term_alpha_eqn (rt1) (rt2))) |] 
+  &&  [| (retval = 1) |] 
+  &&  [| (term_alpha_eq rt1 rt2 ) |] 
   &&  [| (retval_2 <> 0) |] 
-  &&  [| (retval_2 = (term_alpha_eqn (lt1) (lt2))) |] 
+  &&  [| (retval_2 = 1) |] 
+  &&  [| (term_alpha_eq lt1 lt2 ) |] 
   &&  [| (t1_pre <> 0) |] 
   &&  [| (t2_pre <> 0) |] 
   &&  [| (term1 = (TermApply (lt1) (rt1))) |] 
@@ -605,17 +665,25 @@ forall (t2_pre: Z) (t1_pre: Z) (term2: term) (term1: term) (z2: Z) (z1: Z) (y2: 
   **  ((&((t1_pre)  # "term" ->ₛ "content" .ₛ "Apply" .ₛ "right")) # Ptr  |-> z1)
   **  ((&((t2_pre)  # "term" ->ₛ "content" .ₛ "Apply" .ₛ "right")) # Ptr  |-> z2)
 |--
-  [| (1 = (term_alpha_eqn (term1) (term2))) |]
+  ([| (1 = 0) |] 
+  &&  [| ~((term_alpha_eq term1 term2 )) |]
   &&  (store_term t1_pre term1 )
-  **  (store_term t2_pre term2 )
+  **  (store_term t2_pre term2 ))
+  ||
+  ([| (1 = 1) |] 
+  &&  [| (term_alpha_eq term1 term2 ) |]
+  &&  (store_term t1_pre term1 )
+  **  (store_term t2_pre term2 ))
 .
 
 Definition alpha_equiv_return_wit_5_2 := 
 forall (t2_pre: Z) (t1_pre: Z) (term2: term) (term1: term) (z2: Z) (z1: Z) (y2: Z) (y1: Z) (lt2: term) (rt2: term) (lt1: term) (rt1: term) (retval_2: Z) (retval: Z) ,
   [| (retval = 0) |] 
-  &&  [| (retval = (term_alpha_eqn (rt1) (rt2))) |] 
+  &&  [| (retval = 1) |] 
+  &&  [| (term_alpha_eq rt1 rt2 ) |] 
   &&  [| (retval_2 <> 0) |] 
-  &&  [| (retval_2 = (term_alpha_eqn (lt1) (lt2))) |] 
+  &&  [| (retval_2 = 1) |] 
+  &&  [| (term_alpha_eq lt1 lt2 ) |] 
   &&  [| (t1_pre <> 0) |] 
   &&  [| (t2_pre <> 0) |] 
   &&  [| (term1 = (TermApply (lt1) (rt1))) |] 
@@ -639,15 +707,106 @@ forall (t2_pre: Z) (t1_pre: Z) (term2: term) (term1: term) (z2: Z) (z1: Z) (y2: 
   **  ((&((t1_pre)  # "term" ->ₛ "content" .ₛ "Apply" .ₛ "right")) # Ptr  |-> z1)
   **  ((&((t2_pre)  # "term" ->ₛ "content" .ₛ "Apply" .ₛ "right")) # Ptr  |-> z2)
 |--
-  [| (0 = (term_alpha_eqn (term1) (term2))) |]
+  ([| (0 = 0) |] 
+  &&  [| ~((term_alpha_eq term1 term2 )) |]
   &&  (store_term t1_pre term1 )
-  **  (store_term t2_pre term2 )
+  **  (store_term t2_pre term2 ))
+  ||
+  ([| (0 = 1) |] 
+  &&  [| (term_alpha_eq term1 term2 ) |]
+  &&  (store_term t1_pre term1 )
+  **  (store_term t2_pre term2 ))
 .
 
 Definition alpha_equiv_return_wit_5_3 := 
+forall (t2_pre: Z) (t1_pre: Z) (term2: term) (term1: term) (z2: Z) (z1: Z) (y2: Z) (y1: Z) (lt2: term) (rt2: term) (lt1: term) (rt1: term) (retval_2: Z) (retval: Z) ,
+  [| (retval <> 0) |] 
+  &&  [| (retval = 0) |] 
+  &&  [| ~((term_alpha_eq rt1 rt2 )) |] 
+  &&  [| (retval_2 <> 0) |] 
+  &&  [| (retval_2 = 1) |] 
+  &&  [| (term_alpha_eq lt1 lt2 ) |] 
+  &&  [| (t1_pre <> 0) |] 
+  &&  [| (t2_pre <> 0) |] 
+  &&  [| (term1 = (TermApply (lt1) (rt1))) |] 
+  &&  [| (term2 = (TermApply (lt2) (rt2))) |] 
+  &&  [| ((termtypeID (term1)) = (termtypeID (term2))) |] 
+  &&  [| (t1_pre <> 0) |] 
+  &&  [| (t2_pre <> 0) |] 
+  &&  [| (t2_pre <> 0) |] 
+  &&  [| (t1_pre <> 0) |] 
+  &&  [| ((termtypeID (term1)) <> 0) |] 
+  &&  [| ((termtypeID (term1)) <> 1) |] 
+  &&  [| ((termtypeID (term1)) = 2) |]
+  &&  (store_term z1 rt1 )
+  **  (store_term z2 rt2 )
+  **  (store_term y1 lt1 )
+  **  (store_term y2 lt2 )
+  **  ((&((t1_pre)  # "term" ->ₛ "type")) # Int  |-> (termtypeID (term1)))
+  **  ((&((t2_pre)  # "term" ->ₛ "type")) # Int  |-> (termtypeID (term2)))
+  **  ((&((t1_pre)  # "term" ->ₛ "content" .ₛ "Apply" .ₛ "left")) # Ptr  |-> y1)
+  **  ((&((t2_pre)  # "term" ->ₛ "content" .ₛ "Apply" .ₛ "left")) # Ptr  |-> y2)
+  **  ((&((t1_pre)  # "term" ->ₛ "content" .ₛ "Apply" .ₛ "right")) # Ptr  |-> z1)
+  **  ((&((t2_pre)  # "term" ->ₛ "content" .ₛ "Apply" .ₛ "right")) # Ptr  |-> z2)
+|--
+  ([| (1 = 0) |] 
+  &&  [| ~((term_alpha_eq term1 term2 )) |]
+  &&  (store_term t1_pre term1 )
+  **  (store_term t2_pre term2 ))
+  ||
+  ([| (1 = 1) |] 
+  &&  [| (term_alpha_eq term1 term2 ) |]
+  &&  (store_term t1_pre term1 )
+  **  (store_term t2_pre term2 ))
+.
+
+Definition alpha_equiv_return_wit_5_4 := 
+forall (t2_pre: Z) (t1_pre: Z) (term2: term) (term1: term) (z2: Z) (z1: Z) (y2: Z) (y1: Z) (lt2: term) (rt2: term) (lt1: term) (rt1: term) (retval_2: Z) (retval: Z) ,
+  [| (retval = 0) |] 
+  &&  [| (retval = 0) |] 
+  &&  [| ~((term_alpha_eq rt1 rt2 )) |] 
+  &&  [| (retval_2 <> 0) |] 
+  &&  [| (retval_2 = 1) |] 
+  &&  [| (term_alpha_eq lt1 lt2 ) |] 
+  &&  [| (t1_pre <> 0) |] 
+  &&  [| (t2_pre <> 0) |] 
+  &&  [| (term1 = (TermApply (lt1) (rt1))) |] 
+  &&  [| (term2 = (TermApply (lt2) (rt2))) |] 
+  &&  [| ((termtypeID (term1)) = (termtypeID (term2))) |] 
+  &&  [| (t1_pre <> 0) |] 
+  &&  [| (t2_pre <> 0) |] 
+  &&  [| (t2_pre <> 0) |] 
+  &&  [| (t1_pre <> 0) |] 
+  &&  [| ((termtypeID (term1)) <> 0) |] 
+  &&  [| ((termtypeID (term1)) <> 1) |] 
+  &&  [| ((termtypeID (term1)) = 2) |]
+  &&  (store_term z1 rt1 )
+  **  (store_term z2 rt2 )
+  **  (store_term y1 lt1 )
+  **  (store_term y2 lt2 )
+  **  ((&((t1_pre)  # "term" ->ₛ "type")) # Int  |-> (termtypeID (term1)))
+  **  ((&((t2_pre)  # "term" ->ₛ "type")) # Int  |-> (termtypeID (term2)))
+  **  ((&((t1_pre)  # "term" ->ₛ "content" .ₛ "Apply" .ₛ "left")) # Ptr  |-> y1)
+  **  ((&((t2_pre)  # "term" ->ₛ "content" .ₛ "Apply" .ₛ "left")) # Ptr  |-> y2)
+  **  ((&((t1_pre)  # "term" ->ₛ "content" .ₛ "Apply" .ₛ "right")) # Ptr  |-> z1)
+  **  ((&((t2_pre)  # "term" ->ₛ "content" .ₛ "Apply" .ₛ "right")) # Ptr  |-> z2)
+|--
+  ([| (0 = 0) |] 
+  &&  [| ~((term_alpha_eq term1 term2 )) |]
+  &&  (store_term t1_pre term1 )
+  **  (store_term t2_pre term2 ))
+  ||
+  ([| (0 = 1) |] 
+  &&  [| (term_alpha_eq term1 term2 ) |]
+  &&  (store_term t1_pre term1 )
+  **  (store_term t2_pre term2 ))
+.
+
+Definition alpha_equiv_return_wit_5_5 := 
 forall (t2_pre: Z) (t1_pre: Z) (term2: term) (term1: term) (z2: Z) (z1: Z) (y2: Z) (y1: Z) (lt2: term) (rt2: term) (lt1: term) (rt1: term) (retval: Z) ,
   [| (retval = 0) |] 
-  &&  [| (retval = (term_alpha_eqn (lt1) (lt2))) |] 
+  &&  [| (retval = 1) |] 
+  &&  [| (term_alpha_eq lt1 lt2 ) |] 
   &&  [| (t1_pre <> 0) |] 
   &&  [| (t2_pre <> 0) |] 
   &&  [| (term1 = (TermApply (lt1) (rt1))) |] 
@@ -671,9 +830,54 @@ forall (t2_pre: Z) (t1_pre: Z) (term2: term) (term1: term) (z2: Z) (z1: Z) (y2: 
   **  (store_term z1 rt1 )
   **  (store_term z2 rt2 )
 |--
-  [| (0 = (term_alpha_eqn (term1) (term2))) |]
+  ([| (0 = 0) |] 
+  &&  [| ~((term_alpha_eq term1 term2 )) |]
   &&  (store_term t1_pre term1 )
-  **  (store_term t2_pre term2 )
+  **  (store_term t2_pre term2 ))
+  ||
+  ([| (0 = 1) |] 
+  &&  [| (term_alpha_eq term1 term2 ) |]
+  &&  (store_term t1_pre term1 )
+  **  (store_term t2_pre term2 ))
+.
+
+Definition alpha_equiv_return_wit_5_6 := 
+forall (t2_pre: Z) (t1_pre: Z) (term2: term) (term1: term) (z2: Z) (z1: Z) (y2: Z) (y1: Z) (lt2: term) (rt2: term) (lt1: term) (rt1: term) (retval: Z) ,
+  [| (retval = 0) |] 
+  &&  [| (retval = 0) |] 
+  &&  [| ~((term_alpha_eq lt1 lt2 )) |] 
+  &&  [| (t1_pre <> 0) |] 
+  &&  [| (t2_pre <> 0) |] 
+  &&  [| (term1 = (TermApply (lt1) (rt1))) |] 
+  &&  [| (term2 = (TermApply (lt2) (rt2))) |] 
+  &&  [| ((termtypeID (term1)) = (termtypeID (term2))) |] 
+  &&  [| (t1_pre <> 0) |] 
+  &&  [| (t2_pre <> 0) |] 
+  &&  [| (t2_pre <> 0) |] 
+  &&  [| (t1_pre <> 0) |] 
+  &&  [| ((termtypeID (term1)) <> 0) |] 
+  &&  [| ((termtypeID (term1)) <> 1) |] 
+  &&  [| ((termtypeID (term1)) = 2) |]
+  &&  (store_term y1 lt1 )
+  **  (store_term y2 lt2 )
+  **  ((&((t1_pre)  # "term" ->ₛ "type")) # Int  |-> (termtypeID (term1)))
+  **  ((&((t2_pre)  # "term" ->ₛ "type")) # Int  |-> (termtypeID (term2)))
+  **  ((&((t1_pre)  # "term" ->ₛ "content" .ₛ "Apply" .ₛ "left")) # Ptr  |-> y1)
+  **  ((&((t2_pre)  # "term" ->ₛ "content" .ₛ "Apply" .ₛ "left")) # Ptr  |-> y2)
+  **  ((&((t1_pre)  # "term" ->ₛ "content" .ₛ "Apply" .ₛ "right")) # Ptr  |-> z1)
+  **  ((&((t2_pre)  # "term" ->ₛ "content" .ₛ "Apply" .ₛ "right")) # Ptr  |-> z2)
+  **  (store_term z1 rt1 )
+  **  (store_term z2 rt2 )
+|--
+  ([| (0 = 0) |] 
+  &&  [| ~((term_alpha_eq term1 term2 )) |]
+  &&  (store_term t1_pre term1 )
+  **  (store_term t2_pre term2 ))
+  ||
+  ([| (0 = 1) |] 
+  &&  [| (term_alpha_eq term1 term2 ) |]
+  &&  (store_term t1_pre term1 )
+  **  (store_term t2_pre term2 ))
 .
 
 Definition alpha_equiv_return_wit_6 := 
@@ -705,14 +909,21 @@ forall (t2_pre: Z) (t1_pre: Z) (term2: term) (term1: term) (z2: Z) (z1: Z) (y2: 
   **  (store_string y2 qv2 )
   **  (store_term z2 qterm2 )
 |--
-  [| (0 = (term_alpha_eqn (term1) (term2))) |]
+  ([| (0 = 0) |] 
+  &&  [| ~((term_alpha_eq term1 term2 )) |]
   &&  (store_term t1_pre term1 )
-  **  (store_term t2_pre term2 )
+  **  (store_term t2_pre term2 ))
+  ||
+  ([| (0 = 1) |] 
+  &&  [| (term_alpha_eq term1 term2 ) |]
+  &&  (store_term t1_pre term1 )
+  **  (store_term t2_pre term2 ))
 .
 
-Definition alpha_equiv_return_wit_7 := 
+Definition alpha_equiv_return_wit_7_1 := 
 forall (t2_pre: Z) (t1_pre: Z) (term2: term) (term1: term) (z2: Z) (z1: Z) (y2: Z) (y1: Z) (qt2: quant_type) (qv2: (@list Z)) (qterm2: term) (qt1: quant_type) (qv1: (@list Z)) (qterm1: term) (retval_2: Z) (retval: Z) ,
-  [| (retval = (term_alpha_eqn (qterm1) (qterm2))) |] 
+  [| (retval = 1) |] 
+  &&  [| (term_alpha_eq qterm1 qterm2 ) |] 
   &&  [| (retval_2 = 0) |] 
   &&  [| (retval_2 = (list_Z_cmp (qv1) (qv2))) |] 
   &&  [| ((qtID (qt1)) = (qtID (qt2))) |] 
@@ -742,35 +953,205 @@ forall (t2_pre: Z) (t1_pre: Z) (term2: term) (term1: term) (z2: Z) (z1: Z) (y2: 
   **  ((&((t1_pre)  # "term" ->ₛ "content" .ₛ "Quant" .ₛ "body")) # Ptr  |-> z1)
   **  ((&((t2_pre)  # "term" ->ₛ "content" .ₛ "Quant" .ₛ "body")) # Ptr  |-> z2)
 |--
-  [| (retval = (term_alpha_eqn (term1) (term2))) |]
+  ([| (retval = 0) |] 
+  &&  [| ~((term_alpha_eq term1 term2 )) |]
   &&  (store_term t1_pre term1 )
-  **  (store_term t2_pre term2 )
+  **  (store_term t2_pre term2 ))
+  ||
+  ([| (retval = 1) |] 
+  &&  [| (term_alpha_eq term1 term2 ) |]
+  &&  (store_term t1_pre term1 )
+  **  (store_term t2_pre term2 ))
+.
+
+Definition alpha_equiv_return_wit_7_2 := 
+forall (t2_pre: Z) (t1_pre: Z) (term2: term) (term1: term) (z2: Z) (z1: Z) (y2: Z) (y1: Z) (qt2: quant_type) (qv2: (@list Z)) (qterm2: term) (qt1: quant_type) (qv1: (@list Z)) (qterm1: term) (retval_2: Z) (retval: Z) ,
+  [| (retval = 0) |] 
+  &&  [| ~((term_alpha_eq qterm1 qterm2 )) |] 
+  &&  [| (retval_2 = 0) |] 
+  &&  [| (retval_2 = (list_Z_cmp (qv1) (qv2))) |] 
+  &&  [| ((qtID (qt1)) = (qtID (qt2))) |] 
+  &&  [| (t1_pre <> 0) |] 
+  &&  [| (t2_pre <> 0) |] 
+  &&  [| (term1 = (TermQuant (qt1) (qv1) (qterm1))) |] 
+  &&  [| (term2 = (TermQuant (qt2) (qv2) (qterm2))) |] 
+  &&  [| ((termtypeID (term1)) = (termtypeID (term2))) |] 
+  &&  [| (t1_pre <> 0) |] 
+  &&  [| (t2_pre <> 0) |] 
+  &&  [| (t2_pre <> 0) |] 
+  &&  [| (t1_pre <> 0) |] 
+  &&  [| ((termtypeID (term1)) <> 0) |] 
+  &&  [| ((termtypeID (term1)) <> 1) |] 
+  &&  [| ((termtypeID (term1)) <> 2) |] 
+  &&  [| ((termtypeID (term1)) = 3) |]
+  &&  (store_term z1 qterm1 )
+  **  (store_term z2 qterm2 )
+  **  (store_string y1 qv1 )
+  **  (store_string y2 qv2 )
+  **  ((&((t1_pre)  # "term" ->ₛ "type")) # Int  |-> (termtypeID (term1)))
+  **  ((&((t2_pre)  # "term" ->ₛ "type")) # Int  |-> (termtypeID (term2)))
+  **  ((&((t1_pre)  # "term" ->ₛ "content" .ₛ "Quant" .ₛ "type")) # Int  |-> (qtID (qt1)))
+  **  ((&((t2_pre)  # "term" ->ₛ "content" .ₛ "Quant" .ₛ "type")) # Int  |-> (qtID (qt2)))
+  **  ((&((t1_pre)  # "term" ->ₛ "content" .ₛ "Quant" .ₛ "var")) # Ptr  |-> y1)
+  **  ((&((t2_pre)  # "term" ->ₛ "content" .ₛ "Quant" .ₛ "var")) # Ptr  |-> y2)
+  **  ((&((t1_pre)  # "term" ->ₛ "content" .ₛ "Quant" .ₛ "body")) # Ptr  |-> z1)
+  **  ((&((t2_pre)  # "term" ->ₛ "content" .ₛ "Quant" .ₛ "body")) # Ptr  |-> z2)
+|--
+  ([| (retval = 0) |] 
+  &&  [| ~((term_alpha_eq term1 term2 )) |]
+  &&  (store_term t1_pre term1 )
+  **  (store_term t2_pre term2 ))
+  ||
+  ([| (retval = 1) |] 
+  &&  [| (term_alpha_eq term1 term2 ) |]
+  &&  (store_term t1_pre term1 )
+  **  (store_term t2_pre term2 ))
 .
 
 Definition alpha_equiv_return_wit_8_1 := 
+forall (t2_pre: Z) (t1_pre: Z) (term2: term) (term1: term) (qt2: quant_type) (qv2: (@list Z)) (qterm2: term) (qt1: quant_type) (qv1: (@list Z)) (qterm1: term) (retval_2: Z) (str: (@list Z)) (z2: Z) (z1: Z) (y2: Z) (y1: Z) (qt2_2: quant_type) (qv2_2: (@list Z)) (qterm2_2: term) (qt1_2: quant_type) (qv1_2: (@list Z)) (qterm1_2: term) (retval_3: Z) (retval_4: Z) (retval_5: Z) (retval_6: Z) (retval: Z) ,
+  [| (retval = 1) |] 
+  &&  [| (term_alpha_eq (term_subst_v (str) (qv1_2) (qterm1_2)) (term_subst_v (str) (qv2_2) (qterm2_2)) ) |] 
+  &&  [| (retval_6 = retval_5) |] 
+  &&  [| (retval_5 <> 0) |] 
+  &&  [| (retval_4 = retval_3) |] 
+  &&  [| (retval_3 <> 0) |] 
+  &&  [| (t1_pre <> 0) |] 
+  &&  [| (t2_pre <> 0) |] 
+  &&  [| (term1 = (TermQuant (qt1_2) (qv1_2) (qterm1_2))) |] 
+  &&  [| (term2 = (TermQuant (qt2_2) (qv2_2) (qterm2_2))) |] 
+  &&  [| (term_not_contain_var term1 str ) |] 
+  &&  [| (term_not_contain_var term2 str ) |] 
+  &&  [| (retval_2 <> 0) |] 
+  &&  [| (retval_2 = (list_Z_cmp (qv1) (qv2))) |] 
+  &&  [| ((qtID (qt1)) = (qtID (qt2))) |] 
+  &&  [| (t1_pre <> 0) |] 
+  &&  [| (t2_pre <> 0) |] 
+  &&  [| (term1 = (TermQuant (qt1) (qv1) (qterm1))) |] 
+  &&  [| (term2 = (TermQuant (qt2) (qv2) (qterm2))) |] 
+  &&  [| ((termtypeID (term1)) = (termtypeID (term2))) |] 
+  &&  [| (t1_pre <> 0) |] 
+  &&  [| (t2_pre <> 0) |] 
+  &&  [| (t2_pre <> 0) |] 
+  &&  [| (t1_pre <> 0) |] 
+  &&  [| ((termtypeID (term1)) <> 0) |] 
+  &&  [| ((termtypeID (term1)) <> 1) |] 
+  &&  [| ((termtypeID (term1)) <> 2) |] 
+  &&  [| ((termtypeID (term1)) = 3) |]
+  &&  (store_string y2 qv2_2 )
+  **  (store_term z2 qterm2_2 )
+  **  (store_string y1 qv1_2 )
+  **  (store_term z1 qterm1_2 )
+  **  ((&((t1_pre)  # "term" ->ₛ "type")) # Int  |-> (termtypeID (term1)))
+  **  ((&((t2_pre)  # "term" ->ₛ "type")) # Int  |-> (termtypeID (term2)))
+  **  ((&((t1_pre)  # "term" ->ₛ "content" .ₛ "Quant" .ₛ "type")) # Int  |-> (qtID (qt1_2)))
+  **  ((&((t2_pre)  # "term" ->ₛ "content" .ₛ "Quant" .ₛ "type")) # Int  |-> (qtID (qt2_2)))
+  **  ((&((t1_pre)  # "term" ->ₛ "content" .ₛ "Quant" .ₛ "var")) # Ptr  |-> y1)
+  **  ((&((t2_pre)  # "term" ->ₛ "content" .ₛ "Quant" .ₛ "var")) # Ptr  |-> y2)
+  **  ((&((t1_pre)  # "term" ->ₛ "content" .ₛ "Quant" .ₛ "body")) # Ptr  |-> z1)
+  **  ((&((t2_pre)  # "term" ->ₛ "content" .ₛ "Quant" .ₛ "body")) # Ptr  |-> z2)
+|--
+  ([| (retval = 0) |] 
+  &&  [| ~((term_alpha_eq term1 term2 )) |]
+  &&  (store_term t1_pre term1 )
+  **  (store_term t2_pre term2 ))
+  ||
+  ([| (retval = 1) |] 
+  &&  [| (term_alpha_eq term1 term2 ) |]
+  &&  (store_term t1_pre term1 )
+  **  (store_term t2_pre term2 ))
+.
+
+Definition alpha_equiv_return_wit_8_2 := 
+forall (t2_pre: Z) (t1_pre: Z) (term2: term) (term1: term) (qt2: quant_type) (qv2: (@list Z)) (qterm2: term) (qt1: quant_type) (qv1: (@list Z)) (qterm1: term) (retval_2: Z) (str: (@list Z)) (z2: Z) (z1: Z) (y2: Z) (y1: Z) (qt2_2: quant_type) (qv2_2: (@list Z)) (qterm2_2: term) (qt1_2: quant_type) (qv1_2: (@list Z)) (qterm1_2: term) (retval_3: Z) (retval_4: Z) (retval_5: Z) (retval_6: Z) (retval: Z) ,
+  [| (retval = 0) |] 
+  &&  [| ~((term_alpha_eq (term_subst_v (str) (qv1_2) (qterm1_2)) (term_subst_v (str) (qv2_2) (qterm2_2)) )) |] 
+  &&  [| (retval_6 = retval_5) |] 
+  &&  [| (retval_5 <> 0) |] 
+  &&  [| (retval_4 = retval_3) |] 
+  &&  [| (retval_3 <> 0) |] 
+  &&  [| (t1_pre <> 0) |] 
+  &&  [| (t2_pre <> 0) |] 
+  &&  [| (term1 = (TermQuant (qt1_2) (qv1_2) (qterm1_2))) |] 
+  &&  [| (term2 = (TermQuant (qt2_2) (qv2_2) (qterm2_2))) |] 
+  &&  [| (term_not_contain_var term1 str ) |] 
+  &&  [| (term_not_contain_var term2 str ) |] 
+  &&  [| (retval_2 <> 0) |] 
+  &&  [| (retval_2 = (list_Z_cmp (qv1) (qv2))) |] 
+  &&  [| ((qtID (qt1)) = (qtID (qt2))) |] 
+  &&  [| (t1_pre <> 0) |] 
+  &&  [| (t2_pre <> 0) |] 
+  &&  [| (term1 = (TermQuant (qt1) (qv1) (qterm1))) |] 
+  &&  [| (term2 = (TermQuant (qt2) (qv2) (qterm2))) |] 
+  &&  [| ((termtypeID (term1)) = (termtypeID (term2))) |] 
+  &&  [| (t1_pre <> 0) |] 
+  &&  [| (t2_pre <> 0) |] 
+  &&  [| (t2_pre <> 0) |] 
+  &&  [| (t1_pre <> 0) |] 
+  &&  [| ((termtypeID (term1)) <> 0) |] 
+  &&  [| ((termtypeID (term1)) <> 1) |] 
+  &&  [| ((termtypeID (term1)) <> 2) |] 
+  &&  [| ((termtypeID (term1)) = 3) |]
+  &&  (store_string y2 qv2_2 )
+  **  (store_term z2 qterm2_2 )
+  **  (store_string y1 qv1_2 )
+  **  (store_term z1 qterm1_2 )
+  **  ((&((t1_pre)  # "term" ->ₛ "type")) # Int  |-> (termtypeID (term1)))
+  **  ((&((t2_pre)  # "term" ->ₛ "type")) # Int  |-> (termtypeID (term2)))
+  **  ((&((t1_pre)  # "term" ->ₛ "content" .ₛ "Quant" .ₛ "type")) # Int  |-> (qtID (qt1_2)))
+  **  ((&((t2_pre)  # "term" ->ₛ "content" .ₛ "Quant" .ₛ "type")) # Int  |-> (qtID (qt2_2)))
+  **  ((&((t1_pre)  # "term" ->ₛ "content" .ₛ "Quant" .ₛ "var")) # Ptr  |-> y1)
+  **  ((&((t2_pre)  # "term" ->ₛ "content" .ₛ "Quant" .ₛ "var")) # Ptr  |-> y2)
+  **  ((&((t1_pre)  # "term" ->ₛ "content" .ₛ "Quant" .ₛ "body")) # Ptr  |-> z1)
+  **  ((&((t2_pre)  # "term" ->ₛ "content" .ₛ "Quant" .ₛ "body")) # Ptr  |-> z2)
+|--
+  ([| (retval = 0) |] 
+  &&  [| ~((term_alpha_eq term1 term2 )) |]
+  &&  (store_term t1_pre term1 )
+  **  (store_term t2_pre term2 ))
+  ||
+  ([| (retval = 1) |] 
+  &&  [| (term_alpha_eq term1 term2 ) |]
+  &&  (store_term t1_pre term1 )
+  **  (store_term t2_pre term2 ))
+.
+
+Definition alpha_equiv_return_wit_9_1 := 
 forall (t2_pre: Z) (t1_pre: Z) (term2: term) (term1: term) ,
   [| (t2_pre = 0) |] 
   &&  [| (t1_pre <> 0) |]
   &&  (store_term t1_pre term1 )
   **  (store_term t2_pre term2 )
 |--
-  [| (0 = (term_alpha_eqn (term1) (term2))) |]
+  ([| (0 = 0) |] 
+  &&  [| ~((term_alpha_eq term1 term2 )) |]
   &&  (store_term t1_pre term1 )
-  **  (store_term t2_pre term2 )
+  **  (store_term t2_pre term2 ))
+  ||
+  ([| (0 = 1) |] 
+  &&  [| (term_alpha_eq term1 term2 ) |]
+  &&  (store_term t1_pre term1 )
+  **  (store_term t2_pre term2 ))
 .
 
-Definition alpha_equiv_return_wit_8_2 := 
+Definition alpha_equiv_return_wit_9_2 := 
 forall (t2_pre: Z) (t1_pre: Z) (term2: term) (term1: term) ,
   [| (t1_pre = 0) |]
   &&  (store_term t1_pre term1 )
   **  (store_term t2_pre term2 )
 |--
-  [| (0 = (term_alpha_eqn (term1) (term2))) |]
+  ([| (0 = 0) |] 
+  &&  [| ~((term_alpha_eq term1 term2 )) |]
   &&  (store_term t1_pre term1 )
-  **  (store_term t2_pre term2 )
+  **  (store_term t2_pre term2 ))
+  ||
+  ([| (0 = 1) |] 
+  &&  [| (term_alpha_eq term1 term2 ) |]
+  &&  (store_term t1_pre term1 )
+  **  (store_term t2_pre term2 ))
 .
 
-Definition alpha_equiv_return_wit_9 := 
+Definition alpha_equiv_return_wit_10 := 
 forall (t2_pre: Z) (t1_pre: Z) (term2: term) (term1: term) ,
   [| ((termtypeID (term1)) <> (termtypeID (term2))) |] 
   &&  [| (t1_pre <> 0) |] 
@@ -782,9 +1163,15 @@ forall (t2_pre: Z) (t1_pre: Z) (term2: term) (term1: term) ,
   **  (store_term' t1_pre term1 )
   **  (store_term' t2_pre term2 )
 |--
-  [| (0 = (term_alpha_eqn (term1) (term2))) |]
+  ([| (0 = 0) |] 
+  &&  [| ~((term_alpha_eq term1 term2 )) |]
   &&  (store_term t1_pre term1 )
-  **  (store_term t2_pre term2 )
+  **  (store_term t2_pre term2 ))
+  ||
+  ([| (0 = 1) |] 
+  &&  [| (term_alpha_eq term1 term2 ) |]
+  &&  (store_term t1_pre term1 )
+  **  (store_term t2_pre term2 ))
 .
 
 Definition alpha_equiv_partial_solve_wit_1 := 
@@ -1054,7 +1441,8 @@ forall (t2_pre: Z) (t1_pre: Z) (term2: term) (term1: term) (z2: Z) (z1: Z) (y2: 
 Definition alpha_equiv_partial_solve_wit_7 := 
 forall (t2_pre: Z) (t1_pre: Z) (term2: term) (term1: term) (z2: Z) (z1: Z) (y2: Z) (y1: Z) (lt2: term) (rt2: term) (lt1: term) (rt1: term) (retval: Z) ,
   [| (retval <> 0) |] 
-  &&  [| (retval = (term_alpha_eqn (lt1) (lt2))) |] 
+  &&  [| (retval = 1) |] 
+  &&  [| (term_alpha_eq lt1 lt2 ) |] 
   &&  [| (t1_pre <> 0) |] 
   &&  [| (t2_pre <> 0) |] 
   &&  [| (term1 = (TermApply (lt1) (rt1))) |] 
@@ -1079,7 +1467,8 @@ forall (t2_pre: Z) (t1_pre: Z) (term2: term) (term1: term) (z2: Z) (z1: Z) (y2: 
   **  (store_term z2 rt2 )
 |--
   [| (retval <> 0) |] 
-  &&  [| (retval = (term_alpha_eqn (lt1) (lt2))) |] 
+  &&  [| (retval = 1) |] 
+  &&  [| (term_alpha_eq lt1 lt2 ) |] 
   &&  [| (t1_pre <> 0) |] 
   &&  [| (t2_pre <> 0) |] 
   &&  [| (term1 = (TermApply (lt1) (rt1))) |] 
@@ -1104,7 +1493,62 @@ forall (t2_pre: Z) (t1_pre: Z) (term2: term) (term1: term) (z2: Z) (z1: Z) (y2: 
   **  ((&((t2_pre)  # "term" ->ₛ "content" .ₛ "Apply" .ₛ "right")) # Ptr  |-> z2)
 .
 
-Definition alpha_equiv_partial_solve_wit_8_pure := 
+Definition alpha_equiv_partial_solve_wit_8 := 
+forall (t2_pre: Z) (t1_pre: Z) (term2: term) (term1: term) (z2: Z) (z1: Z) (y2: Z) (y1: Z) (lt2: term) (rt2: term) (lt1: term) (rt1: term) (retval: Z) ,
+  [| (retval <> 0) |] 
+  &&  [| (retval = 0) |] 
+  &&  [| ~((term_alpha_eq lt1 lt2 )) |] 
+  &&  [| (t1_pre <> 0) |] 
+  &&  [| (t2_pre <> 0) |] 
+  &&  [| (term1 = (TermApply (lt1) (rt1))) |] 
+  &&  [| (term2 = (TermApply (lt2) (rt2))) |] 
+  &&  [| ((termtypeID (term1)) = (termtypeID (term2))) |] 
+  &&  [| (t1_pre <> 0) |] 
+  &&  [| (t2_pre <> 0) |] 
+  &&  [| (t2_pre <> 0) |] 
+  &&  [| (t1_pre <> 0) |] 
+  &&  [| ((termtypeID (term1)) <> 0) |] 
+  &&  [| ((termtypeID (term1)) <> 1) |] 
+  &&  [| ((termtypeID (term1)) = 2) |]
+  &&  (store_term y1 lt1 )
+  **  (store_term y2 lt2 )
+  **  ((&((t1_pre)  # "term" ->ₛ "type")) # Int  |-> (termtypeID (term1)))
+  **  ((&((t2_pre)  # "term" ->ₛ "type")) # Int  |-> (termtypeID (term2)))
+  **  ((&((t1_pre)  # "term" ->ₛ "content" .ₛ "Apply" .ₛ "left")) # Ptr  |-> y1)
+  **  ((&((t2_pre)  # "term" ->ₛ "content" .ₛ "Apply" .ₛ "left")) # Ptr  |-> y2)
+  **  ((&((t1_pre)  # "term" ->ₛ "content" .ₛ "Apply" .ₛ "right")) # Ptr  |-> z1)
+  **  ((&((t2_pre)  # "term" ->ₛ "content" .ₛ "Apply" .ₛ "right")) # Ptr  |-> z2)
+  **  (store_term z1 rt1 )
+  **  (store_term z2 rt2 )
+|--
+  [| (retval <> 0) |] 
+  &&  [| (retval = 0) |] 
+  &&  [| ~((term_alpha_eq lt1 lt2 )) |] 
+  &&  [| (t1_pre <> 0) |] 
+  &&  [| (t2_pre <> 0) |] 
+  &&  [| (term1 = (TermApply (lt1) (rt1))) |] 
+  &&  [| (term2 = (TermApply (lt2) (rt2))) |] 
+  &&  [| ((termtypeID (term1)) = (termtypeID (term2))) |] 
+  &&  [| (t1_pre <> 0) |] 
+  &&  [| (t2_pre <> 0) |] 
+  &&  [| (t2_pre <> 0) |] 
+  &&  [| (t1_pre <> 0) |] 
+  &&  [| ((termtypeID (term1)) <> 0) |] 
+  &&  [| ((termtypeID (term1)) <> 1) |] 
+  &&  [| ((termtypeID (term1)) = 2) |]
+  &&  (store_term z1 rt1 )
+  **  (store_term z2 rt2 )
+  **  (store_term y1 lt1 )
+  **  (store_term y2 lt2 )
+  **  ((&((t1_pre)  # "term" ->ₛ "type")) # Int  |-> (termtypeID (term1)))
+  **  ((&((t2_pre)  # "term" ->ₛ "type")) # Int  |-> (termtypeID (term2)))
+  **  ((&((t1_pre)  # "term" ->ₛ "content" .ₛ "Apply" .ₛ "left")) # Ptr  |-> y1)
+  **  ((&((t2_pre)  # "term" ->ₛ "content" .ₛ "Apply" .ₛ "left")) # Ptr  |-> y2)
+  **  ((&((t1_pre)  # "term" ->ₛ "content" .ₛ "Apply" .ₛ "right")) # Ptr  |-> z1)
+  **  ((&((t2_pre)  # "term" ->ₛ "content" .ₛ "Apply" .ₛ "right")) # Ptr  |-> z2)
+.
+
+Definition alpha_equiv_partial_solve_wit_9_pure := 
 forall (t2_pre: Z) (t1_pre: Z) (term2: term) (term1: term) ,
   [| ((termtypeID (term1)) = (termtypeID (term2))) |] 
   &&  [| (t1_pre <> 0) |] 
@@ -1128,7 +1572,7 @@ forall (t2_pre: Z) (t1_pre: Z) (term2: term) (term1: term) ,
   &&  [| ((termtypeID (term1)) = (termtypeID (term2))) |]
 .
 
-Definition alpha_equiv_partial_solve_wit_8_aux := 
+Definition alpha_equiv_partial_solve_wit_9_aux := 
 forall (t2_pre: Z) (t1_pre: Z) (term2: term) (term1: term) ,
   [| ((termtypeID (term1)) = (termtypeID (term2))) |] 
   &&  [| (t1_pre <> 0) |] 
@@ -1163,9 +1607,9 @@ forall (t2_pre: Z) (t1_pre: Z) (term2: term) (term1: term) ,
   **  (store_term' t2_pre term2 )
 .
 
-Definition alpha_equiv_partial_solve_wit_8 := alpha_equiv_partial_solve_wit_8_pure -> alpha_equiv_partial_solve_wit_8_aux.
+Definition alpha_equiv_partial_solve_wit_9 := alpha_equiv_partial_solve_wit_9_pure -> alpha_equiv_partial_solve_wit_9_aux.
 
-Definition alpha_equiv_partial_solve_wit_9 := 
+Definition alpha_equiv_partial_solve_wit_10 := 
 forall (t2_pre: Z) (t1_pre: Z) (term2: term) (term1: term) (z2: Z) (z1: Z) (y2: Z) (y1: Z) (qt2: quant_type) (qv2: (@list Z)) (qterm2: term) (qt1: quant_type) (qv1: (@list Z)) (qterm1: term) ,
   [| ((qtID (qt1)) = (qtID (qt2))) |] 
   &&  [| (t1_pre <> 0) |] 
@@ -1222,7 +1666,7 @@ forall (t2_pre: Z) (t1_pre: Z) (term2: term) (term1: term) (z2: Z) (z1: Z) (y2: 
   **  (store_term z2 qterm2 )
 .
 
-Definition alpha_equiv_partial_solve_wit_10 := 
+Definition alpha_equiv_partial_solve_wit_11 := 
 forall (t2_pre: Z) (t1_pre: Z) (term2: term) (term1: term) (z2: Z) (z1: Z) (y2: Z) (y1: Z) (qt2: quant_type) (qv2: (@list Z)) (qterm2: term) (qt1: quant_type) (qv1: (@list Z)) (qterm1: term) (retval: Z) ,
   [| (retval = 0) |] 
   &&  [| (retval = (list_Z_cmp (qv1) (qv2))) |] 
@@ -1283,7 +1727,7 @@ forall (t2_pre: Z) (t1_pre: Z) (term2: term) (term1: term) (z2: Z) (z1: Z) (y2: 
   **  ((&((t2_pre)  # "term" ->ₛ "content" .ₛ "Quant" .ₛ "body")) # Ptr  |-> z2)
 .
 
-Definition alpha_equiv_partial_solve_wit_11_pure := 
+Definition alpha_equiv_partial_solve_wit_12_pure := 
 forall (t2_pre: Z) (t1_pre: Z) (term2: term) (term1: term) (z2: Z) (z1: Z) (y2: Z) (y1: Z) (qt2: quant_type) (qv2: (@list Z)) (qterm2: term) (qt1: quant_type) (qv1: (@list Z)) (qterm1: term) (retval: Z) ,
   [| (retval <> 0) |] 
   &&  [| (retval = (list_Z_cmp (qv1) (qv2))) |] 
@@ -1322,7 +1766,7 @@ forall (t2_pre: Z) (t1_pre: Z) (term2: term) (term1: term) (z2: Z) (z1: Z) (y2: 
   &&  [| (term2 = (TermQuant (qt2) (qv2) (qterm2))) |]
 .
 
-Definition alpha_equiv_partial_solve_wit_11_aux := 
+Definition alpha_equiv_partial_solve_wit_12_aux := 
 forall (t2_pre: Z) (t1_pre: Z) (term2: term) (term1: term) (z2: Z) (z1: Z) (y2: Z) (y1: Z) (qt2: quant_type) (qv2: (@list Z)) (qterm2: term) (qt1: quant_type) (qv1: (@list Z)) (qterm1: term) (retval: Z) ,
   [| (retval <> 0) |] 
   &&  [| (retval = (list_Z_cmp (qv1) (qv2))) |] 
@@ -1387,9 +1831,9 @@ forall (t2_pre: Z) (t1_pre: Z) (term2: term) (term1: term) (z2: Z) (z1: Z) (y2: 
   **  (store_term z2 qterm2 )
 .
 
-Definition alpha_equiv_partial_solve_wit_11 := alpha_equiv_partial_solve_wit_11_pure -> alpha_equiv_partial_solve_wit_11_aux.
+Definition alpha_equiv_partial_solve_wit_12 := alpha_equiv_partial_solve_wit_12_pure -> alpha_equiv_partial_solve_wit_12_aux.
 
-Definition alpha_equiv_partial_solve_wit_12 := 
+Definition alpha_equiv_partial_solve_wit_13 := 
 forall (t2_pre: Z) (t1_pre: Z) (term2: term) (term1: term) (qt2: quant_type) (qv2: (@list Z)) (qterm2: term) (qt1: quant_type) (qv1: (@list Z)) (qterm1: term) (retval: Z) ,
   [| (retval <> 0) |] 
   &&  [| (retval = (list_Z_cmp (qv1) (qv2))) |] 
@@ -1430,7 +1874,38 @@ forall (t2_pre: Z) (t1_pre: Z) (term2: term) (term1: term) (qt2: quant_type) (qv
   **  (store_term t2_pre term2 )
 .
 
-Definition alpha_equiv_partial_solve_wit_13 := 
+Definition alpha_equiv_partial_solve_wit_14_pure := 
+forall (t2_pre: Z) (t1_pre: Z) (term2: term) (term1: term) (qt2: quant_type) (qv2: (@list Z)) (qterm2: term) (qt1: quant_type) (qv1: (@list Z)) (qterm1: term) (retval_2: Z) (str: (@list Z)) (retval: Z) ,
+  [| (term_not_contain_var term1 str ) |] 
+  &&  [| (term_not_contain_var term2 str ) |] 
+  &&  [| (retval_2 <> 0) |] 
+  &&  [| (retval_2 = (list_Z_cmp (qv1) (qv2))) |] 
+  &&  [| ((qtID (qt1)) = (qtID (qt2))) |] 
+  &&  [| (t1_pre <> 0) |] 
+  &&  [| (t2_pre <> 0) |] 
+  &&  [| (term1 = (TermQuant (qt1) (qv1) (qterm1))) |] 
+  &&  [| (term2 = (TermQuant (qt2) (qv2) (qterm2))) |] 
+  &&  [| ((termtypeID (term1)) = (termtypeID (term2))) |] 
+  &&  [| (t1_pre <> 0) |] 
+  &&  [| (t2_pre <> 0) |] 
+  &&  [| (t2_pre <> 0) |] 
+  &&  [| (t1_pre <> 0) |] 
+  &&  [| ((termtypeID (term1)) <> 0) |] 
+  &&  [| ((termtypeID (term1)) <> 1) |] 
+  &&  [| ((termtypeID (term1)) <> 2) |] 
+  &&  [| ((termtypeID (term1)) = 3) |]
+  &&  (store_term t1_pre term1 )
+  **  (store_term t2_pre term2 )
+  **  (store_string retval str )
+  **  ((( &( "new_var" ) )) # Ptr  |-> retval)
+  **  ((( &( "t1" ) )) # Ptr  |-> t1_pre)
+  **  ((( &( "t2" ) )) # Ptr  |-> t2_pre)
+|--
+  [| ((termtypeID (term1)) = 3) |] 
+  &&  [| ((termtypeID (term1)) = (termtypeID (term2))) |]
+.
+
+Definition alpha_equiv_partial_solve_wit_14_aux := 
 forall (t2_pre: Z) (t1_pre: Z) (term2: term) (term1: term) (qt2: quant_type) (qv2: (@list Z)) (qterm2: term) (qt1: quant_type) (qv1: (@list Z)) (qterm1: term) (retval: Z) (str: (@list Z)) (retval_2: Z) ,
   [| (term_not_contain_var term1 str ) |] 
   &&  [| (term_not_contain_var term2 str ) |] 
@@ -1454,7 +1929,9 @@ forall (t2_pre: Z) (t1_pre: Z) (term2: term) (term1: term) (qt2: quant_type) (qv
   **  (store_term t2_pre term2 )
   **  (store_string retval_2 str )
 |--
-  [| (term_not_contain_var term1 str ) |] 
+  [| ((termtypeID (term1)) = 3) |] 
+  &&  [| ((termtypeID (term1)) = (termtypeID (term2))) |] 
+  &&  [| (term_not_contain_var term1 str ) |] 
   &&  [| (term_not_contain_var term2 str ) |] 
   &&  [| (retval <> 0) |] 
   &&  [| (retval = (list_Z_cmp (qv1) (qv2))) |] 
@@ -1477,7 +1954,9 @@ forall (t2_pre: Z) (t1_pre: Z) (term2: term) (term1: term) (qt2: quant_type) (qv
   **  (store_string retval_2 str )
 .
 
-Definition alpha_equiv_partial_solve_wit_14 := 
+Definition alpha_equiv_partial_solve_wit_14 := alpha_equiv_partial_solve_wit_14_pure -> alpha_equiv_partial_solve_wit_14_aux.
+
+Definition alpha_equiv_partial_solve_wit_15 := 
 forall (t2_pre: Z) (t1_pre: Z) (term2: term) (term1: term) (qt2: quant_type) (qv2: (@list Z)) (qterm2: term) (qt1: quant_type) (qv1: (@list Z)) (qterm1: term) (retval: Z) (str: (@list Z)) (retval_2: Z) (z2: Z) (z1: Z) (y2: Z) (y1: Z) (qt2_2: quant_type) (qv2_2: (@list Z)) (qterm2_2: term) (qt1_2: quant_type) (qv1_2: (@list Z)) (qterm1_2: term) ,
   [| (t1_pre <> 0) |] 
   &&  [| (t2_pre <> 0) |] 
@@ -1552,7 +2031,7 @@ forall (t2_pre: Z) (t1_pre: Z) (term2: term) (term1: term) (qt2: quant_type) (qv
   **  (store_string retval_2 str )
 .
 
-Definition alpha_equiv_partial_solve_wit_15_pure := 
+Definition alpha_equiv_partial_solve_wit_16_pure := 
 forall (t2_pre: Z) (t1_pre: Z) (term2: term) (term1: term) (qt2: quant_type) (qv2: (@list Z)) (qterm2: term) (qt1: quant_type) (qv1: (@list Z)) (qterm1: term) (retval_3: Z) (str: (@list Z)) (retval: Z) (z2: Z) (z1: Z) (y2: Z) (y1: Z) (qt2_2: quant_type) (qv2_2: (@list Z)) (qterm2_2: term) (qt1_2: quant_type) (qv1_2: (@list Z)) (qterm1_2: term) (retval_2: Z) ,
   [| (retval_2 <> 0) |] 
   &&  [| (t1_pre <> 0) |] 
@@ -1601,7 +2080,7 @@ forall (t2_pre: Z) (t1_pre: Z) (term2: term) (term1: term) (qt2: quant_type) (qv
   &&  [| (retval <> 0) |]
 .
 
-Definition alpha_equiv_partial_solve_wit_15_aux := 
+Definition alpha_equiv_partial_solve_wit_16_aux := 
 forall (t2_pre: Z) (t1_pre: Z) (term2: term) (term1: term) (qt2: quant_type) (qv2: (@list Z)) (qterm2: term) (qt1: quant_type) (qv1: (@list Z)) (qterm1: term) (retval: Z) (str: (@list Z)) (retval_2: Z) (z2: Z) (z1: Z) (y2: Z) (y1: Z) (qt2_2: quant_type) (qv2_2: (@list Z)) (qterm2_2: term) (qt1_2: quant_type) (qv1_2: (@list Z)) (qterm1_2: term) (retval_3: Z) ,
   [| (retval_3 <> 0) |] 
   &&  [| (t1_pre <> 0) |] 
@@ -1683,9 +2162,9 @@ forall (t2_pre: Z) (t1_pre: Z) (term2: term) (term1: term) (qt2: quant_type) (qv
   **  (store_term z2 qterm2_2 )
 .
 
-Definition alpha_equiv_partial_solve_wit_15 := alpha_equiv_partial_solve_wit_15_pure -> alpha_equiv_partial_solve_wit_15_aux.
+Definition alpha_equiv_partial_solve_wit_16 := alpha_equiv_partial_solve_wit_16_pure -> alpha_equiv_partial_solve_wit_16_aux.
 
-Definition alpha_equiv_partial_solve_wit_16 := 
+Definition alpha_equiv_partial_solve_wit_17 := 
 forall (t2_pre: Z) (t1_pre: Z) (term2: term) (term1: term) (qt2: quant_type) (qv2: (@list Z)) (qterm2: term) (qt1: quant_type) (qv1: (@list Z)) (qterm1: term) (retval: Z) (str: (@list Z)) (retval_2: Z) (z2: Z) (z1: Z) (y2: Z) (y1: Z) (qt2_2: quant_type) (qv2_2: (@list Z)) (qterm2_2: term) (qt1_2: quant_type) (qv1_2: (@list Z)) (qterm1_2: term) (retval_3: Z) (retval_4: Z) ,
   [| (retval_4 = retval_3) |] 
   &&  [| (retval_3 <> 0) |] 
@@ -1766,7 +2245,7 @@ forall (t2_pre: Z) (t1_pre: Z) (term2: term) (term1: term) (qt2: quant_type) (qv
   **  (store_string y2 qv2_2 )
 .
 
-Definition alpha_equiv_partial_solve_wit_17_pure := 
+Definition alpha_equiv_partial_solve_wit_18_pure := 
 forall (t2_pre: Z) (t1_pre: Z) (term2: term) (term1: term) (qt2: quant_type) (qv2: (@list Z)) (qterm2: term) (qt1: quant_type) (qv1: (@list Z)) (qterm1: term) (retval_3: Z) (str: (@list Z)) (retval: Z) (z2: Z) (z1: Z) (y2: Z) (y1: Z) (qt2_2: quant_type) (qv2_2: (@list Z)) (qterm2_2: term) (qt1_2: quant_type) (qv1_2: (@list Z)) (qterm1_2: term) (retval_4: Z) (retval_5: Z) (retval_2: Z) ,
   [| (retval_2 <> 0) |] 
   &&  [| (retval_5 = retval_4) |] 
@@ -1819,7 +2298,7 @@ forall (t2_pre: Z) (t1_pre: Z) (term2: term) (term1: term) (qt2: quant_type) (qv
   &&  [| (retval <> 0) |]
 .
 
-Definition alpha_equiv_partial_solve_wit_17_aux := 
+Definition alpha_equiv_partial_solve_wit_18_aux := 
 forall (t2_pre: Z) (t1_pre: Z) (term2: term) (term1: term) (qt2: quant_type) (qv2: (@list Z)) (qterm2: term) (qt1: quant_type) (qv1: (@list Z)) (qterm1: term) (retval: Z) (str: (@list Z)) (retval_2: Z) (z2: Z) (z1: Z) (y2: Z) (y1: Z) (qt2_2: quant_type) (qv2_2: (@list Z)) (qterm2_2: term) (qt1_2: quant_type) (qv1_2: (@list Z)) (qterm1_2: term) (retval_3: Z) (retval_4: Z) (retval_5: Z) ,
   [| (retval_5 <> 0) |] 
   &&  [| (retval_4 = retval_3) |] 
@@ -1907,9 +2386,9 @@ forall (t2_pre: Z) (t1_pre: Z) (term2: term) (term1: term) (qt2: quant_type) (qv
   **  ((&((t2_pre)  # "term" ->ₛ "content" .ₛ "Quant" .ₛ "body")) # Ptr  |-> z2)
 .
 
-Definition alpha_equiv_partial_solve_wit_17 := alpha_equiv_partial_solve_wit_17_pure -> alpha_equiv_partial_solve_wit_17_aux.
+Definition alpha_equiv_partial_solve_wit_18 := alpha_equiv_partial_solve_wit_18_pure -> alpha_equiv_partial_solve_wit_18_aux.
 
-Definition alpha_equiv_partial_solve_wit_18 := 
+Definition alpha_equiv_partial_solve_wit_19 := 
 forall (t2_pre: Z) (t1_pre: Z) (term2: term) (term1: term) (qt2: quant_type) (qv2: (@list Z)) (qterm2: term) (qt1: quant_type) (qv1: (@list Z)) (qterm1: term) (retval: Z) (str: (@list Z)) (retval_2: Z) (z2: Z) (z1: Z) (y2: Z) (y1: Z) (qt2_2: quant_type) (qv2_2: (@list Z)) (qterm2_2: term) (qt1_2: quant_type) (qv1_2: (@list Z)) (qterm1_2: term) (retval_3: Z) (retval_4: Z) (retval_5: Z) (retval_6: Z) ,
   [| (retval_6 = retval_5) |] 
   &&  [| (retval_5 <> 0) |] 
@@ -1996,98 +2475,192 @@ forall (t2_pre: Z) (t1_pre: Z) (term2: term) (term1: term) (qt2: quant_type) (qv
   **  ((&((t2_pre)  # "term" ->ₛ "content" .ₛ "Quant" .ₛ "body")) # Ptr  |-> z2)
 .
 
-Definition alpha_equiv_partial_solve_wit_19 := 
-forall (t2_pre: Z) (t1_pre: Z) (term2: term) (term1: term) (qt2: quant_type) (qv2: (@list Z)) (qterm2: term) (qt1: quant_type) (qv1: (@list Z)) (qterm1: term) (retval: Z) (str: (@list Z)) (retval_2: Z) (z2: Z) (z1: Z) (y2: Z) (y1: Z) (qt2_2: quant_type) (qv2_2: (@list Z)) (qterm2_2: term) (qt1_2: quant_type) (qv1_2: (@list Z)) (qterm1_2: term) (retval_3: Z) (retval_4: Z) (retval_5: Z) (retval_6: Z) (retval_7: Z) ,
-  [| (retval_7 = (term_alpha_eqn ((term_subst_v (str) (qv1_2) (qterm1_2))) ((term_subst_v (str) (qv2_2) (qterm2_2))))) |] 
-  &&  [| (retval_6 = retval_5) |] 
-  &&  [| (retval_5 <> 0) |] 
-  &&  [| (retval_4 = retval_3) |] 
-  &&  [| (retval_3 <> 0) |] 
-  &&  [| (t1_pre <> 0) |] 
-  &&  [| (t2_pre <> 0) |] 
-  &&  [| (term1 = (TermQuant (qt1_2) (qv1_2) (qterm1_2))) |] 
-  &&  [| (term2 = (TermQuant (qt2_2) (qv2_2) (qterm2_2))) |] 
-  &&  [| (term_not_contain_var term1 str ) |] 
-  &&  [| (term_not_contain_var term2 str ) |] 
-  &&  [| (retval <> 0) |] 
-  &&  [| (retval = (list_Z_cmp (qv1) (qv2))) |] 
-  &&  [| ((qtID (qt1)) = (qtID (qt2))) |] 
-  &&  [| (t1_pre <> 0) |] 
-  &&  [| (t2_pre <> 0) |] 
-  &&  [| (term1 = (TermQuant (qt1) (qv1) (qterm1))) |] 
-  &&  [| (term2 = (TermQuant (qt2) (qv2) (qterm2))) |] 
-  &&  [| ((termtypeID (term1)) = (termtypeID (term2))) |] 
-  &&  [| (t1_pre <> 0) |] 
-  &&  [| (t2_pre <> 0) |] 
-  &&  [| (t2_pre <> 0) |] 
-  &&  [| (t1_pre <> 0) |] 
-  &&  [| ((termtypeID (term1)) <> 0) |] 
-  &&  [| ((termtypeID (term1)) <> 1) |] 
-  &&  [| ((termtypeID (term1)) <> 2) |] 
-  &&  [| ((termtypeID (term1)) = 3) |]
-  &&  (store_term retval_4 (term_subst_v (str) (qv1_2) (qterm1_2)) )
-  **  (store_term retval_6 (term_subst_v (str) (qv2_2) (qterm2_2)) )
-  **  (store_string retval_2 str )
-  **  (store_string y2 qv2_2 )
-  **  (store_term z2 qterm2_2 )
-  **  (store_string y1 qv1_2 )
-  **  (store_term z1 qterm1_2 )
-  **  ((&((t1_pre)  # "term" ->ₛ "type")) # Int  |-> (termtypeID (term1)))
-  **  ((&((t2_pre)  # "term" ->ₛ "type")) # Int  |-> (termtypeID (term2)))
-  **  ((&((t1_pre)  # "term" ->ₛ "content" .ₛ "Quant" .ₛ "type")) # Int  |-> (qtID (qt1_2)))
-  **  ((&((t2_pre)  # "term" ->ₛ "content" .ₛ "Quant" .ₛ "type")) # Int  |-> (qtID (qt2_2)))
-  **  ((&((t1_pre)  # "term" ->ₛ "content" .ₛ "Quant" .ₛ "var")) # Ptr  |-> y1)
-  **  ((&((t2_pre)  # "term" ->ₛ "content" .ₛ "Quant" .ₛ "var")) # Ptr  |-> y2)
-  **  ((&((t1_pre)  # "term" ->ₛ "content" .ₛ "Quant" .ₛ "body")) # Ptr  |-> z1)
-  **  ((&((t2_pre)  # "term" ->ₛ "content" .ₛ "Quant" .ₛ "body")) # Ptr  |-> z2)
-|--
-  [| (retval_7 = (term_alpha_eqn ((term_subst_v (str) (qv1_2) (qterm1_2))) ((term_subst_v (str) (qv2_2) (qterm2_2))))) |] 
-  &&  [| (retval_6 = retval_5) |] 
-  &&  [| (retval_5 <> 0) |] 
-  &&  [| (retval_4 = retval_3) |] 
-  &&  [| (retval_3 <> 0) |] 
-  &&  [| (t1_pre <> 0) |] 
-  &&  [| (t2_pre <> 0) |] 
-  &&  [| (term1 = (TermQuant (qt1_2) (qv1_2) (qterm1_2))) |] 
-  &&  [| (term2 = (TermQuant (qt2_2) (qv2_2) (qterm2_2))) |] 
-  &&  [| (term_not_contain_var term1 str ) |] 
-  &&  [| (term_not_contain_var term2 str ) |] 
-  &&  [| (retval <> 0) |] 
-  &&  [| (retval = (list_Z_cmp (qv1) (qv2))) |] 
-  &&  [| ((qtID (qt1)) = (qtID (qt2))) |] 
-  &&  [| (t1_pre <> 0) |] 
-  &&  [| (t2_pre <> 0) |] 
-  &&  [| (term1 = (TermQuant (qt1) (qv1) (qterm1))) |] 
-  &&  [| (term2 = (TermQuant (qt2) (qv2) (qterm2))) |] 
-  &&  [| ((termtypeID (term1)) = (termtypeID (term2))) |] 
-  &&  [| (t1_pre <> 0) |] 
-  &&  [| (t2_pre <> 0) |] 
-  &&  [| (t2_pre <> 0) |] 
-  &&  [| (t1_pre <> 0) |] 
-  &&  [| ((termtypeID (term1)) <> 0) |] 
-  &&  [| ((termtypeID (term1)) <> 1) |] 
-  &&  [| ((termtypeID (term1)) <> 2) |] 
-  &&  [| ((termtypeID (term1)) = 3) |]
-  &&  (store_term retval_4 (term_subst_v (str) (qv1_2) (qterm1_2)) )
-  **  (store_term retval_6 (term_subst_v (str) (qv2_2) (qterm2_2)) )
-  **  (store_string retval_2 str )
-  **  (store_string y2 qv2_2 )
-  **  (store_term z2 qterm2_2 )
-  **  (store_string y1 qv1_2 )
-  **  (store_term z1 qterm1_2 )
-  **  ((&((t1_pre)  # "term" ->ₛ "type")) # Int  |-> (termtypeID (term1)))
-  **  ((&((t2_pre)  # "term" ->ₛ "type")) # Int  |-> (termtypeID (term2)))
-  **  ((&((t1_pre)  # "term" ->ₛ "content" .ₛ "Quant" .ₛ "type")) # Int  |-> (qtID (qt1_2)))
-  **  ((&((t2_pre)  # "term" ->ₛ "content" .ₛ "Quant" .ₛ "type")) # Int  |-> (qtID (qt2_2)))
-  **  ((&((t1_pre)  # "term" ->ₛ "content" .ₛ "Quant" .ₛ "var")) # Ptr  |-> y1)
-  **  ((&((t2_pre)  # "term" ->ₛ "content" .ₛ "Quant" .ₛ "var")) # Ptr  |-> y2)
-  **  ((&((t1_pre)  # "term" ->ₛ "content" .ₛ "Quant" .ₛ "body")) # Ptr  |-> z1)
-  **  ((&((t2_pre)  # "term" ->ₛ "content" .ₛ "Quant" .ₛ "body")) # Ptr  |-> z2)
-.
-
 Definition alpha_equiv_partial_solve_wit_20 := 
 forall (t2_pre: Z) (t1_pre: Z) (term2: term) (term1: term) (qt2: quant_type) (qv2: (@list Z)) (qterm2: term) (qt1: quant_type) (qv1: (@list Z)) (qterm1: term) (retval: Z) (str: (@list Z)) (retval_2: Z) (z2: Z) (z1: Z) (y2: Z) (y1: Z) (qt2_2: quant_type) (qv2_2: (@list Z)) (qterm2_2: term) (qt1_2: quant_type) (qv1_2: (@list Z)) (qterm1_2: term) (retval_3: Z) (retval_4: Z) (retval_5: Z) (retval_6: Z) (retval_7: Z) ,
-  [| (retval_7 = (term_alpha_eqn ((term_subst_v (str) (qv1_2) (qterm1_2))) ((term_subst_v (str) (qv2_2) (qterm2_2))))) |] 
+  [| (retval_7 = 1) |] 
+  &&  [| (term_alpha_eq (term_subst_v (str) (qv1_2) (qterm1_2)) (term_subst_v (str) (qv2_2) (qterm2_2)) ) |] 
+  &&  [| (retval_6 = retval_5) |] 
+  &&  [| (retval_5 <> 0) |] 
+  &&  [| (retval_4 = retval_3) |] 
+  &&  [| (retval_3 <> 0) |] 
+  &&  [| (t1_pre <> 0) |] 
+  &&  [| (t2_pre <> 0) |] 
+  &&  [| (term1 = (TermQuant (qt1_2) (qv1_2) (qterm1_2))) |] 
+  &&  [| (term2 = (TermQuant (qt2_2) (qv2_2) (qterm2_2))) |] 
+  &&  [| (term_not_contain_var term1 str ) |] 
+  &&  [| (term_not_contain_var term2 str ) |] 
+  &&  [| (retval <> 0) |] 
+  &&  [| (retval = (list_Z_cmp (qv1) (qv2))) |] 
+  &&  [| ((qtID (qt1)) = (qtID (qt2))) |] 
+  &&  [| (t1_pre <> 0) |] 
+  &&  [| (t2_pre <> 0) |] 
+  &&  [| (term1 = (TermQuant (qt1) (qv1) (qterm1))) |] 
+  &&  [| (term2 = (TermQuant (qt2) (qv2) (qterm2))) |] 
+  &&  [| ((termtypeID (term1)) = (termtypeID (term2))) |] 
+  &&  [| (t1_pre <> 0) |] 
+  &&  [| (t2_pre <> 0) |] 
+  &&  [| (t2_pre <> 0) |] 
+  &&  [| (t1_pre <> 0) |] 
+  &&  [| ((termtypeID (term1)) <> 0) |] 
+  &&  [| ((termtypeID (term1)) <> 1) |] 
+  &&  [| ((termtypeID (term1)) <> 2) |] 
+  &&  [| ((termtypeID (term1)) = 3) |]
+  &&  (store_term retval_4 (term_subst_v (str) (qv1_2) (qterm1_2)) )
+  **  (store_term retval_6 (term_subst_v (str) (qv2_2) (qterm2_2)) )
+  **  (store_string retval_2 str )
+  **  (store_string y2 qv2_2 )
+  **  (store_term z2 qterm2_2 )
+  **  (store_string y1 qv1_2 )
+  **  (store_term z1 qterm1_2 )
+  **  ((&((t1_pre)  # "term" ->ₛ "type")) # Int  |-> (termtypeID (term1)))
+  **  ((&((t2_pre)  # "term" ->ₛ "type")) # Int  |-> (termtypeID (term2)))
+  **  ((&((t1_pre)  # "term" ->ₛ "content" .ₛ "Quant" .ₛ "type")) # Int  |-> (qtID (qt1_2)))
+  **  ((&((t2_pre)  # "term" ->ₛ "content" .ₛ "Quant" .ₛ "type")) # Int  |-> (qtID (qt2_2)))
+  **  ((&((t1_pre)  # "term" ->ₛ "content" .ₛ "Quant" .ₛ "var")) # Ptr  |-> y1)
+  **  ((&((t2_pre)  # "term" ->ₛ "content" .ₛ "Quant" .ₛ "var")) # Ptr  |-> y2)
+  **  ((&((t1_pre)  # "term" ->ₛ "content" .ₛ "Quant" .ₛ "body")) # Ptr  |-> z1)
+  **  ((&((t2_pre)  # "term" ->ₛ "content" .ₛ "Quant" .ₛ "body")) # Ptr  |-> z2)
+|--
+  [| (retval_7 = 1) |] 
+  &&  [| (term_alpha_eq (term_subst_v (str) (qv1_2) (qterm1_2)) (term_subst_v (str) (qv2_2) (qterm2_2)) ) |] 
+  &&  [| (retval_6 = retval_5) |] 
+  &&  [| (retval_5 <> 0) |] 
+  &&  [| (retval_4 = retval_3) |] 
+  &&  [| (retval_3 <> 0) |] 
+  &&  [| (t1_pre <> 0) |] 
+  &&  [| (t2_pre <> 0) |] 
+  &&  [| (term1 = (TermQuant (qt1_2) (qv1_2) (qterm1_2))) |] 
+  &&  [| (term2 = (TermQuant (qt2_2) (qv2_2) (qterm2_2))) |] 
+  &&  [| (term_not_contain_var term1 str ) |] 
+  &&  [| (term_not_contain_var term2 str ) |] 
+  &&  [| (retval <> 0) |] 
+  &&  [| (retval = (list_Z_cmp (qv1) (qv2))) |] 
+  &&  [| ((qtID (qt1)) = (qtID (qt2))) |] 
+  &&  [| (t1_pre <> 0) |] 
+  &&  [| (t2_pre <> 0) |] 
+  &&  [| (term1 = (TermQuant (qt1) (qv1) (qterm1))) |] 
+  &&  [| (term2 = (TermQuant (qt2) (qv2) (qterm2))) |] 
+  &&  [| ((termtypeID (term1)) = (termtypeID (term2))) |] 
+  &&  [| (t1_pre <> 0) |] 
+  &&  [| (t2_pre <> 0) |] 
+  &&  [| (t2_pre <> 0) |] 
+  &&  [| (t1_pre <> 0) |] 
+  &&  [| ((termtypeID (term1)) <> 0) |] 
+  &&  [| ((termtypeID (term1)) <> 1) |] 
+  &&  [| ((termtypeID (term1)) <> 2) |] 
+  &&  [| ((termtypeID (term1)) = 3) |]
+  &&  (store_term retval_4 (term_subst_v (str) (qv1_2) (qterm1_2)) )
+  **  (store_term retval_6 (term_subst_v (str) (qv2_2) (qterm2_2)) )
+  **  (store_string retval_2 str )
+  **  (store_string y2 qv2_2 )
+  **  (store_term z2 qterm2_2 )
+  **  (store_string y1 qv1_2 )
+  **  (store_term z1 qterm1_2 )
+  **  ((&((t1_pre)  # "term" ->ₛ "type")) # Int  |-> (termtypeID (term1)))
+  **  ((&((t2_pre)  # "term" ->ₛ "type")) # Int  |-> (termtypeID (term2)))
+  **  ((&((t1_pre)  # "term" ->ₛ "content" .ₛ "Quant" .ₛ "type")) # Int  |-> (qtID (qt1_2)))
+  **  ((&((t2_pre)  # "term" ->ₛ "content" .ₛ "Quant" .ₛ "type")) # Int  |-> (qtID (qt2_2)))
+  **  ((&((t1_pre)  # "term" ->ₛ "content" .ₛ "Quant" .ₛ "var")) # Ptr  |-> y1)
+  **  ((&((t2_pre)  # "term" ->ₛ "content" .ₛ "Quant" .ₛ "var")) # Ptr  |-> y2)
+  **  ((&((t1_pre)  # "term" ->ₛ "content" .ₛ "Quant" .ₛ "body")) # Ptr  |-> z1)
+  **  ((&((t2_pre)  # "term" ->ₛ "content" .ₛ "Quant" .ₛ "body")) # Ptr  |-> z2)
+.
+
+Definition alpha_equiv_partial_solve_wit_21 := 
+forall (t2_pre: Z) (t1_pre: Z) (term2: term) (term1: term) (qt2: quant_type) (qv2: (@list Z)) (qterm2: term) (qt1: quant_type) (qv1: (@list Z)) (qterm1: term) (retval: Z) (str: (@list Z)) (retval_2: Z) (z2: Z) (z1: Z) (y2: Z) (y1: Z) (qt2_2: quant_type) (qv2_2: (@list Z)) (qterm2_2: term) (qt1_2: quant_type) (qv1_2: (@list Z)) (qterm1_2: term) (retval_3: Z) (retval_4: Z) (retval_5: Z) (retval_6: Z) (retval_7: Z) ,
+  [| (retval_7 = 0) |] 
+  &&  [| ~((term_alpha_eq (term_subst_v (str) (qv1_2) (qterm1_2)) (term_subst_v (str) (qv2_2) (qterm2_2)) )) |] 
+  &&  [| (retval_6 = retval_5) |] 
+  &&  [| (retval_5 <> 0) |] 
+  &&  [| (retval_4 = retval_3) |] 
+  &&  [| (retval_3 <> 0) |] 
+  &&  [| (t1_pre <> 0) |] 
+  &&  [| (t2_pre <> 0) |] 
+  &&  [| (term1 = (TermQuant (qt1_2) (qv1_2) (qterm1_2))) |] 
+  &&  [| (term2 = (TermQuant (qt2_2) (qv2_2) (qterm2_2))) |] 
+  &&  [| (term_not_contain_var term1 str ) |] 
+  &&  [| (term_not_contain_var term2 str ) |] 
+  &&  [| (retval <> 0) |] 
+  &&  [| (retval = (list_Z_cmp (qv1) (qv2))) |] 
+  &&  [| ((qtID (qt1)) = (qtID (qt2))) |] 
+  &&  [| (t1_pre <> 0) |] 
+  &&  [| (t2_pre <> 0) |] 
+  &&  [| (term1 = (TermQuant (qt1) (qv1) (qterm1))) |] 
+  &&  [| (term2 = (TermQuant (qt2) (qv2) (qterm2))) |] 
+  &&  [| ((termtypeID (term1)) = (termtypeID (term2))) |] 
+  &&  [| (t1_pre <> 0) |] 
+  &&  [| (t2_pre <> 0) |] 
+  &&  [| (t2_pre <> 0) |] 
+  &&  [| (t1_pre <> 0) |] 
+  &&  [| ((termtypeID (term1)) <> 0) |] 
+  &&  [| ((termtypeID (term1)) <> 1) |] 
+  &&  [| ((termtypeID (term1)) <> 2) |] 
+  &&  [| ((termtypeID (term1)) = 3) |]
+  &&  (store_term retval_4 (term_subst_v (str) (qv1_2) (qterm1_2)) )
+  **  (store_term retval_6 (term_subst_v (str) (qv2_2) (qterm2_2)) )
+  **  (store_string retval_2 str )
+  **  (store_string y2 qv2_2 )
+  **  (store_term z2 qterm2_2 )
+  **  (store_string y1 qv1_2 )
+  **  (store_term z1 qterm1_2 )
+  **  ((&((t1_pre)  # "term" ->ₛ "type")) # Int  |-> (termtypeID (term1)))
+  **  ((&((t2_pre)  # "term" ->ₛ "type")) # Int  |-> (termtypeID (term2)))
+  **  ((&((t1_pre)  # "term" ->ₛ "content" .ₛ "Quant" .ₛ "type")) # Int  |-> (qtID (qt1_2)))
+  **  ((&((t2_pre)  # "term" ->ₛ "content" .ₛ "Quant" .ₛ "type")) # Int  |-> (qtID (qt2_2)))
+  **  ((&((t1_pre)  # "term" ->ₛ "content" .ₛ "Quant" .ₛ "var")) # Ptr  |-> y1)
+  **  ((&((t2_pre)  # "term" ->ₛ "content" .ₛ "Quant" .ₛ "var")) # Ptr  |-> y2)
+  **  ((&((t1_pre)  # "term" ->ₛ "content" .ₛ "Quant" .ₛ "body")) # Ptr  |-> z1)
+  **  ((&((t2_pre)  # "term" ->ₛ "content" .ₛ "Quant" .ₛ "body")) # Ptr  |-> z2)
+|--
+  [| (retval_7 = 0) |] 
+  &&  [| ~((term_alpha_eq (term_subst_v (str) (qv1_2) (qterm1_2)) (term_subst_v (str) (qv2_2) (qterm2_2)) )) |] 
+  &&  [| (retval_6 = retval_5) |] 
+  &&  [| (retval_5 <> 0) |] 
+  &&  [| (retval_4 = retval_3) |] 
+  &&  [| (retval_3 <> 0) |] 
+  &&  [| (t1_pre <> 0) |] 
+  &&  [| (t2_pre <> 0) |] 
+  &&  [| (term1 = (TermQuant (qt1_2) (qv1_2) (qterm1_2))) |] 
+  &&  [| (term2 = (TermQuant (qt2_2) (qv2_2) (qterm2_2))) |] 
+  &&  [| (term_not_contain_var term1 str ) |] 
+  &&  [| (term_not_contain_var term2 str ) |] 
+  &&  [| (retval <> 0) |] 
+  &&  [| (retval = (list_Z_cmp (qv1) (qv2))) |] 
+  &&  [| ((qtID (qt1)) = (qtID (qt2))) |] 
+  &&  [| (t1_pre <> 0) |] 
+  &&  [| (t2_pre <> 0) |] 
+  &&  [| (term1 = (TermQuant (qt1) (qv1) (qterm1))) |] 
+  &&  [| (term2 = (TermQuant (qt2) (qv2) (qterm2))) |] 
+  &&  [| ((termtypeID (term1)) = (termtypeID (term2))) |] 
+  &&  [| (t1_pre <> 0) |] 
+  &&  [| (t2_pre <> 0) |] 
+  &&  [| (t2_pre <> 0) |] 
+  &&  [| (t1_pre <> 0) |] 
+  &&  [| ((termtypeID (term1)) <> 0) |] 
+  &&  [| ((termtypeID (term1)) <> 1) |] 
+  &&  [| ((termtypeID (term1)) <> 2) |] 
+  &&  [| ((termtypeID (term1)) = 3) |]
+  &&  (store_term retval_4 (term_subst_v (str) (qv1_2) (qterm1_2)) )
+  **  (store_term retval_6 (term_subst_v (str) (qv2_2) (qterm2_2)) )
+  **  (store_string retval_2 str )
+  **  (store_string y2 qv2_2 )
+  **  (store_term z2 qterm2_2 )
+  **  (store_string y1 qv1_2 )
+  **  (store_term z1 qterm1_2 )
+  **  ((&((t1_pre)  # "term" ->ₛ "type")) # Int  |-> (termtypeID (term1)))
+  **  ((&((t2_pre)  # "term" ->ₛ "type")) # Int  |-> (termtypeID (term2)))
+  **  ((&((t1_pre)  # "term" ->ₛ "content" .ₛ "Quant" .ₛ "type")) # Int  |-> (qtID (qt1_2)))
+  **  ((&((t2_pre)  # "term" ->ₛ "content" .ₛ "Quant" .ₛ "type")) # Int  |-> (qtID (qt2_2)))
+  **  ((&((t1_pre)  # "term" ->ₛ "content" .ₛ "Quant" .ₛ "var")) # Ptr  |-> y1)
+  **  ((&((t2_pre)  # "term" ->ₛ "content" .ₛ "Quant" .ₛ "var")) # Ptr  |-> y2)
+  **  ((&((t1_pre)  # "term" ->ₛ "content" .ₛ "Quant" .ₛ "body")) # Ptr  |-> z1)
+  **  ((&((t2_pre)  # "term" ->ₛ "content" .ₛ "Quant" .ₛ "body")) # Ptr  |-> z2)
+.
+
+Definition alpha_equiv_partial_solve_wit_22 := 
+forall (t2_pre: Z) (t1_pre: Z) (term2: term) (term1: term) (qt2: quant_type) (qv2: (@list Z)) (qterm2: term) (qt1: quant_type) (qv1: (@list Z)) (qterm1: term) (retval: Z) (str: (@list Z)) (retval_2: Z) (z2: Z) (z1: Z) (y2: Z) (y1: Z) (qt2_2: quant_type) (qv2_2: (@list Z)) (qterm2_2: term) (qt1_2: quant_type) (qv1_2: (@list Z)) (qterm1_2: term) (retval_3: Z) (retval_4: Z) (retval_5: Z) (retval_6: Z) (retval_7: Z) ,
+  [| (retval_7 = 0) |] 
+  &&  [| ~((term_alpha_eq (term_subst_v (str) (qv1_2) (qterm1_2)) (term_subst_v (str) (qv2_2) (qterm2_2)) )) |] 
   &&  [| (retval_6 = retval_5) |] 
   &&  [| (retval_5 <> 0) |] 
   &&  [| (retval_4 = retval_3) |] 
@@ -2129,7 +2702,8 @@ forall (t2_pre: Z) (t1_pre: Z) (term2: term) (term1: term) (qt2: quant_type) (qv
   **  ((&((t1_pre)  # "term" ->ₛ "content" .ₛ "Quant" .ₛ "body")) # Ptr  |-> z1)
   **  ((&((t2_pre)  # "term" ->ₛ "content" .ₛ "Quant" .ₛ "body")) # Ptr  |-> z2)
 |--
-  [| (retval_7 = (term_alpha_eqn ((term_subst_v (str) (qv1_2) (qterm1_2))) ((term_subst_v (str) (qv2_2) (qterm2_2))))) |] 
+  [| (retval_7 = 0) |] 
+  &&  [| ~((term_alpha_eq (term_subst_v (str) (qv1_2) (qterm1_2)) (term_subst_v (str) (qv2_2) (qterm2_2)) )) |] 
   &&  [| (retval_6 = retval_5) |] 
   &&  [| (retval_5 <> 0) |] 
   &&  [| (retval_4 = retval_3) |] 
@@ -2172,9 +2746,99 @@ forall (t2_pre: Z) (t1_pre: Z) (term2: term) (term1: term) (qt2: quant_type) (qv
   **  ((&((t2_pre)  # "term" ->ₛ "content" .ₛ "Quant" .ₛ "body")) # Ptr  |-> z2)
 .
 
-Definition alpha_equiv_partial_solve_wit_21_pure := 
+Definition alpha_equiv_partial_solve_wit_23 := 
+forall (t2_pre: Z) (t1_pre: Z) (term2: term) (term1: term) (qt2: quant_type) (qv2: (@list Z)) (qterm2: term) (qt1: quant_type) (qv1: (@list Z)) (qterm1: term) (retval: Z) (str: (@list Z)) (retval_2: Z) (z2: Z) (z1: Z) (y2: Z) (y1: Z) (qt2_2: quant_type) (qv2_2: (@list Z)) (qterm2_2: term) (qt1_2: quant_type) (qv1_2: (@list Z)) (qterm1_2: term) (retval_3: Z) (retval_4: Z) (retval_5: Z) (retval_6: Z) (retval_7: Z) ,
+  [| (retval_7 = 1) |] 
+  &&  [| (term_alpha_eq (term_subst_v (str) (qv1_2) (qterm1_2)) (term_subst_v (str) (qv2_2) (qterm2_2)) ) |] 
+  &&  [| (retval_6 = retval_5) |] 
+  &&  [| (retval_5 <> 0) |] 
+  &&  [| (retval_4 = retval_3) |] 
+  &&  [| (retval_3 <> 0) |] 
+  &&  [| (t1_pre <> 0) |] 
+  &&  [| (t2_pre <> 0) |] 
+  &&  [| (term1 = (TermQuant (qt1_2) (qv1_2) (qterm1_2))) |] 
+  &&  [| (term2 = (TermQuant (qt2_2) (qv2_2) (qterm2_2))) |] 
+  &&  [| (term_not_contain_var term1 str ) |] 
+  &&  [| (term_not_contain_var term2 str ) |] 
+  &&  [| (retval <> 0) |] 
+  &&  [| (retval = (list_Z_cmp (qv1) (qv2))) |] 
+  &&  [| ((qtID (qt1)) = (qtID (qt2))) |] 
+  &&  [| (t1_pre <> 0) |] 
+  &&  [| (t2_pre <> 0) |] 
+  &&  [| (term1 = (TermQuant (qt1) (qv1) (qterm1))) |] 
+  &&  [| (term2 = (TermQuant (qt2) (qv2) (qterm2))) |] 
+  &&  [| ((termtypeID (term1)) = (termtypeID (term2))) |] 
+  &&  [| (t1_pre <> 0) |] 
+  &&  [| (t2_pre <> 0) |] 
+  &&  [| (t2_pre <> 0) |] 
+  &&  [| (t1_pre <> 0) |] 
+  &&  [| ((termtypeID (term1)) <> 0) |] 
+  &&  [| ((termtypeID (term1)) <> 1) |] 
+  &&  [| ((termtypeID (term1)) <> 2) |] 
+  &&  [| ((termtypeID (term1)) = 3) |]
+  &&  (store_term retval_6 (term_subst_v (str) (qv2_2) (qterm2_2)) )
+  **  (store_string retval_2 str )
+  **  (store_string y2 qv2_2 )
+  **  (store_term z2 qterm2_2 )
+  **  (store_string y1 qv1_2 )
+  **  (store_term z1 qterm1_2 )
+  **  ((&((t1_pre)  # "term" ->ₛ "type")) # Int  |-> (termtypeID (term1)))
+  **  ((&((t2_pre)  # "term" ->ₛ "type")) # Int  |-> (termtypeID (term2)))
+  **  ((&((t1_pre)  # "term" ->ₛ "content" .ₛ "Quant" .ₛ "type")) # Int  |-> (qtID (qt1_2)))
+  **  ((&((t2_pre)  # "term" ->ₛ "content" .ₛ "Quant" .ₛ "type")) # Int  |-> (qtID (qt2_2)))
+  **  ((&((t1_pre)  # "term" ->ₛ "content" .ₛ "Quant" .ₛ "var")) # Ptr  |-> y1)
+  **  ((&((t2_pre)  # "term" ->ₛ "content" .ₛ "Quant" .ₛ "var")) # Ptr  |-> y2)
+  **  ((&((t1_pre)  # "term" ->ₛ "content" .ₛ "Quant" .ₛ "body")) # Ptr  |-> z1)
+  **  ((&((t2_pre)  # "term" ->ₛ "content" .ₛ "Quant" .ₛ "body")) # Ptr  |-> z2)
+|--
+  [| (retval_7 = 1) |] 
+  &&  [| (term_alpha_eq (term_subst_v (str) (qv1_2) (qterm1_2)) (term_subst_v (str) (qv2_2) (qterm2_2)) ) |] 
+  &&  [| (retval_6 = retval_5) |] 
+  &&  [| (retval_5 <> 0) |] 
+  &&  [| (retval_4 = retval_3) |] 
+  &&  [| (retval_3 <> 0) |] 
+  &&  [| (t1_pre <> 0) |] 
+  &&  [| (t2_pre <> 0) |] 
+  &&  [| (term1 = (TermQuant (qt1_2) (qv1_2) (qterm1_2))) |] 
+  &&  [| (term2 = (TermQuant (qt2_2) (qv2_2) (qterm2_2))) |] 
+  &&  [| (term_not_contain_var term1 str ) |] 
+  &&  [| (term_not_contain_var term2 str ) |] 
+  &&  [| (retval <> 0) |] 
+  &&  [| (retval = (list_Z_cmp (qv1) (qv2))) |] 
+  &&  [| ((qtID (qt1)) = (qtID (qt2))) |] 
+  &&  [| (t1_pre <> 0) |] 
+  &&  [| (t2_pre <> 0) |] 
+  &&  [| (term1 = (TermQuant (qt1) (qv1) (qterm1))) |] 
+  &&  [| (term2 = (TermQuant (qt2) (qv2) (qterm2))) |] 
+  &&  [| ((termtypeID (term1)) = (termtypeID (term2))) |] 
+  &&  [| (t1_pre <> 0) |] 
+  &&  [| (t2_pre <> 0) |] 
+  &&  [| (t2_pre <> 0) |] 
+  &&  [| (t1_pre <> 0) |] 
+  &&  [| ((termtypeID (term1)) <> 0) |] 
+  &&  [| ((termtypeID (term1)) <> 1) |] 
+  &&  [| ((termtypeID (term1)) <> 2) |] 
+  &&  [| ((termtypeID (term1)) = 3) |]
+  &&  (store_term retval_6 (term_subst_v (str) (qv2_2) (qterm2_2)) )
+  **  (store_string retval_2 str )
+  **  (store_string y2 qv2_2 )
+  **  (store_term z2 qterm2_2 )
+  **  (store_string y1 qv1_2 )
+  **  (store_term z1 qterm1_2 )
+  **  ((&((t1_pre)  # "term" ->ₛ "type")) # Int  |-> (termtypeID (term1)))
+  **  ((&((t2_pre)  # "term" ->ₛ "type")) # Int  |-> (termtypeID (term2)))
+  **  ((&((t1_pre)  # "term" ->ₛ "content" .ₛ "Quant" .ₛ "type")) # Int  |-> (qtID (qt1_2)))
+  **  ((&((t2_pre)  # "term" ->ₛ "content" .ₛ "Quant" .ₛ "type")) # Int  |-> (qtID (qt2_2)))
+  **  ((&((t1_pre)  # "term" ->ₛ "content" .ₛ "Quant" .ₛ "var")) # Ptr  |-> y1)
+  **  ((&((t2_pre)  # "term" ->ₛ "content" .ₛ "Quant" .ₛ "var")) # Ptr  |-> y2)
+  **  ((&((t1_pre)  # "term" ->ₛ "content" .ₛ "Quant" .ₛ "body")) # Ptr  |-> z1)
+  **  ((&((t2_pre)  # "term" ->ₛ "content" .ₛ "Quant" .ₛ "body")) # Ptr  |-> z2)
+.
+
+Definition alpha_equiv_partial_solve_wit_24_pure := 
 forall (t2_pre: Z) (t1_pre: Z) (term2: term) (term1: term) (qt2: quant_type) (qv2: (@list Z)) (qterm2: term) (qt1: quant_type) (qv1: (@list Z)) (qterm1: term) (retval_2: Z) (str: (@list Z)) (retval: Z) (z2: Z) (z1: Z) (y2: Z) (y1: Z) (qt2_2: quant_type) (qv2_2: (@list Z)) (qterm2_2: term) (qt1_2: quant_type) (qv1_2: (@list Z)) (qterm1_2: term) (retval_3: Z) (retval_4: Z) (retval_5: Z) (retval_6: Z) (retval_7: Z) ,
-  [| (retval_7 = (term_alpha_eqn ((term_subst_v (str) (qv1_2) (qterm1_2))) ((term_subst_v (str) (qv2_2) (qterm2_2))))) |] 
+  [| (retval_7 = 1) |] 
+  &&  [| (term_alpha_eq (term_subst_v (str) (qv1_2) (qterm1_2)) (term_subst_v (str) (qv2_2) (qterm2_2)) ) |] 
   &&  [| (retval_6 = retval_5) |] 
   &&  [| (retval_5 <> 0) |] 
   &&  [| (retval_4 = retval_3) |] 
@@ -2224,9 +2888,10 @@ forall (t2_pre: Z) (t1_pre: Z) (term2: term) (term1: term) (qt2: quant_type) (qv
   [| (retval <> 0) |]
 .
 
-Definition alpha_equiv_partial_solve_wit_21_aux := 
+Definition alpha_equiv_partial_solve_wit_24_aux := 
 forall (t2_pre: Z) (t1_pre: Z) (term2: term) (term1: term) (qt2: quant_type) (qv2: (@list Z)) (qterm2: term) (qt1: quant_type) (qv1: (@list Z)) (qterm1: term) (retval: Z) (str: (@list Z)) (retval_2: Z) (z2: Z) (z1: Z) (y2: Z) (y1: Z) (qt2_2: quant_type) (qv2_2: (@list Z)) (qterm2_2: term) (qt1_2: quant_type) (qv1_2: (@list Z)) (qterm1_2: term) (retval_3: Z) (retval_4: Z) (retval_5: Z) (retval_6: Z) (retval_7: Z) ,
-  [| (retval_7 = (term_alpha_eqn ((term_subst_v (str) (qv1_2) (qterm1_2))) ((term_subst_v (str) (qv2_2) (qterm2_2))))) |] 
+  [| (retval_7 = 1) |] 
+  &&  [| (term_alpha_eq (term_subst_v (str) (qv1_2) (qterm1_2)) (term_subst_v (str) (qv2_2) (qterm2_2)) ) |] 
   &&  [| (retval_6 = retval_5) |] 
   &&  [| (retval_5 <> 0) |] 
   &&  [| (retval_4 = retval_3) |] 
@@ -2268,7 +2933,8 @@ forall (t2_pre: Z) (t1_pre: Z) (term2: term) (term1: term) (qt2: quant_type) (qv
   **  ((&((t2_pre)  # "term" ->ₛ "content" .ₛ "Quant" .ₛ "body")) # Ptr  |-> z2)
 |--
   [| (retval_2 <> 0) |] 
-  &&  [| (retval_7 = (term_alpha_eqn ((term_subst_v (str) (qv1_2) (qterm1_2))) ((term_subst_v (str) (qv2_2) (qterm2_2))))) |] 
+  &&  [| (retval_7 = 1) |] 
+  &&  [| (term_alpha_eq (term_subst_v (str) (qv1_2) (qterm1_2)) (term_subst_v (str) (qv2_2) (qterm2_2)) ) |] 
   &&  [| (retval_6 = retval_5) |] 
   &&  [| (retval_5 <> 0) |] 
   &&  [| (retval_4 = retval_3) |] 
@@ -2310,7 +2976,150 @@ forall (t2_pre: Z) (t1_pre: Z) (term2: term) (term1: term) (qt2: quant_type) (qv
   **  ((&((t2_pre)  # "term" ->ₛ "content" .ₛ "Quant" .ₛ "body")) # Ptr  |-> z2)
 .
 
-Definition alpha_equiv_partial_solve_wit_21 := alpha_equiv_partial_solve_wit_21_pure -> alpha_equiv_partial_solve_wit_21_aux.
+Definition alpha_equiv_partial_solve_wit_24 := alpha_equiv_partial_solve_wit_24_pure -> alpha_equiv_partial_solve_wit_24_aux.
+
+Definition alpha_equiv_partial_solve_wit_25_pure := 
+forall (t2_pre: Z) (t1_pre: Z) (term2: term) (term1: term) (qt2: quant_type) (qv2: (@list Z)) (qterm2: term) (qt1: quant_type) (qv1: (@list Z)) (qterm1: term) (retval_2: Z) (str: (@list Z)) (retval: Z) (z2: Z) (z1: Z) (y2: Z) (y1: Z) (qt2_2: quant_type) (qv2_2: (@list Z)) (qterm2_2: term) (qt1_2: quant_type) (qv1_2: (@list Z)) (qterm1_2: term) (retval_3: Z) (retval_4: Z) (retval_5: Z) (retval_6: Z) (retval_7: Z) ,
+  [| (retval_7 = 0) |] 
+  &&  [| ~((term_alpha_eq (term_subst_v (str) (qv1_2) (qterm1_2)) (term_subst_v (str) (qv2_2) (qterm2_2)) )) |] 
+  &&  [| (retval_6 = retval_5) |] 
+  &&  [| (retval_5 <> 0) |] 
+  &&  [| (retval_4 = retval_3) |] 
+  &&  [| (retval_3 <> 0) |] 
+  &&  [| (t1_pre <> 0) |] 
+  &&  [| (t2_pre <> 0) |] 
+  &&  [| (term1 = (TermQuant (qt1_2) (qv1_2) (qterm1_2))) |] 
+  &&  [| (term2 = (TermQuant (qt2_2) (qv2_2) (qterm2_2))) |] 
+  &&  [| (term_not_contain_var term1 str ) |] 
+  &&  [| (term_not_contain_var term2 str ) |] 
+  &&  [| (retval_2 <> 0) |] 
+  &&  [| (retval_2 = (list_Z_cmp (qv1) (qv2))) |] 
+  &&  [| ((qtID (qt1)) = (qtID (qt2))) |] 
+  &&  [| (t1_pre <> 0) |] 
+  &&  [| (t2_pre <> 0) |] 
+  &&  [| (term1 = (TermQuant (qt1) (qv1) (qterm1))) |] 
+  &&  [| (term2 = (TermQuant (qt2) (qv2) (qterm2))) |] 
+  &&  [| ((termtypeID (term1)) = (termtypeID (term2))) |] 
+  &&  [| (t1_pre <> 0) |] 
+  &&  [| (t2_pre <> 0) |] 
+  &&  [| (t2_pre <> 0) |] 
+  &&  [| (t1_pre <> 0) |] 
+  &&  [| ((termtypeID (term1)) <> 0) |] 
+  &&  [| ((termtypeID (term1)) <> 1) |] 
+  &&  [| ((termtypeID (term1)) <> 2) |] 
+  &&  [| ((termtypeID (term1)) = 3) |]
+  &&  ((( &( "result" ) )) # Int  |-> retval_7)
+  **  (store_string retval str )
+  **  (store_string y2 qv2_2 )
+  **  (store_term z2 qterm2_2 )
+  **  ((( &( "new_t2" ) )) # Ptr  |-> retval_6)
+  **  (store_string y1 qv1_2 )
+  **  (store_term z1 qterm1_2 )
+  **  ((( &( "new_t1" ) )) # Ptr  |-> retval_4)
+  **  ((( &( "t1" ) )) # Ptr  |-> t1_pre)
+  **  ((( &( "t2" ) )) # Ptr  |-> t2_pre)
+  **  ((&((t1_pre)  # "term" ->ₛ "type")) # Int  |-> (termtypeID (term1)))
+  **  ((&((t2_pre)  # "term" ->ₛ "type")) # Int  |-> (termtypeID (term2)))
+  **  ((&((t1_pre)  # "term" ->ₛ "content" .ₛ "Quant" .ₛ "type")) # Int  |-> (qtID (qt1_2)))
+  **  ((&((t2_pre)  # "term" ->ₛ "content" .ₛ "Quant" .ₛ "type")) # Int  |-> (qtID (qt2_2)))
+  **  ((&((t1_pre)  # "term" ->ₛ "content" .ₛ "Quant" .ₛ "var")) # Ptr  |-> y1)
+  **  ((&((t2_pre)  # "term" ->ₛ "content" .ₛ "Quant" .ₛ "var")) # Ptr  |-> y2)
+  **  ((&((t1_pre)  # "term" ->ₛ "content" .ₛ "Quant" .ₛ "body")) # Ptr  |-> z1)
+  **  ((&((t2_pre)  # "term" ->ₛ "content" .ₛ "Quant" .ₛ "body")) # Ptr  |-> z2)
+  **  ((( &( "new_var" ) )) # Ptr  |-> retval)
+|--
+  [| (retval <> 0) |]
+.
+
+Definition alpha_equiv_partial_solve_wit_25_aux := 
+forall (t2_pre: Z) (t1_pre: Z) (term2: term) (term1: term) (qt2: quant_type) (qv2: (@list Z)) (qterm2: term) (qt1: quant_type) (qv1: (@list Z)) (qterm1: term) (retval: Z) (str: (@list Z)) (retval_2: Z) (z2: Z) (z1: Z) (y2: Z) (y1: Z) (qt2_2: quant_type) (qv2_2: (@list Z)) (qterm2_2: term) (qt1_2: quant_type) (qv1_2: (@list Z)) (qterm1_2: term) (retval_3: Z) (retval_4: Z) (retval_5: Z) (retval_6: Z) (retval_7: Z) ,
+  [| (retval_7 = 0) |] 
+  &&  [| ~((term_alpha_eq (term_subst_v (str) (qv1_2) (qterm1_2)) (term_subst_v (str) (qv2_2) (qterm2_2)) )) |] 
+  &&  [| (retval_6 = retval_5) |] 
+  &&  [| (retval_5 <> 0) |] 
+  &&  [| (retval_4 = retval_3) |] 
+  &&  [| (retval_3 <> 0) |] 
+  &&  [| (t1_pre <> 0) |] 
+  &&  [| (t2_pre <> 0) |] 
+  &&  [| (term1 = (TermQuant (qt1_2) (qv1_2) (qterm1_2))) |] 
+  &&  [| (term2 = (TermQuant (qt2_2) (qv2_2) (qterm2_2))) |] 
+  &&  [| (term_not_contain_var term1 str ) |] 
+  &&  [| (term_not_contain_var term2 str ) |] 
+  &&  [| (retval <> 0) |] 
+  &&  [| (retval = (list_Z_cmp (qv1) (qv2))) |] 
+  &&  [| ((qtID (qt1)) = (qtID (qt2))) |] 
+  &&  [| (t1_pre <> 0) |] 
+  &&  [| (t2_pre <> 0) |] 
+  &&  [| (term1 = (TermQuant (qt1) (qv1) (qterm1))) |] 
+  &&  [| (term2 = (TermQuant (qt2) (qv2) (qterm2))) |] 
+  &&  [| ((termtypeID (term1)) = (termtypeID (term2))) |] 
+  &&  [| (t1_pre <> 0) |] 
+  &&  [| (t2_pre <> 0) |] 
+  &&  [| (t2_pre <> 0) |] 
+  &&  [| (t1_pre <> 0) |] 
+  &&  [| ((termtypeID (term1)) <> 0) |] 
+  &&  [| ((termtypeID (term1)) <> 1) |] 
+  &&  [| ((termtypeID (term1)) <> 2) |] 
+  &&  [| ((termtypeID (term1)) = 3) |]
+  &&  (store_string retval_2 str )
+  **  (store_string y2 qv2_2 )
+  **  (store_term z2 qterm2_2 )
+  **  (store_string y1 qv1_2 )
+  **  (store_term z1 qterm1_2 )
+  **  ((&((t1_pre)  # "term" ->ₛ "type")) # Int  |-> (termtypeID (term1)))
+  **  ((&((t2_pre)  # "term" ->ₛ "type")) # Int  |-> (termtypeID (term2)))
+  **  ((&((t1_pre)  # "term" ->ₛ "content" .ₛ "Quant" .ₛ "type")) # Int  |-> (qtID (qt1_2)))
+  **  ((&((t2_pre)  # "term" ->ₛ "content" .ₛ "Quant" .ₛ "type")) # Int  |-> (qtID (qt2_2)))
+  **  ((&((t1_pre)  # "term" ->ₛ "content" .ₛ "Quant" .ₛ "var")) # Ptr  |-> y1)
+  **  ((&((t2_pre)  # "term" ->ₛ "content" .ₛ "Quant" .ₛ "var")) # Ptr  |-> y2)
+  **  ((&((t1_pre)  # "term" ->ₛ "content" .ₛ "Quant" .ₛ "body")) # Ptr  |-> z1)
+  **  ((&((t2_pre)  # "term" ->ₛ "content" .ₛ "Quant" .ₛ "body")) # Ptr  |-> z2)
+|--
+  [| (retval_2 <> 0) |] 
+  &&  [| (retval_7 = 0) |] 
+  &&  [| ~((term_alpha_eq (term_subst_v (str) (qv1_2) (qterm1_2)) (term_subst_v (str) (qv2_2) (qterm2_2)) )) |] 
+  &&  [| (retval_6 = retval_5) |] 
+  &&  [| (retval_5 <> 0) |] 
+  &&  [| (retval_4 = retval_3) |] 
+  &&  [| (retval_3 <> 0) |] 
+  &&  [| (t1_pre <> 0) |] 
+  &&  [| (t2_pre <> 0) |] 
+  &&  [| (term1 = (TermQuant (qt1_2) (qv1_2) (qterm1_2))) |] 
+  &&  [| (term2 = (TermQuant (qt2_2) (qv2_2) (qterm2_2))) |] 
+  &&  [| (term_not_contain_var term1 str ) |] 
+  &&  [| (term_not_contain_var term2 str ) |] 
+  &&  [| (retval <> 0) |] 
+  &&  [| (retval = (list_Z_cmp (qv1) (qv2))) |] 
+  &&  [| ((qtID (qt1)) = (qtID (qt2))) |] 
+  &&  [| (t1_pre <> 0) |] 
+  &&  [| (t2_pre <> 0) |] 
+  &&  [| (term1 = (TermQuant (qt1) (qv1) (qterm1))) |] 
+  &&  [| (term2 = (TermQuant (qt2) (qv2) (qterm2))) |] 
+  &&  [| ((termtypeID (term1)) = (termtypeID (term2))) |] 
+  &&  [| (t1_pre <> 0) |] 
+  &&  [| (t2_pre <> 0) |] 
+  &&  [| (t2_pre <> 0) |] 
+  &&  [| (t1_pre <> 0) |] 
+  &&  [| ((termtypeID (term1)) <> 0) |] 
+  &&  [| ((termtypeID (term1)) <> 1) |] 
+  &&  [| ((termtypeID (term1)) <> 2) |] 
+  &&  [| ((termtypeID (term1)) = 3) |]
+  &&  (store_string retval_2 str )
+  **  (store_string y2 qv2_2 )
+  **  (store_term z2 qterm2_2 )
+  **  (store_string y1 qv1_2 )
+  **  (store_term z1 qterm1_2 )
+  **  ((&((t1_pre)  # "term" ->ₛ "type")) # Int  |-> (termtypeID (term1)))
+  **  ((&((t2_pre)  # "term" ->ₛ "type")) # Int  |-> (termtypeID (term2)))
+  **  ((&((t1_pre)  # "term" ->ₛ "content" .ₛ "Quant" .ₛ "type")) # Int  |-> (qtID (qt1_2)))
+  **  ((&((t2_pre)  # "term" ->ₛ "content" .ₛ "Quant" .ₛ "type")) # Int  |-> (qtID (qt2_2)))
+  **  ((&((t1_pre)  # "term" ->ₛ "content" .ₛ "Quant" .ₛ "var")) # Ptr  |-> y1)
+  **  ((&((t2_pre)  # "term" ->ₛ "content" .ₛ "Quant" .ₛ "var")) # Ptr  |-> y2)
+  **  ((&((t1_pre)  # "term" ->ₛ "content" .ₛ "Quant" .ₛ "body")) # Ptr  |-> z1)
+  **  ((&((t2_pre)  # "term" ->ₛ "content" .ₛ "Quant" .ₛ "body")) # Ptr  |-> z2)
+.
+
+Definition alpha_equiv_partial_solve_wit_25 := alpha_equiv_partial_solve_wit_25_pure -> alpha_equiv_partial_solve_wit_25_aux.
 
 Definition alpha_equiv_which_implies_wit_1 := 
 forall (term2: term) (term1: term) (t1: Z) (t2: Z) ,
@@ -2456,7 +3265,9 @@ forall (term2: term) (term1: term) (qterm2: term) (qv2: (@list Z)) (qt2: quant_t
 
 Definition alpha_equiv_which_implies_wit_7 := 
 forall (term2: term) (term1: term) (t1: Z) (t2: Z) ,
-  (store_term t1 term1 )
+  [| ((termtypeID (term1)) = 3) |] 
+  &&  [| ((termtypeID (term1)) = (termtypeID (term2))) |]
+  &&  (store_term t1 term1 )
   **  (store_term t2 term2 )
 |--
   EX (z2: Z)  (z1: Z)  (y2: Z)  (y1: Z)  (qt2: quant_type)  (qv2: (@list Z))  (qterm2: term)  (qt1: quant_type)  (qv1: (@list Z))  (qterm1: term) ,
@@ -2495,8 +3306,9 @@ Axiom proof_of_alpha_equiv_safety_wit_12 : alpha_equiv_safety_wit_12.
 Axiom proof_of_alpha_equiv_safety_wit_13 : alpha_equiv_safety_wit_13.
 Axiom proof_of_alpha_equiv_safety_wit_14 : alpha_equiv_safety_wit_14.
 Axiom proof_of_alpha_equiv_safety_wit_15 : alpha_equiv_safety_wit_15.
-Axiom proof_of_alpha_equiv_entail_wit_1_1 : alpha_equiv_entail_wit_1_1.
-Axiom proof_of_alpha_equiv_entail_wit_1_2 : alpha_equiv_entail_wit_1_2.
+Axiom proof_of_alpha_equiv_safety_wit_16 : alpha_equiv_safety_wit_16.
+Axiom proof_of_alpha_equiv_safety_wit_17 : alpha_equiv_safety_wit_17.
+Axiom proof_of_alpha_equiv_entail_wit_1 : alpha_equiv_entail_wit_1.
 Axiom proof_of_alpha_equiv_return_wit_1_1 : alpha_equiv_return_wit_1_1.
 Axiom proof_of_alpha_equiv_return_wit_1_2 : alpha_equiv_return_wit_1_2.
 Axiom proof_of_alpha_equiv_return_wit_2 : alpha_equiv_return_wit_2.
@@ -2506,11 +3318,17 @@ Axiom proof_of_alpha_equiv_return_wit_4 : alpha_equiv_return_wit_4.
 Axiom proof_of_alpha_equiv_return_wit_5_1 : alpha_equiv_return_wit_5_1.
 Axiom proof_of_alpha_equiv_return_wit_5_2 : alpha_equiv_return_wit_5_2.
 Axiom proof_of_alpha_equiv_return_wit_5_3 : alpha_equiv_return_wit_5_3.
+Axiom proof_of_alpha_equiv_return_wit_5_4 : alpha_equiv_return_wit_5_4.
+Axiom proof_of_alpha_equiv_return_wit_5_5 : alpha_equiv_return_wit_5_5.
+Axiom proof_of_alpha_equiv_return_wit_5_6 : alpha_equiv_return_wit_5_6.
 Axiom proof_of_alpha_equiv_return_wit_6 : alpha_equiv_return_wit_6.
-Axiom proof_of_alpha_equiv_return_wit_7 : alpha_equiv_return_wit_7.
+Axiom proof_of_alpha_equiv_return_wit_7_1 : alpha_equiv_return_wit_7_1.
+Axiom proof_of_alpha_equiv_return_wit_7_2 : alpha_equiv_return_wit_7_2.
 Axiom proof_of_alpha_equiv_return_wit_8_1 : alpha_equiv_return_wit_8_1.
 Axiom proof_of_alpha_equiv_return_wit_8_2 : alpha_equiv_return_wit_8_2.
-Axiom proof_of_alpha_equiv_return_wit_9 : alpha_equiv_return_wit_9.
+Axiom proof_of_alpha_equiv_return_wit_9_1 : alpha_equiv_return_wit_9_1.
+Axiom proof_of_alpha_equiv_return_wit_9_2 : alpha_equiv_return_wit_9_2.
+Axiom proof_of_alpha_equiv_return_wit_10 : alpha_equiv_return_wit_10.
 Axiom proof_of_alpha_equiv_partial_solve_wit_1 : alpha_equiv_partial_solve_wit_1.
 Axiom proof_of_alpha_equiv_partial_solve_wit_2_pure : alpha_equiv_partial_solve_wit_2_pure.
 Axiom proof_of_alpha_equiv_partial_solve_wit_2 : alpha_equiv_partial_solve_wit_2.
@@ -2521,25 +3339,31 @@ Axiom proof_of_alpha_equiv_partial_solve_wit_5_pure : alpha_equiv_partial_solve_
 Axiom proof_of_alpha_equiv_partial_solve_wit_5 : alpha_equiv_partial_solve_wit_5.
 Axiom proof_of_alpha_equiv_partial_solve_wit_6 : alpha_equiv_partial_solve_wit_6.
 Axiom proof_of_alpha_equiv_partial_solve_wit_7 : alpha_equiv_partial_solve_wit_7.
-Axiom proof_of_alpha_equiv_partial_solve_wit_8_pure : alpha_equiv_partial_solve_wit_8_pure.
 Axiom proof_of_alpha_equiv_partial_solve_wit_8 : alpha_equiv_partial_solve_wit_8.
+Axiom proof_of_alpha_equiv_partial_solve_wit_9_pure : alpha_equiv_partial_solve_wit_9_pure.
 Axiom proof_of_alpha_equiv_partial_solve_wit_9 : alpha_equiv_partial_solve_wit_9.
 Axiom proof_of_alpha_equiv_partial_solve_wit_10 : alpha_equiv_partial_solve_wit_10.
-Axiom proof_of_alpha_equiv_partial_solve_wit_11_pure : alpha_equiv_partial_solve_wit_11_pure.
 Axiom proof_of_alpha_equiv_partial_solve_wit_11 : alpha_equiv_partial_solve_wit_11.
+Axiom proof_of_alpha_equiv_partial_solve_wit_12_pure : alpha_equiv_partial_solve_wit_12_pure.
 Axiom proof_of_alpha_equiv_partial_solve_wit_12 : alpha_equiv_partial_solve_wit_12.
 Axiom proof_of_alpha_equiv_partial_solve_wit_13 : alpha_equiv_partial_solve_wit_13.
+Axiom proof_of_alpha_equiv_partial_solve_wit_14_pure : alpha_equiv_partial_solve_wit_14_pure.
 Axiom proof_of_alpha_equiv_partial_solve_wit_14 : alpha_equiv_partial_solve_wit_14.
-Axiom proof_of_alpha_equiv_partial_solve_wit_15_pure : alpha_equiv_partial_solve_wit_15_pure.
 Axiom proof_of_alpha_equiv_partial_solve_wit_15 : alpha_equiv_partial_solve_wit_15.
+Axiom proof_of_alpha_equiv_partial_solve_wit_16_pure : alpha_equiv_partial_solve_wit_16_pure.
 Axiom proof_of_alpha_equiv_partial_solve_wit_16 : alpha_equiv_partial_solve_wit_16.
-Axiom proof_of_alpha_equiv_partial_solve_wit_17_pure : alpha_equiv_partial_solve_wit_17_pure.
 Axiom proof_of_alpha_equiv_partial_solve_wit_17 : alpha_equiv_partial_solve_wit_17.
+Axiom proof_of_alpha_equiv_partial_solve_wit_18_pure : alpha_equiv_partial_solve_wit_18_pure.
 Axiom proof_of_alpha_equiv_partial_solve_wit_18 : alpha_equiv_partial_solve_wit_18.
 Axiom proof_of_alpha_equiv_partial_solve_wit_19 : alpha_equiv_partial_solve_wit_19.
 Axiom proof_of_alpha_equiv_partial_solve_wit_20 : alpha_equiv_partial_solve_wit_20.
-Axiom proof_of_alpha_equiv_partial_solve_wit_21_pure : alpha_equiv_partial_solve_wit_21_pure.
 Axiom proof_of_alpha_equiv_partial_solve_wit_21 : alpha_equiv_partial_solve_wit_21.
+Axiom proof_of_alpha_equiv_partial_solve_wit_22 : alpha_equiv_partial_solve_wit_22.
+Axiom proof_of_alpha_equiv_partial_solve_wit_23 : alpha_equiv_partial_solve_wit_23.
+Axiom proof_of_alpha_equiv_partial_solve_wit_24_pure : alpha_equiv_partial_solve_wit_24_pure.
+Axiom proof_of_alpha_equiv_partial_solve_wit_24 : alpha_equiv_partial_solve_wit_24.
+Axiom proof_of_alpha_equiv_partial_solve_wit_25_pure : alpha_equiv_partial_solve_wit_25_pure.
+Axiom proof_of_alpha_equiv_partial_solve_wit_25 : alpha_equiv_partial_solve_wit_25.
 Axiom proof_of_alpha_equiv_which_implies_wit_1 : alpha_equiv_which_implies_wit_1.
 Axiom proof_of_alpha_equiv_which_implies_wit_2 : alpha_equiv_which_implies_wit_2.
 Axiom proof_of_alpha_equiv_which_implies_wit_3 : alpha_equiv_which_implies_wit_3.
