@@ -538,6 +538,7 @@ Inductive term_alpha_eq : term -> term -> Prop :=
   | AlphaQuant : forall qtype1 qvar1 body1 qtype2 qvar2 body2,
       qtID qtype1 = qtID qtype2 ->
       (list_Z_eqb qvar1 qvar2 = true) /\ (term_alpha_eq body1 body2) \/
+      (list_Z_eqb qvar1 qvar2 = false) /\ 
       (exists fresh,
         term_not_contain_var (TermQuant qtype1 qvar1 body1) fresh /\
         term_not_contain_var (TermQuant qtype2 qvar2 body2) fresh /\
@@ -568,12 +569,9 @@ Lemma term_alpha_eq_symm : forall (t1 t2 : term),
   term_alpha_eq t2 t1.
 Proof.
   induction t1, t2; try intros; try inversion H.
-  + apply AlphaVar. auto.
-  + apply AlphaConst.
-    auto.
-    destruct H5.
-    - left; rewrite <- H3; auto.
-    - right; auto.
+  + apply AlphaVar; auto.
+  + apply AlphaConst; auto.
+    destruct H5; [left; rewrite <- H3; auto | right; auto].
   + apply AlphaApply.  
     pose proof IHt1_1 t2_1 H3.
     pose proof IHt1_2 t2_2 H5.
@@ -649,19 +647,10 @@ Lemma alpha_equiv_quant: forall (t1 t2 : term) (qt1 qt2 : quant_type) (qv1 qv2 :
   term_alpha_eq (TermQuant qt1 qv1 t1) (TermQuant qt2 qv2 t2) /\ list_Z_eqb qv1 qv2 = true -> 
   term_alpha_eq t1 t2.
 Proof.
-  intros.
-  revert H. revert t1 t2.
-  induction t1, t2; try intros; try destruct H; try pose proof list_Z_eqb2eq qv1 qv2 H0; try inversion H.
-  + destruct H9 as [Ha|Hb].
-    - destruct Ha; auto.
-    - destruct Hb; destruct H9 as [Haa [Hbb Hcc]].
-      unfold term_subst_v, term_not_contain_var in *.
-      destruct (list_Z_eqb var qv1) eqn:Heq1; destruct (list_Z_eqb var0 qv2) eqn:Heq2.
-      * pose proof list_Z_eqb2eq var qv1 Heq1; pose proof list_Z_eqb2eq var0 qv2 Heq2.
-        rewrite <- H9, <- H10 in H1.
-        apply AlphaVar; auto.
-      * inversion Hcc; destruct Hbb; congruence.
-      * inversion Hcc; destruct Haa; congruence.
-      * auto.
-  +
-Admitted. 
+  intros t1 t2 qt1 qt2 qv1 qv2 [Halpha Heqv].
+  pose proof (list_Z_eqb2eq qv1 qv2 Heqv) as Hqveq.
+  inversion Halpha; subst.
+  destruct H6 as [[? ?]|[? ?]].
+  + destruct H; auto.
+  + rewrite Heqv in H. congruence.
+Qed.
