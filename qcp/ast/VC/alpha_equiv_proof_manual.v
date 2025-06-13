@@ -188,10 +188,16 @@ Proof.
   Exists y1 z1 y2 z2.
   entailer!.
   contradict H0.
+  rewrite H1 in H2.
+  unfold list_Z_cmp in H2.
+  destruct list_Z_eqb eqn:Heqn; [ | congruence].
+  pose proof list_Z_eqb2eq qv1 qv2 Heqn as Heq.
   inversion H0.
   destruct H24 as [[Ha Hb] | Hc].
   + auto.
-  + destruct Hc as [x Hx].
+  + 
+  
+  destruct Hc as [x | Hx].
   Admitted. 
 
 Lemma proof_of_alpha_equiv_return_wit_8_1 : alpha_equiv_return_wit_8_1.
@@ -223,6 +229,10 @@ Proof.
   inversion H0.
   destruct H34 as [Ha|Hb].
   + destruct Ha as [Hc Hd].
+    rewrite H7 in H9; inversion H9.
+    rewrite H8 in H10; inversion H10.
+    inversion H9.
+    inversion H10.
     admit.
   + destruct Hb as [x Hx]. 
   
