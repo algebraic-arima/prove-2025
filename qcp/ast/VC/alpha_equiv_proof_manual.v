@@ -239,9 +239,13 @@ Proof.
     destruct (list_Z_eqb qv1 qv2) eqn:Heqq; [congruence | ].
     rewrite H36, H39 in *; congruence.
   + destruct Hb as [Ha [x [Hx1 [Hx2 Hx3]]]].
-    unfold term_not_contain_var in Hx1, Hx2.
-    fold term_not_contain_var in Hx1, Hx2.
-Admitted.
+    apply (alpha_equiv_quant_allvar qterm1_2 qterm2_2 qt1_2 qt2_2 qv1_2 qv2_2 str).
+    split; [auto | ].
+    rewrite H7 in H9.
+    rewrite H8 in H10.
+    split; [auto | ].
+    split; [auto | auto].
+Qed.
 
 Lemma proof_of_alpha_equiv_return_wit_9_1 : alpha_equiv_return_wit_9_1.
 Proof. 
