@@ -454,6 +454,30 @@ Proof.
   apply list_Z_eqb_eq.
 Qed. 
 
+Lemma list_Z_neqb_neq : forall l1 l2 : list Z,
+  list_Z_eqb l1 l2 = false <-> l1 <> l2.
+Proof.
+  intros l1 l2. split.
+  + intros H Hcontra.
+    pose proof list_Z_eq2eqb l1 l2 Hcontra; congruence.
+  + intros H.
+    destruct (list_Z_eqb l1 l2) eqn:E.
+    - pose proof list_Z_eqb2eq l1 l2 E; congruence.
+    - reflexivity.  
+Qed.
+
+Lemma list_Z_neqb2neq : forall l1 l2 : list Z,
+  list_Z_eqb l1 l2 = false -> l1 <> l2.
+Proof.
+  apply list_Z_neqb_neq.
+Qed. 
+
+Lemma list_Z_neq2neqb : forall l1 l2 : list Z,
+  l1 <> l2 -> list_Z_eqb l1 l2 = false.
+Proof.
+  apply list_Z_neqb_neq.
+Qed. 
+
 Lemma list_Z_eqb_refl : forall (l : list Z),
   list_Z_eqb l l = true.
 Proof.
@@ -463,13 +487,16 @@ Proof.
 Qed.
 
 Lemma list_Z_eqb_symm : forall (l1 l2 : list Z),
-  list_Z_eqb l1 l2 = true ->
-  list_Z_eqb l2 l1 = true.
+  list_Z_eqb l1 l2 = list_Z_eqb l2 l1.
 Proof.
   intros.
-  apply list_Z_eqb_eq.
-  pose proof list_Z_eqb2eq l1 l2 H.
-  auto.
+  destruct (list_Z_eqb l1 l2) eqn:E.
+  + pose proof list_Z_eqb2eq l1 l2 E.
+    rewrite H; pose proof list_Z_eqb_refl l2; rewrite H0; auto.
+  + pose proof list_Z_neqb2neq l1 l2 E.
+    destruct (list_Z_eqb l2 l1) eqn:Heq.
+    - pose proof list_Z_eqb2eq l2 l1 Heq; congruence.
+    - auto.
 Qed.
 
 Lemma list_Z_eqb_trans : forall (l1 l2 l3 : list Z),
@@ -568,36 +595,32 @@ Lemma term_alpha_eq_symm : forall (t1 t2 : term),
   term_alpha_eq t1 t2 ->
   term_alpha_eq t2 t1.
 Proof.
-  induction t1, t2; try intros; try inversion H.
-  + apply AlphaVar; auto.
-  + apply AlphaConst; auto.
-    destruct H5; [left; rewrite <- H3; auto | right; auto].
-  + apply AlphaApply.  
+  intros.
+  revert t2 H; induction t1; simpl; intros.
+  + destruct t2; try inversion H; try subst.
+    apply AlphaVar; auto.
+  + destruct t2; try inversion H; try subst.
+    apply AlphaConst; rewrite <- H3; [auto | ].
+    destruct H5; [ left; auto | right; rewrite H0; reflexivity].
+  + destruct t2; try inversion H; try subst.
+    apply AlphaApply.  
     pose proof IHt1_1 t2_1 H3.
     pose proof IHt1_2 t2_2 H5.
     auto. auto.
-  + apply AlphaQuant; [ auto | ].
-    destruct H7.
-    - destruct H7.
-      pose proof list_Z_eqb2eq qvar qvar0 H7.
-      rewrite H9.
-      pose proof IHt1 t2.
-      left.
-      split.
-      * apply list_Z_eq2eqb; reflexivity.
-      * apply H10, H8.
-    - right.
-      (* split; [exact Hb | split; [exact Ha | ]].
-      induction (term_subst_v x qvar t1), (term_subst_v x qvar0 t2); try inversion Hc.
-      * apply AlphaVar; auto.
-      * apply AlphaConst; try auto.
-        rewrite <- H10.
-        destruct H12; [left; auto | right; auto].
-      * apply AlphaApply. admit. admit.
-      * apply AlphaQuant; [auto | ].
-        destruct H14.
-          
-      fold term_subst_v. *)
+  + destruct t2; try inversion H; try subst.
+    apply AlphaQuant; [auto | ].
+    destruct H7 as [[Haa Hab]|[Hba Hbb]].
+    - left; split.
+      rewrite <- Haa.
+      apply list_Z_eqb_symm.
+      apply (IHt1 t2 Hab).
+    - right; split.
+      rewrite <- Hba.
+      apply list_Z_eqb_symm.
+      destruct Hbb as [x Hx]; exists x.
+      destruct Hx as [Hxa [Hxb Hxc]].
+      split; [auto | ].
+      split; [auto | ].
 Admitted.
 
 Lemma term_alpha_eq_trans : forall (t1 t2 t3 : term),
@@ -606,6 +629,23 @@ Lemma term_alpha_eq_trans : forall (t1 t2 t3 : term),
   term_alpha_eq t1 t3.
 Proof.
 Admitted.
+
+#[export] Instance term_alpha_eq_refl': Reflexive term_alpha_eq.
+Proof. unfold Reflexive. apply term_alpha_eq_refl. Qed.
+
+#[export] Instance term_alpha_eq_symm': Symmetric term_alpha_eq.
+Proof. unfold Symmetric. apply term_alpha_eq_symm. Qed.
+
+#[export] Instance term_alpha_eq_trans': Transitive term_alpha_eq.
+Proof. unfold Transitive. apply term_alpha_eq_trans. Qed.
+
+#[export] Instance term_alpha_eq_equiv: Equivalence term_alpha_eq.
+Proof.
+  split.
+  + apply term_alpha_eq_refl'.
+  + apply term_alpha_eq_symm'.
+  + apply term_alpha_eq_trans'.
+Qed.
 
 Lemma term_subst_v_same_name : forall (den src : var_name) (t : term),
   list_Z_eqb den src = true ->
@@ -637,10 +677,130 @@ Proof.
       * apply IHt, H.
 Qed.
 
+Lemma subst_not_contains: forall (t : term) (v1 v2 : var_name),
+  term_not_contain_var t v2 ->
+  term_alpha_eq t (term_subst_v v1 v2 t).
+Proof.
+  induction t; try intros; try unfold term_subst_v; try fold term_subst_v. 
+  + unfold term_not_contain_var in H.
+    destruct (list_Z_eqb var v2) eqn:Heq; try pose proof list_Z_eqb2eq var v2 Heq.
+    - congruence.
+    - apply AlphaVar; reflexivity.
+  + unfold term_subst_v; apply AlphaConst; [auto | auto].
+  + unfold term_not_contain_var in H; fold term_not_contain_var in H; destruct H.
+    apply AlphaApply.
+    apply (IHt1 v1 v2 H). apply (IHt2 v1 v2 H0).
+  + destruct (list_Z_eqb qvar v2) eqn:Heqq.
+    - apply term_alpha_eq_refl.
+    - unfold term_not_contain_var in H; fold term_not_contain_var in H.
+      apply AlphaQuant; [reflexivity | left; split; [apply list_Z_eqb_refl | ]].
+      destruct H.
+      apply (IHt v1 v2 H0).
+Qed.
+
+Lemma alpha_equiv_subst_rev: forall (t : term) (v1 v2 : var_name),
+  term_not_contain_var t v1 ->
+  term_not_contain_var t v2 ->
+  term_alpha_eq t (term_subst_v v1 v2 (term_subst_v v2 v1 t)).
+Proof.
+  induction t; try intros.
+  + unfold term_subst_v.
+    destruct list_Z_eqb eqn:Heq.
+    - pose proof list_Z_eqb2eq var v1 Heq.
+      destruct (list_Z_eqb v2 v2) eqn:He; try apply AlphaVar.
+      * auto.
+      * pose proof list_Z_eqb_refl v2; congruence.
+    - destruct (list_Z_eqb var v2) eqn:He; [ | apply AlphaVar; reflexivity].
+      unfold term_not_contain_var in *.
+      pose proof list_Z_eqb2eq var v2 He.
+      destruct H; congruence.
+  + unfold term_subst_v; apply AlphaConst; [auto | auto].
+  + unfold term_not_contain_var in H, H0; fold term_not_contain_var in H, H0.
+    destruct H as [Ha Hb].
+    destruct H0 as [H0a H0b].
+    unfold term_subst_v; fold term_subst_v; apply AlphaApply.
+    apply (IHt1 v1 v2 Ha H0a). 
+    apply (IHt2 v1 v2 Hb H0b).
+  + unfold term_not_contain_var in H, H0; fold term_not_contain_var in H, H0.
+    unfold term_subst_v; fold term_subst_v.
+    destruct H as [Ha Hb].
+    destruct H0 as [H0a H0b].
+    destruct (list_Z_eqb qvar v1) eqn:Heq.
+    - pose proof list_Z_eqb2eq qvar v1 Heq; congruence.
+    - unfold term_subst_v; fold term_subst_v.
+      destruct (list_Z_eqb qvar v2) eqn:Heqq.
+      * pose proof list_Z_eqb2eq qvar v2 Heqq; congruence.
+      * apply AlphaQuant; [reflexivity | left; split; [pose proof list_Z_eqb_refl qvar; auto | ]].
+        apply (IHt v1 v2 Hb H0b).
+Qed.
+
+Lemma alpha_equiv_subst_trans: forall (t : term) (v1 v2 v3 : var_name),
+  term_not_contain_var t v3 ->
+  term_not_contain_var t v2 ->
+  term_alpha_eq (term_subst_v v3 v1 t) (term_subst_v v3 v2 (term_subst_v v2 v1 t)).
+Proof.
+  induction t; try intros.
+  + unfold term_subst_v.
+    destruct list_Z_eqb eqn:Heq.
+    - pose proof list_Z_eqb2eq var v1 Heq.
+      destruct (list_Z_eqb v2 v2) eqn:He; try apply AlphaVar.
+      * auto.
+      * pose proof list_Z_eqb_refl v2; congruence.
+    - destruct (list_Z_eqb var v2) eqn:He; [ | apply AlphaVar; reflexivity].
+      unfold term_not_contain_var in *.
+      pose proof list_Z_eqb2eq var v2 He.
+      destruct H; congruence.
+  + unfold term_subst_v; apply AlphaConst; [auto | auto].
+  + unfold term_not_contain_var in H, H0; fold term_not_contain_var in H, H0.
+    destruct H as [Ha Hb].
+    destruct H0 as [H0a H0b].
+    unfold term_subst_v; fold term_subst_v; apply AlphaApply.
+    apply (IHt1 v1 v2 v3 Ha H0a). 
+    apply (IHt2 v1 v2 v3 Hb H0b).
+  + unfold term_not_contain_var in H, H0; fold term_not_contain_var in H, H0.
+    unfold term_subst_v; fold term_subst_v.
+    destruct H as [Ha Hb].
+    destruct H0 as [H0a H0b].
+    destruct (list_Z_eqb qvar v1) eqn:Heq.
+    - unfold term_subst_v; fold term_subst_v.
+      destruct (list_Z_eqb qvar v2) eqn:Heqq.
+      * pose proof list_Z_eqb2eq qvar v2 Heqq; congruence.
+      * apply AlphaQuant; [auto | left; split; [pose proof list_Z_eqb_refl qvar; auto | ]].
+        apply (subst_not_contains t v3 v2 H0b).
+    - unfold term_subst_v; fold term_subst_v.
+      destruct (list_Z_eqb qvar v2) eqn:Heqq.
+      * pose proof list_Z_eqb2eq qvar v2 Heqq; congruence.
+      * apply AlphaQuant; [reflexivity | left; split; [pose proof list_Z_eqb_refl qvar; auto | ]].
+        apply (IHt v1 v2 v3 Hb H0b).
+Qed.
+
 Lemma alpha_equiv_same_rename: forall (t1 t2 : term) (str1 str2 : list Z),
+  (* term_not_contain_var t1 str1 /\
+  term_not_contain_var t2 str1 /\ *)
   term_alpha_eq t1 t2 -> term_alpha_eq (term_subst_v str1 str2 t1) (term_subst_v str1 str2 t2).
 Proof.
-  induction t2,t1; try intros.
+  intros.
+  induction H; try unfold term_subst_v; try subst.
+  + destruct list_Z_eqb; try apply AlphaVar; try reflexivity.
+  + apply AlphaConst; [auto | auto].
+  + fold term_subst_v; apply AlphaApply.
+    auto. auto.
+    (* unfold term_not_contain_var in Ha, Hb; fold term_not_contain_var in Ha, Hb.
+    destruct Ha as [Haa Hab]; destruct Hb as [Hba Hbb].
+    apply (IHterm_alpha_eq1 Haa Hba).
+    destruct Ha as [Haa Hab]; destruct Hb as [Hba Hbb].
+    apply (IHterm_alpha_eq2 Hab Hbb). *)
+  + fold term_subst_v.
+    destruct list_Z_eqb eqn:Heq; try destruct H0 as [Ha|Hb].
+    - pose proof list_Z_eqb2eq qvar1 qvar2 Heq; subst.
+      destruct (list_Z_eqb qvar2 str2) eqn:He.
+      * apply AlphaQuant; [auto | left; split; destruct Ha as [Haa Hab]].
+        { apply list_Z_eqb_refl. }
+        { auto. }
+        (* { destruct H0 as [[Eaa Eab]|[Eba Ebb]]; [auto | congruence]. } *)
+      * apply AlphaQuant; [auto | left].
+        split; [apply list_Z_eqb_refl | ].
+        (* destruct H0 as [[Eaa Eab]|[Eba Ebb]]; [ | congruence]. *)
 Admitted. 
 
 Lemma alpha_equiv_quant: forall (t1 t2 : term) (qt1 qt2 : quant_type) (qv1 qv2 : var_name), 
@@ -653,4 +813,29 @@ Proof.
   destruct H6 as [[? ?]|[? ?]].
   + destruct H; auto.
   + rewrite Heqv in H. congruence.
+Qed.
+
+Lemma alpha_equiv_quant_allvar: forall (t1 t2 : term) (qt1 qt2 : quant_type) (qv1 qv2 x : var_name), 
+  term_alpha_eq (TermQuant qt1 qv1 t1) (TermQuant qt2 qv2 t2) /\ 
+  term_not_contain_var (TermQuant qt1 qv1 t1) x /\
+  term_not_contain_var (TermQuant qt2 qv2 t2) x /\
+  list_Z_eqb qv1 qv2 = false -> 
+  term_alpha_eq (term_subst_v x qv1 t1) (term_subst_v x qv2 t2).
+Proof.
+  intros.
+  destruct H as [Ha [Hb Hc]].
+  inversion Ha; subst.
+  destruct H6 as [[Hla Hlb]|[Hra Hrb]].
+  + destruct t1, t2; try inversion Hlb; destruct Hc as [Hd He]; try congruence.
+  + destruct Hrb as [y [Hya [Hyb Hyc]]].
+    destruct Hc as [Hca Hcb].
+    unfold term_not_contain_var in Hb, Hca, Hya, Hyb; fold term_not_contain_var in Hb, Hca, Hya, Hyb.
+    destruct Hb as [Hba Hbb]; destruct Hca as [Hcaa Hcab];
+    destruct Hya as [Hyaa Hyab]; destruct Hyb as [Hyba Hybb].
+    pose proof alpha_equiv_subst_trans t1 qv1 y x Hbb Hyab.
+    pose proof alpha_equiv_subst_trans t2 qv2 y x Hcab Hybb.
+    rewrite H.
+    rewrite H0.
+    apply (alpha_equiv_same_rename (term_subst_v y qv1 t1) (term_subst_v y qv2 t2) x y).
+    exact Hyc.
 Qed.
