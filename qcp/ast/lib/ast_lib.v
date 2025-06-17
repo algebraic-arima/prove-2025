@@ -602,17 +602,6 @@ Proof.
     auto.
 Qed. 
 
-Fixpoint sub_thm (thm: term) (l: var_sub_list): term :=
-  match l with 
-    | nil => thm
-    | (VarSub v t) :: l0 => 
-      match thm with
-        | TermQuant qtype qvar body =>
-            sub_thm (term_subst_t t v body) l0
-        | _ => thm
-      end
-  end.
-
 (* Inductive term_alpha_eq : term -> term -> Prop :=
   | AlphaVar : forall v1 v2,
       v1 = v2 ->
@@ -653,6 +642,35 @@ Inductive term_alpha_eq : term -> term -> Prop :=
           (term_subst_v fresh qvar1 body1) 
           (term_subst_v fresh qvar2 body2)) ->
       term_alpha_eq (TermQuant qtype1 qvar1 body1) (TermQuant qtype2 qvar2 body2).
+
+(* Option / Monad *)
+Fixpoint sub_thm (thm: term) (l: var_sub_list): term :=
+  match l with 
+    | nil => thm
+    | (VarSub v t) :: l0 => 
+      match thm with
+        | TermQuant QForall v body =>
+            sub_thm (term_subst_t t v body) l0
+        | _ => thm
+      end
+  end.
+
+Definition separate_imply (t : term): ImplyProp :=
+  match t with
+    | TermApply (TermApply (TermConst CImpl c) r) tr => 
+      ImplP r tr
+    | _ => ImplP t t
+  end.
+
+Fixpoint check_list_gen (thm target : term): list term :=
+  if term_alpha_eq thm target then
+    nil
+  else
+    match separate_imply thm with
+    | ImplP assum concl => 
+        assum :: check_list_gen concl target
+    | _ => nil
+    end.
 
 Fixpoint term_level (t : term) : nat :=
   match t with
