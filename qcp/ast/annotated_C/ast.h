@@ -1,8 +1,14 @@
 /*@ Import Coq From SimpleC.EE Require Import ast_lib */
 /*@ Import Coq From SimpleC.EE Require Import malloc */
-/*@ Import Coq From SimpleC.EE Require Import super_poly_sll2 */
+/*@ Import Coq From SimpleC.EE Require Import sll_tmpl */
+
+
+/*@ Extern Coq (option :: * => *) */
+/*@ Extern Coq (Some: {A} -> A -> option A)
+               (None: {A} -> option A) */
 
 /*@ Extern Coq (term :: *) */
+/*@ Extern Coq (partial_quant :: *) */
 /*@ Extern Coq (var_sub :: *) */
 /*@ Extern Coq (solve_res :: *) */
 /*@ Extern Coq (ImplyProp :: *) */
@@ -10,12 +16,10 @@
 /*@ Extern Coq (const_type :: *)*/
 /*@ Extern Coq (quant_type :: *)*/
 /*@ Extern Coq (term_type :: *)*/
-/*@ Extern Coq (term_res :: *)*/
-/*@ Extern Coq (imply_res :: *)*/
 /*@ Extern Coq (store_string : Z -> list Z -> Assertion)
                (store_term : Z -> term -> Assertion)
                (store_term' : Z -> term -> Assertion)
-               (store_term_res : Z -> term_res -> Assertion)
+               (store_term_res : Z -> option term -> Assertion)
                (store_term_cell : Z -> term -> Assertion)
                (sll_term_list : Z -> list term -> Assertion)
                (sllseg_term_list : Z -> list term -> Assertion)
@@ -28,7 +32,7 @@
                (store_solve_res : Z -> solve_res -> Assertion)
                (store_solve_res' : Z -> solve_res -> Assertion)
                (store_ImplyProp : Z -> Z -> Z -> term -> term -> Assertion)
-               (store_imply_res : Z -> imply_res -> Assertion)
+               (store_imply_res : Z -> option ImplyProp -> Assertion)
                (list_Z_cmp : list Z -> list Z -> Z)
                (term_alpha_eqn : term -> term -> Z)
                (term_subst_v : list Z -> list Z -> term -> term)
@@ -42,12 +46,13 @@
                (TermApply: term -> term -> term)
                (TermQuant: quant_type -> list Z -> term -> term)
                (VarSub: list Z -> term -> var_sub)
-               (thm_subst: term -> list var_sub -> term_res)
-               (sep_impl: term -> imply_res)
+               (thm_subst_allres: term -> list var_sub -> option (partial_quant * term))
+               (sep_impl: term -> option ImplyProp)
                (gen_pre: term -> term -> list term)
                (thm_app: term -> list var_sub -> term -> solve_res)
-               (imply_res_Cont: term -> term -> imply_res)
+               (imply_res_Cont: term -> term -> option ImplyProp)
                (SRBool: Z -> solve_res)
+               (store_sub_thm_res: Z -> Z -> term -> list var_sub -> Assertion)
 */
 /*@ Extern Coq (nil : {A} -> list A)
                (cons : {A} -> A -> list A -> list A)
@@ -55,10 +60,6 @@
                (rev : {A} -> list A -> list A)
                (Zlength: {A} -> list A -> Z)
 */
-
-/*@ Extern Coq (option :: * => *) */
-/*@ Extern Coq (Some: {A} -> A -> option A)
-               (None: {A} -> option A) */
 
 typedef int bool;
 
@@ -253,7 +254,7 @@ term *subst_term(term *den, char *src, term *t)
                   store_term(t, trm) *
                   store_string(src, src_str) *
                   store_term(den, den_term)
-          Ensure den == den@pre && src == src@pre &&
+          Ensure den == den@pre && src == src@pre && __return == t &&
                 store_term(__return, term_subst_t(den_term, src_str, trm)) *
                 store_term(den, den_term) *
                 store_string(src, src_str)
@@ -272,9 +273,9 @@ bool alpha_equiv(term *t1, term *t2)
 term* sub_thm(term* thm, var_sub_list* lis)
   /*@ With t l
         Require store_term(thm, t) * sll_var_sub_list(lis, l)
-        Ensure thm == thm@pre && lis == lis@pre &&
+        Ensure  thm == thm@pre && lis == lis@pre &&
                 sll_var_sub_list(lis, l) *
-                store_term_res(__return, thm_subst(t, l))
+                store_sub_thm_res(thm, __return, t, l)
   */
   ;
 

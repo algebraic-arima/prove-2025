@@ -1,11 +1,10 @@
 #include "ast.h"
 term* sub_thm(term* thm, var_sub_list* lis)
-// todo!!!
 /*@ With t l
       Require store_term(thm, t) * sll_var_sub_list(lis, l)
-      Ensure thm == thm@pre && lis == lis@pre &&
+      Ensure  thm == thm@pre && lis == lis@pre &&
               sll_var_sub_list(lis, l) *
-              store_term_res(__return, thm_subst(t, l))
+              store_sub_thm_res(thm, __return, t, l)
 */
 {
   if(lis == (void*) 0) return thm;
@@ -30,7 +29,7 @@ term* sub_thm(term* thm, var_sub_list* lis)
         store_var_sub(lis->cur, vs)
         which implies
         exists sv st sy sz y z qt qvar qterm,
-          thm != 0 && 
+          thm != 0 && lis->cur != 0 &&
           t == TermQuant(qt, qvar, qterm) &&
           vs == VarSub(sv, st) && 
           data_at(&(thm -> type), termtypeID(t)) *
@@ -44,7 +43,8 @@ term* sub_thm(term* thm, var_sub_list* lis)
           store_term(sz, st) 
     */
     term* den = lis->cur->sub_term;
-    return sub_thm(subst_term(den, lis->cur->var, thm->content.Quant.body), lis->next);
+    thm->content.Quant.body = subst_term(den, lis->cur->var, thm->content.Quant.body);
+    return sub_thm(thm->content.Quant.body, lis->next);
   }
   else return (void*) 0;
 }
@@ -114,102 +114,105 @@ ImplyProp* separate_imply(term* t)
                               t->content.Apply.right);
 }
 
-// 根据定理形式，匹配结论，得出要检验的前提
-term_list* check_list_gen(term* thm, term* target)
-/*@ With theo targ
-    Require store_term(thm, theo) * store_term(target, targ)
-    Ensure target == target@pre &&
-            store_term(thm@pre, theo) * store_term(target, targ) *
-            sll_term_list(__return, gen_pre(theo, targ))
-*/
-{
-  if (thm == (void*)0 || target == (void*)0) {
-    return (void*)0;
-  }
-  term_list* check_list = (void*)0;
-  term_list** tail_ptr = &check_list;
-  // todo!!!
-  /*@ check_list == 0
-      which implies
-      sll_term_list(check_list, nil)
-  */
-  /*@ Inv exists l, target == target@pre &&
-          store_term(thm@pre, theo) * store_term(target, targ) *
-          sll_term_list(check_list, l)
-  */
-  while (thm != (void*)0 && !alpha_equiv(thm, target)) {
-    ImplyProp* p = separate_imply(thm);
-    if (p == (void*)0) {
-      free_term_list(check_list);
-      return (void*)0;
-    }
-    // 添加新节点到链表
-    term_list* new_node = malloc_term_list();
-    /*@ p != 0 && store_imply_res(p, sep_impl(theo))
-        which implies
-        exists p_assum p_concl,
-        sep_impl(theo) == imply_res_Cont(p_assum, p_concl) &&
-        store_term(p->assum, p_assum) * store_term(p->concl, p_concl)
-    */
-    new_node->element = p->assum;  // 转移所有权
-    new_node->next = (void*)0;
 
-    *tail_ptr = new_node;
-    tail_ptr = &(new_node->next);
-    thm = p->concl;
-    /*@ exists p_assum p_concl,
-        p != 0 && 
-        sep_impl(theo) == imply_res_Cont(p_assum, p_concl) &&
-        store_term(p->assum, p_assum) * store_term(p->concl, p_concl)
-        which implies
-        exists y z,
-        store_ImplyProp(p, y, z, p_assum, p_concl)
-    */
-    free_imply_prop(p);  // 释放ImplyProp结构体（不释放其成员）
-  }
-  return check_list;
-}
+// // 根据定理形式，匹配结论，得出要检验的前提
+// term_list* check_list_gen(term* thm, term* target)
+// /*@ With theo targ
+//     Require store_term(thm, theo) * store_term(target, targ)
+//     Ensure target == target@pre &&
+//             store_term(thm@pre, theo) * store_term(target, targ) *
+//             sll_term_list(__return, gen_pre(theo, targ))
+// */
+// {
+//   if (thm == (void*)0 || target == (void*)0) {
+//     return (void*)0;
+//   }
+//   term_list* check_list = (void*)0;
+//   term_list** tail_ptr = &check_list;
+//   // todo!!!
+//   /*@ check_list == 0
+//       which implies
+//       sll_term_list(check_list, nil)
+//   */
+//   /*@ Inv exists l, target == target@pre &&
+//           store_term(thm@pre, theo) * store_term(target, targ) *
+//           sll_term_list(check_list, l)
+//   */
+//   while (thm != (void*)0 && !alpha_equiv(thm, target)) {
+//     ImplyProp* p = separate_imply(thm);
+//     if (p == (void*)0) {
+//       free_term_list(check_list);
+//       return (void*)0;
+//     }
+//     // 添加新节点到链表
+//     term_list* new_node = malloc_term_list();
+//     /*@ p != 0 && store_imply_res(p, sep_impl(theo))
+//         which implies
+//         exists p_assum p_concl,
+//         sep_impl(theo) == imply_res_Cont(p_assum, p_concl) &&
+//         store_term(p->assum, p_assum) * store_term(p->concl, p_concl)
+//     */
+//     new_node->element = p->assum;  // 转移所有权
+//     new_node->next = (void*)0;
 
-solve_res* thm_apply(term* thm, var_sub_list* lis, term* goal) 
-/*@ With t l g
-    Require store_term(thm, t) * 
-            sll_var_sub_list(lis, l) * 
-            store_term(goal, g)
-    Ensure thm == thm@pre &&  
-            sll_var_sub_list(lis, l) * 
-            store_term(goal, g) *
-            store_solve_res(__return, thm_app(t, l, g))
-*/
-{
-  term* thm_ins = sub_thm(thm, lis);
-  solve_res* res = malloc_solve_res();
-  /*@ store_solve_res(res, SRBool(0))
-      which implies
-      res->type == 0 &&
-      res->d.ans == 0
-  */
-  if (thm_ins == (void*)0) {
-    res->type = bool_res;
-    res->d.ans = 0;
-  } else {
-    // Added {} here without changing the semantics!
-    /*@ thm_ins != 0 &&
-        store_term_res(thm_ins, thm_subst(t, l))
-        which implies
-        exists tst,
-        store_term(thm_ins, tst)
-    */
-    if (alpha_equiv(thm_ins, goal)) {
-      res->type = bool_res;
-      res->d.ans = 1;
-    } else {
-      res->type = termlist;
-      /*@ res->d.ans == 0
-          which implies
-          res->d.list == 0
-      */
-      res->d.list = check_list_gen(thm_ins, goal);
-    }
-  }
-  return res;
-}
+//     *tail_ptr = new_node;
+//     tail_ptr = &(new_node->next);
+//     thm = p->concl;
+//     /*@ exists p_assum p_concl,
+//         p != 0 && 
+//         sep_impl(theo) == imply_res_Cont(p_assum, p_concl) &&
+//         store_term(p->assum, p_assum) * store_term(p->concl, p_concl)
+//         which implies
+//         exists y z,
+//         store_ImplyProp(p, y, z, p_assum, p_concl)
+//     */
+//     free_imply_prop(p);  // 释放ImplyProp结构体（不释放其成员）
+//   }
+//   return check_list;
+// }
+
+// solve_res* thm_apply(term* thm, var_sub_list* lis, term* goal) 
+// /*@ With t l g
+//     Require store_term(thm, t) * 
+//             sll_var_sub_list(lis, l) * 
+//             store_term(goal, g)
+//     Ensure exists  ti,
+//             thm == thm@pre &&
+//             sll_var_sub_list(lis, l) * 
+//             store_term(goal, g) *
+//             store_solve_res(__return, thm_app(t, l, g)) *
+//             store_sub_thm_res(thm, ti, t, l)
+// */
+// {
+//   term* thm_ins = sub_thm(thm, lis);
+//   solve_res* res = malloc_solve_res();
+//   /*@ store_solve_res(res, SRBool(0))
+//       which implies
+//       res->type == 0 &&
+//       res->d.ans == 0
+//   */
+//   if (thm_ins == (void*)0) {
+//     res->type = bool_res;
+//     res->d.ans = 0;
+//   } else {
+//     // Added {} here without changing the semantics!
+//     /*@ thm_ins != 0 &&
+//         store_term_res(thm_ins, thm_subst(t, l))
+//         which implies
+//         exists tst,
+//         store_term(thm_ins, tst)
+//     */
+//     if (alpha_equiv(thm_ins, goal)) {
+//       res->type = bool_res;
+//       res->d.ans = 1;
+//     } else {
+//       res->type = termlist;
+//       /*@ res->d.ans == 0
+//           which implies
+//           res->d.list == 0
+//       */
+//       res->d.list = check_list_gen(thm_ins, goal);
+//     }
+//   }
+//   return res;
+// }

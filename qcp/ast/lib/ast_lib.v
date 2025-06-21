@@ -333,6 +333,41 @@ Definition sllseg_var_sub_list (x: addr) (y: addr) (l: var_sub_list): Assertion 
 Definition sllbseg_var_sub_list (x: addr) (y: addr) (l: var_sub_list): Assertion :=
   sllbseg store_var_sub_cell "var_sub_list" "next" x y l.
 
+Lemma sll_var_sub_list_fold: forall x y l0 sy sz sv st n,
+  x <> NULL -> y <> NULL ->
+  &(x # "var_sub_list" ->ₛ "cur") # Ptr |-> y **
+  &(y # "var_sub" ->ₛ "var") # Ptr |-> sy **
+  &(y # "var_sub" ->ₛ "sub_term") # Ptr |-> sz **
+  &(x # "var_sub_list" ->ₛ "next") # Ptr |-> n **
+  store_term sz st ** store_string sy sv ** sll_var_sub_list n l0 |--
+  sll_var_sub_list x ((VarSub sv st) :: l0).
+Proof.
+  intros.
+  unfold sll_var_sub_list.
+  unfold sll at 2.
+  Exists n.
+  unfold sll at 1.
+  entailer!.
+  unfold store_var_sub_cell.
+  Exists y.
+  unfold store_var_sub.
+  Exists sy sz.
+  entailer!.
+Qed.
+
+Lemma sll_var_sub_list_unfold: forall lis l,
+  lis <> NULL ->
+  sll_var_sub_list lis l |--
+  EX n c vs l0 ,
+  [| l = vs :: l0 |] &&
+  &(lis # "var_sub_list" ->ₛ "cur") # Ptr |-> c **
+  store_var_sub c vs **
+  &(lis # "var_sub_list" ->ₛ "next") # Ptr |-> n ** 
+  sll_var_sub_list n l0.
+Admitted.
+
+
+
 
 (* all about ast solve result *)
 
@@ -599,10 +634,7 @@ Definition term_alpha_eqn (t1 t2 : term) : Z :=
 
 (* thm_apply *)
 
-Definition term_res: Type := option term.
-Definition imply_res: Type := option ImplyProp.
-
-Definition imply_res_Cont (assum concl: term) : imply_res :=
+Definition imply_res_Cont (assum concl: term) : option ImplyProp :=
   Some (ImplP assum concl).
 
 Inductive partial_quant: Type :=
@@ -613,57 +645,173 @@ Fixpoint store_partial_quant (rt fin: addr) (pq: partial_quant) : Assertion :=
   match pq with
   | NQuant => [| rt = fin |] && emp
   | PQuant qt x t => EX y z: addr,
+                &(rt # "term" ->ₛ "type") # Int |-> 3 ** 
                 &(rt # "term" ->ₛ "content" .ₛ "Quant" .ₛ "type") # Int |-> qtID qt **
                 &(rt # "term" ->ₛ "content" .ₛ "Quant" .ₛ "var") # Ptr |-> y **
                 &(rt # "term" ->ₛ "content" .ₛ "Quant" .ₛ "body") # Ptr |-> z **
-                store_partial_quant z fin t
+                store_string y x ** store_partial_quant z fin t
   end.
 
-Definition store_term_res (x: addr) (t: term_res): Assertion :=
+Lemma store_partial_quant_fold: forall thm_pre retval_2 retval pq qt qvar qterm y,
+  store_partial_quant retval_2 retval pq ** 
+  &( thm_pre # "term" ->ₛ "type") # Int |-> termtypeID (TermQuant qt qvar qterm) **
+  &( thm_pre # "term" ->ₛ "content" .ₛ "Quant" .ₛ "type") # Int |-> qtID qt **
+  &( thm_pre # "term" ->ₛ "content" .ₛ "Quant" .ₛ "var") # Ptr |-> y **
+  &( thm_pre # "term" ->ₛ "content" .ₛ "Quant" .ₛ "body") # Ptr |-> retval_2 ** 
+  store_string y qvar
+  |-- store_partial_quant thm_pre retval (PQuant qt qvar pq).
+Proof.
+  intros.
+  unfold store_partial_quant at 2.
+  Exists y retval_2.
+  fold store_partial_quant.
+  entailer!.
+Qed.
+
+Definition store_term_res (x: addr) (t: option term): Assertion :=
   match t with
   | Some ti => store_term x ti
   | None => [| x = NULL |]
   end.
 
-Definition store_imply_res (x: addr) (impl: imply_res): Assertion :=
+Definition store_imply_res (x: addr) (impl: option ImplyProp): Assertion :=
   match impl with
   | Some (ImplP assum concl) => EX y z:addr,
               store_ImplyProp x y z assum concl
   | None => [| x = NULL |]
   end.
 
-Fixpoint thm_subst_rem (thm: term) (l: var_sub_list): bool * partial_quant :=
+Fixpoint thm_subst_rem (thm: term) (l: var_sub_list): option partial_quant :=
   match l with 
-    | nil => (true, NQuant)
+    | nil => Some NQuant
     | (VarSub v t) :: l0 => 
       match thm with
         | TermQuant qt v' body =>
-            let (s, p) := thm_subst_rem body l0 in
-            (s, PQuant qt v' p)
-        | _ => (false, NQuant)
+            match thm_subst_rem body l0 with
+            | Some p => Some (PQuant qt v' p)
+            | None => None
+            end
+        | _ => None
       end
   end.
 
-Fixpoint thm_subst (thm: term) (l: var_sub_list): bool * term :=
+Fixpoint thm_subst (thm: term) (l: var_sub_list): option term :=
   match l with 
-    | nil => (true, thm)
+    | nil => Some thm
     | (VarSub v t) :: l0 => 
       match thm with
         | TermQuant qt v' body =>
-            thm_subst (term_subst_t t v' body) l0
-        | _ => (false, thm)
+            thm_subst (term_subst_t t v body) l0
+        | _ => None
       end
   end.
+
+Fixpoint thm_subst' (thm: term) (l: var_sub_list): term :=
+  match l with 
+    | nil => thm
+    | (VarSub v t) :: l0 => 
+      match thm with
+        | TermQuant qt v' body =>
+          TermQuant qt v' (thm_subst' (term_subst_t t v body) l0)
+        | _ => thm
+      end
+  end.
+
+Fixpoint thm_subst_allres (thm: term) (l: var_sub_list): option (partial_quant * term) :=
+  match l with 
+    | nil => Some (NQuant, thm)
+    | (VarSub v t) :: l0 => 
+      match thm with
+        | TermQuant qt v' body =>
+          match thm_subst_allres (term_subst_t t v body) l0 with
+            | Some (pq, t) => Some (PQuant qt v' pq, t)
+            | None => None
+        end
+        | _ => None
+      end
+  end.
+
+Lemma thm_subst_allres_var: forall var a l0,
+  thm_subst_allres (TermVar var) (a :: l0) = None.
+Proof.
+  intros.
+  unfold thm_subst_allres.
+  destruct a; reflexivity.
+Qed.
+
+Lemma thm_subst_allres_const: forall ct c a l0,
+  thm_subst_allres (TermConst ct c) (a :: l0) = None.
+Proof.
+  intros.
+  unfold thm_subst_allres.
+  destruct a; reflexivity.
+Qed.
+
+Lemma thm_subst_allres_apply: forall lt rt a l0,
+  thm_subst_allres (TermApply lt rt) (a :: l0) = None.
+Proof.
+  intros.
+  unfold thm_subst_allres.
+  destruct a; reflexivity.
+Qed.
+
+Lemma thm_subst'_var: forall var a l0,
+  thm_subst' (TermVar var) (a :: l0) = TermVar var.
+Proof.
+  intros.
+  unfold thm_subst'.
+  destruct a; reflexivity.
+Qed.
+
+Lemma thm_subst'_const: forall ct c a l0,
+  thm_subst' (TermConst ct c) (a :: l0) = TermConst ct c.
+Proof.
+  intros.
+  unfold thm_subst'.
+  destruct a; reflexivity.
+Qed.
+
+Lemma thm_subst'_apply: forall lt rt a l0,
+  thm_subst' (TermApply lt rt) (a :: l0) = TermApply lt rt.
+Proof.
+  intros.
+  unfold thm_subst'.
+  destruct a; reflexivity.
+Qed.
 
 Definition store_sub_thm_res (rt fin: addr) (thm: term) (l: var_sub_list): Assertion :=
-  let (s1, pq) := thm_subst_rem thm l in let (s2, t) := thm_subst thm l in
-  match (s1, s2) with
-    | (true, true) => store_partial_quant rt fin pq ** store_term fin t
-    | (false, false) => store_partial_quant rt fin pq ** store_term fin t
-    | _ => [| False |] && emp
-  end.
+  match thm_subst_allres thm l with
+    | None => [| fin = 0 |] && store_term rt (thm_subst' thm l)
+    | Some (pq, t) => store_partial_quant rt fin pq ** store_term fin t
+end.
 
-Definition sep_impl (t : term): imply_res :=
+Lemma store_sub_thm_res_fold: forall retval_2 retval st sv qterm l0 thm_pre qt qvar y,
+  thm_pre <> NULL ->
+  store_sub_thm_res retval_2 retval (term_subst_t st sv qterm) l0 **
+  &( thm_pre # "term" ->ₛ "type") # Int |-> termtypeID (TermQuant qt qvar qterm) **
+  &( thm_pre # "term" ->ₛ "content" .ₛ "Quant" .ₛ "type") # Int |-> qtID qt **
+  &( thm_pre # "term" ->ₛ "content" .ₛ "Quant" .ₛ "var") # Ptr |-> y **
+  &( thm_pre # "term" ->ₛ "content" .ₛ "Quant" .ₛ "body") # Ptr |-> retval_2 **
+  store_string y qvar |--
+  store_sub_thm_res thm_pre retval (TermQuant qt qvar qterm) (VarSub sv st :: l0).
+Proof.
+  intros.
+  unfold store_sub_thm_res at 2.
+  unfold thm_subst_allres; fold thm_subst_allres.
+  unfold store_sub_thm_res.
+  destruct (thm_subst_allres (term_subst_t st sv qterm) l0).
+  + destruct p as [pq t].
+    sep_apply store_partial_quant_fold.
+    entailer!.
+  + unfold thm_subst' at 2.
+    fold thm_subst'.
+    unfold store_term.
+    fold store_term.
+    Exists y retval_2.
+    entailer!.
+Qed. 
+
+Definition sep_impl (t : term): option ImplyProp :=
   match t with
     | TermApply (TermApply (TermConst CImpl c) r) tr => 
       Some (ImplP r tr)
@@ -714,4 +862,25 @@ Proof.
     destruct (list_Z_eqb qvar src) eqn:Heq.
     - reflexivity.
     - pose proof IHt H; rewrite H0; reflexivity.
+Qed.
+
+Lemma thm_subst_nil: forall (t: term),
+  thm_subst_allres t nil = Some (NQuant, t).
+Proof.
+  intros.
+  unfold thm_subst_allres.
+  reflexivity.
+Qed.
+
+Lemma sll_zero_right : forall (A : Type) P (storeA: addr -> A -> Assertion) s1 s2 l Q,
+  l <> nil ->
+  P ** sll storeA s1 s2 0 l |-- Q.
+Proof.
+  intros.
+  unfold sll.
+  destruct l.
+  - contradiction.
+  - unfold NULL.
+    Intros y.
+    contradiction.
 Qed.

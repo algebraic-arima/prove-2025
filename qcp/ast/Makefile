@@ -16,7 +16,7 @@ DEP_FLAG = -R $(SL_DIR)SeparationLogic SimpleC.SL -R $(SL_DIR)unifysl Logic -R $
 lib_FILES = \
 	malloc.v sll_tmpl.v ast_lib.v
 
-VC_code_FILE_NAME = subst alpha_equiv
+VC_code_FILE_NAME = thm_apply
 
 strategy_FILE_NAME = 
 
@@ -66,6 +66,15 @@ depend:
 
 .depend:
 	@$(COQDEP) $(DEP_FLAG) $(FILES) > .depend
+
+su:
+	docker run --rm -it -u $(id -u):$(id -g) -v /home/venillalemon/FV/prove-2025/qcp-docker/common/:/include/common/ -v /home/venillalemon/FV/prove-2025/qcp/ast/annotated_C/:/include/ast/ -v /home/venillalemon/FV/prove-2025/qcp/ast/VC/:/output/ -v /home/venillalemon/FV/prove-2025/qcp/ast/annotated_C/:/input/ qcp:latest symexec --no-strategy-gen --goal-file=/output/subst_goal.v --proof-auto-file=/output/subst_proof_auto.v --proof-manual-file=/output/subst_proof_manual.v --input-file=/input/subst.c -I/include/common/ -I/include/ast/ -slp /include/ast/ SimpleC.EE
+
+ae:
+	docker run --rm -it -u $(id -u):$(id -g) -v /home/venillalemon/FV/prove-2025/qcp-docker/common/:/include/common/ -v /home/venillalemon/FV/prove-2025/qcp/ast/annotated_C/:/include/ast/ -v /home/venillalemon/FV/prove-2025/qcp/ast/VC/:/output/ -v /home/venillalemon/FV/prove-2025/qcp/ast/annotated_C/:/input/ qcp:latest symexec --no-strategy-gen --goal-file=/output/alpha_equiv_goal.v --proof-auto-file=/output/alpha_equiv_proof_auto.v --proof-manual-file=/output/alpha_equiv_proof_manual.v --input-file=/input/alpha_equiv.c -I/include/common/ -I/include/ast/ -slp /include/ast/ SimpleC.EE
+
+ta:
+	docker run --rm -it -u $(id -u):$(id -g) -v /home/venillalemon/FV/prove-2025/qcp-docker/common/:/include/common/ -v /home/venillalemon/FV/prove-2025/qcp/ast/annotated_C/:/include/ast/ -v /home/venillalemon/FV/prove-2025/qcp/ast/VC/:/output/ -v /home/venillalemon/FV/prove-2025/qcp/ast/annotated_C/:/input/ qcp:latest symexec --no-strategy-gen --goal-file=/output/thm_apply_goal.v --proof-auto-file=/output/thm_apply_proof_auto.v --proof-manual-file=/output/thm_apply_proof_manual.v --input-file=/input/thm_apply.c -I/include/common/ -I/include/ast/ -slp /include/ast/ SimpleC.EE
 
 clean:
 	@rm -f */*.glob
