@@ -364,9 +364,17 @@ Lemma sll_var_sub_list_unfold: forall lis l,
   store_var_sub c vs **
   &(lis # "var_sub_list" ->ₛ "next") # Ptr |-> n ** 
   sll_var_sub_list n l0.
-Admitted.
-
-
+Proof.
+  intros.
+  unfold sll_var_sub_list.
+  unfold sll.
+  destruct l.
+  + entailer!.
+  + unfold store_var_sub_cell.
+    Intros y y0.
+    Exists y y0 v l.
+    entailer!.
+Qed.
 
 
 (* all about ast solve result *)
@@ -803,10 +811,8 @@ Proof.
   + destruct p as [pq t].
     sep_apply store_partial_quant_fold.
     entailer!.
-  + unfold thm_subst' at 2.
-    fold thm_subst'.
-    unfold store_term.
-    fold store_term.
+  + unfold thm_subst' at 2; fold thm_subst'.
+    unfold store_term; fold store_term.
     Exists y retval_2.
     entailer!.
 Qed. 
