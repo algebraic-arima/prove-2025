@@ -1,6 +1,6 @@
 /*@ Import Coq From SimpleC.EE Require Import ast_lib */
 /*@ Import Coq From SimpleC.EE Require Import malloc */
-/*@ Import Coq From SimpleC.EE Require Import sll_tmpl */
+/*@ Import Coq From SimpleC.EE Require Import super_poly_sll2 */
 
 /*@ Extern Coq (term :: *) */
 /*@ Extern Coq (var_sub :: *) */
@@ -46,7 +46,19 @@
                (sep_impl: term -> imply_res)
                (gen_pre: term -> term -> list term)
                (thm_app: term -> list var_sub -> term -> solve_res)
+               (imply_res_Cont: term -> term -> imply_res)
+               (SRBool: Z -> solve_res)
 */
+/*@ Extern Coq (nil : {A} -> list A)
+               (cons : {A} -> A -> list A -> list A)
+               (app : {A} -> list A -> list A -> list A)
+               (rev : {A} -> list A -> list A)
+               (Zlength: {A} -> list A -> Z)
+*/
+
+/*@ Extern Coq (option :: * => *) */
+/*@ Extern Coq (Some: {A} -> A -> option A)
+               (None: {A} -> option A) */
 
 typedef int bool;
 
@@ -109,7 +121,7 @@ typedef struct var_sub_list {
 } var_sub_list;
 
 typedef enum { bool_res, termlist } res_type;
-typedef struct {
+typedef struct solve_res {
   res_type type;
   union {
     bool ans;
@@ -117,7 +129,7 @@ typedef struct {
   } d;
 } solve_res;
 
-typedef struct {
+typedef struct imply_prop {
   term *assum;
   term *concl;
 } ImplyProp;
@@ -136,8 +148,7 @@ term_list *malloc_term_list()
 solve_res *malloc_solve_res()
     /*@ Require emp
         Ensure __return != 0 &&
-              data_at(&(__return -> type), 0) *
-              data_at(&(__return -> d), 0)
+              store_solve_res(__return, SRBool(0))
     */
     ;
 
@@ -146,8 +157,11 @@ ImplyProp *createImplyProp(term *t1, term *t2)
     /*@ With term1 term2
           Require store_term(t1, term1) *
                   store_term(t2, term2)
-          Ensure t1 == t1@pre && t2 == t2@pre &&
-                store_ImplyProp(__return, t1, t2, term1, term2)
+          Ensure exists t1' t2',
+                t1 == t1@pre && t2 == t2@pre &&
+                  store_term(t1, term1) *
+                  store_term(t2, term2) *
+                store_ImplyProp(__return, t1', t2', term1, term2)
     */
     ;
 
@@ -240,11 +254,11 @@ term *subst_term(term *den, char *src, term *t)
                   store_string(src, src_str) *
                   store_term(den, den_term)
           Ensure den == den@pre && src == src@pre &&
-                 store_term(__return, term_subst_t(den_term, src_str, trm)) *
-                 store_term(den, den_term) *
-                 store_string(src, src_str)
+                store_term(__return, term_subst_t(den_term, src_str, trm)) *
+                store_term(den, den_term) *
+                store_string(src, src_str)
     */
-   ;
+  ;
 
 bool alpha_equiv(term *t1, term *t2)
     /*@ With term1 term2
@@ -255,11 +269,11 @@ bool alpha_equiv(term *t1, term *t2)
     */
     ;
 
-term* sub_thm(term* thm, var_sub_list* list)
+term* sub_thm(term* thm, var_sub_list* lis)
   /*@ With t l
-        Require store_term(thm, t) * sll_var_sub_list(list, l)
-        Ensure thm == thm@pre && list == list@pre &&
-                sll_var_sub_list(list, l) *
+        Require store_term(thm, t) * sll_var_sub_list(lis, l)
+        Ensure thm == thm@pre && lis == lis@pre &&
+                sll_var_sub_list(lis, l) *
                 store_term_res(__return, thm_subst(t, l))
   */
   ;
@@ -280,15 +294,15 @@ term_list* check_list_gen(term* thm, term* target)
   */
   ;
 
-solve_res* thm_apply(term* thm, var_sub_list* list, term* goal)
+solve_res* thm_apply(term* thm, var_sub_list* lis, term* goal)
   /*@ With t l g
       Require store_term(thm, t) * 
-              sll_var_sub_list(list, l) * 
+              sll_var_sub_list(lis, l) * 
               store_term(goal, g)
       Ensure thm == thm@pre && 
-             sll_var_sub_list(list, l) * 
-             store_term(goal, g) *
-             store_solve_res(__return, thm_app(t, l, g))
+            sll_var_sub_list(lis, l) * 
+            store_term(goal, g) *
+            store_solve_res(__return, thm_app(t, l, g))
   */
   ;
   
