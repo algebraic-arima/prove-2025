@@ -691,13 +691,6 @@ Definition store_term_res (x: addr) (t: option term): Assertion :=
   | None => [| x = NULL |]
   end.
 
-Definition store_imply_res (x: addr) (impl: option ImplyProp): Assertion :=
-  match impl with
-  | Some (ImplP assum concl) => EX y z:addr,
-              store_ImplyProp x y z assum concl
-  | None => [| x = NULL |]
-  end.
-
 Fixpoint thm_subst_rem (thm: term) (l: var_sub_list): option partial_quant :=
   match l with 
     | nil => Some NQuant
@@ -834,6 +827,30 @@ Definition sep_impl (t : term): option ImplyProp :=
     | TermApply (TermApply (TermConst CImpl c) r) tr => 
       Some (ImplP r tr)
     | _ => None
+  end.
+
+Definition store_imply_res (x: addr) (impl: option ImplyProp): Assertion :=
+  match impl with
+  | Some (ImplP assum concl) => EX y z,
+              store_ImplyProp x y z assum concl
+  | None => [| x = NULL |]
+  end.
+
+Definition store_sep_imp_res (rt si: addr) (t: term): Assertion :=
+  match t with
+    | TermApply (TermApply (TermConst CImpl c) r) tr => 
+      EX y z y1 z1: addr,
+      &(rt # "term" ->ₛ "type") # Int |-> 2 **
+      &(rt # "term" ->ₛ "content" .ₛ "Apply" .ₛ "left") # Ptr |-> y **
+      &(rt # "term" ->ₛ "content" .ₛ "Apply" .ₛ "right") # Ptr |-> z **
+      &(y # "term" ->ₛ "type") # Int |-> 2 **
+      &(y # "term" ->ₛ "content" .ₛ "Apply" .ₛ "left") # Ptr |-> y1 **
+      &(y # "term" ->ₛ "content" .ₛ "Apply" .ₛ "right") # Ptr |-> z1 **
+      &(y1 # "term" ->ₛ "type") # Int |-> 1 **
+      &(y1 # "term" ->ₛ "content" .ₛ "Const" .ₛ "type") # Int |-> ctID CImpl **
+      &(y1 # "term" ->ₛ "content" .ₛ "Const" .ₛ "content") # Int |-> c **     
+      store_ImplyProp si z1 z r tr
+    | _ => [| si = 0 |] && store_term rt t
   end.
 
 Fixpoint gen_pre (thm target : term): term_list :=

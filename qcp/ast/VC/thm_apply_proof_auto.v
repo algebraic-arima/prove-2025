@@ -102,6 +102,78 @@ Proof. Admitted.
 Lemma proof_of_separate_imply_partial_solve_wit_7 : separate_imply_partial_solve_wit_7.
 Proof. Admitted. 
 
+Lemma proof_of_check_list_gen_safety_wit_1 : check_list_gen_safety_wit_1.
+Proof. Admitted. 
+
+Lemma proof_of_check_list_gen_safety_wit_2 : check_list_gen_safety_wit_2.
+Proof. Admitted. 
+
+Lemma proof_of_check_list_gen_safety_wit_3 : check_list_gen_safety_wit_3.
+Proof. Admitted. 
+
+Lemma proof_of_check_list_gen_safety_wit_4 : check_list_gen_safety_wit_4.
+Proof. Admitted. 
+
+Lemma proof_of_check_list_gen_safety_wit_5 : check_list_gen_safety_wit_5.
+Proof. Admitted. 
+
+Lemma proof_of_check_list_gen_safety_wit_6 : check_list_gen_safety_wit_6.
+Proof. Admitted. 
+
+Lemma proof_of_check_list_gen_safety_wit_7 : check_list_gen_safety_wit_7.
+Proof. Admitted. 
+
+Lemma proof_of_check_list_gen_safety_wit_8 : check_list_gen_safety_wit_8.
+Proof. Admitted. 
+
+Lemma proof_of_check_list_gen_safety_wit_9 : check_list_gen_safety_wit_9.
+Proof. Admitted. 
+
+Lemma proof_of_check_list_gen_safety_wit_10 : check_list_gen_safety_wit_10.
+Proof. Admitted. 
+
+Lemma proof_of_check_list_gen_entail_wit_1 : check_list_gen_entail_wit_1.
+Proof. Admitted. 
+
+Lemma proof_of_check_list_gen_partial_solve_wit_1_pure : check_list_gen_partial_solve_wit_1_pure.
+Proof. Admitted. 
+
+Lemma proof_of_check_list_gen_partial_solve_wit_1 : check_list_gen_partial_solve_wit_1.
+Proof. Admitted. 
+
+Lemma proof_of_check_list_gen_partial_solve_wit_2 : check_list_gen_partial_solve_wit_2.
+Proof. Admitted. 
+
+Lemma proof_of_check_list_gen_partial_solve_wit_3 : check_list_gen_partial_solve_wit_3.
+Proof. Admitted. 
+
+Lemma proof_of_check_list_gen_partial_solve_wit_4 : check_list_gen_partial_solve_wit_4.
+Proof. Admitted. 
+
+Lemma proof_of_check_list_gen_partial_solve_wit_5 : check_list_gen_partial_solve_wit_5.
+Proof. Admitted. 
+
+Lemma proof_of_check_list_gen_partial_solve_wit_6 : check_list_gen_partial_solve_wit_6.
+Proof. Admitted. 
+
+Lemma proof_of_check_list_gen_partial_solve_wit_7_pure : check_list_gen_partial_solve_wit_7_pure.
+Proof. Admitted. 
+
+Lemma proof_of_check_list_gen_partial_solve_wit_7 : check_list_gen_partial_solve_wit_7.
+Proof. Admitted. 
+
+Lemma proof_of_check_list_gen_partial_solve_wit_8_pure : check_list_gen_partial_solve_wit_8_pure.
+Proof. Admitted. 
+
+Lemma proof_of_check_list_gen_partial_solve_wit_8 : check_list_gen_partial_solve_wit_8.
+Proof. Admitted. 
+
+Lemma proof_of_check_list_gen_partial_solve_wit_9 : check_list_gen_partial_solve_wit_9.
+Proof. Admitted. 
+
+Lemma proof_of_check_list_gen_partial_solve_wit_10 : check_list_gen_partial_solve_wit_10.
+Proof. Admitted. 
+
 Lemma proof_of_thm_apply_safety_wit_1 : thm_apply_safety_wit_1.
 Proof. Admitted. 
 
