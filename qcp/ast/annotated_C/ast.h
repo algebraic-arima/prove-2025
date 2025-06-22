@@ -23,7 +23,7 @@
                (store_term_res : Z -> option term -> Assertion)
                (store_term_cell : Z -> term -> Assertion)
                (sll_term_list : Z -> list term -> Assertion)
-               (sllseg_term_list : Z -> Z -> list term -> Assertion)
+               (sllseg_term_list : Z -> list term -> Assertion)
                (sllbseg_term_list : Z -> Z -> list term -> Assertion)
                (store_partial_quant : Z -> Z -> partial_quant -> Assertion)
                (store_var_sub : Z -> var_sub -> Assertion)
@@ -35,7 +35,6 @@
                (store_solve_res' : Z -> solve_res -> Assertion)
                (store_ImplyProp : Z -> Z -> Z -> term -> term -> Assertion)
                (store_imply_res : Z -> option ImplyProp -> Assertion)
-               (store_sep_imp_res : Z -> Z -> term -> Assertion)
                (list_Z_cmp : list Z -> list Z -> Z)
                (term_alpha_eqn : term -> term -> Z)
                (term_subst_v : list Z -> list Z -> term -> term)
@@ -57,9 +56,9 @@
                (SRBool: Z -> solve_res)
                (store_sub_thm_res: Z -> Z -> term -> list var_sub -> Assertion)
                (thm_subst_allres_rel: term -> list var_sub -> partial_quant -> term -> Prop)
-               (store_check_gen: Z -> Z -> term -> Z -> Z -> list term -> Assertion)
+               (cur_term_list: term -> term -> list term)
+               (cur_thm: term -> list term -> term)
 */
-
 /*@ Extern Coq (nil : {A} -> list A)
                (cons : {A} -> A -> list A -> list A)
                (app : {A} -> list A -> list A -> list A)
@@ -164,8 +163,11 @@ ImplyProp *createImplyProp(term *t1, term *t2)
     /*@ With term1 term2
           Require store_term(t1, term1) *
                   store_term(t2, term2)
-          Ensure  t1 == t1@pre && t2 == t2@pre &&
-                  store_ImplyProp(__return, t1, t2, term1, term2)
+          Ensure exists t1' t2',
+                t1 == t1@pre && t2 == t2@pre &&
+                  store_term(t1, term1) *
+                  store_term(t2, term2) *
+                store_ImplyProp(__return, t1', t2', term1, term2)
     */
     ;
 

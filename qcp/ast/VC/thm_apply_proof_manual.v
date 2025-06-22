@@ -304,11 +304,116 @@ Proof.
   lia.
 Qed. 
 
+Lemma cur_thm_self: forall t,
+  cur_thm t nil = t.
+Proof.
+  intros.
+  unfold cur_thm.
+  induction t; try reflexivity.
+Qed.
+
+Lemma cur_thm_cons: forall t l1 l2,
+  cur_thm (cur_thm t l1) l2 = cur_thm t (l1++l2).
+Admitted.
+
+Lemma cur_thm_app: forall t l c r tr,
+  cur_thm t l = TermApply (TermApply (TermConst CImpl c) r) tr ->
+  cur_thm t (l ++ (r :: nil)) = tr.
+Proof.
+  intros.
+  pose proof (cur_thm_cons t l (r::nil)).
+  rewrite <- H0, H.
+  unfold cur_thm; fold cur_thm.
+  apply cur_thm_self.
+Qed.
+
+Lemma store_term_cell_fold: forall x y t,
+  x <> NULL ->
+  &(x # "term_list" ->ₛ "element") # Ptr |-> y **
+  store_term y t |--
+  store_term_cell x t.
+Proof.
+  intros.
+  unfold store_term_cell.
+  Exists y.
+  entailer!.
+Qed.
+
+Lemma sllbseg_one: forall a y retval,
+  retval <> NULL ->
+  y # Ptr |-> retval **
+  store_term_cell retval a |--
+  sllbseg_term_list y &(retval # "term_list" ->ₛ "next") (a::nil).
+Proof.
+  unfold sllbseg_term_list, sllbseg.
+  intros.
+  Exists retval.
+  entailer!.
+Qed.
+
+Lemma sllbseg_seg: forall x y z l1 l2,
+  sllbseg_term_list x y l1 **
+  sllbseg_term_list y z l2 |--
+  sllbseg_term_list x z (l1++l2).
+Proof.
+  intros.
+  revert x; induction l1; simpl; intros.
+  + entailer!.
+    subst x.
+    entailer!.
+  + Intros u.
+    Exists u.
+    entailer!.
+Qed.
+
+Lemma sllbseg_one_app: forall a l x y z retval,
+  retval <> NULL ->
+  sllbseg_term_list x y l **
+  y # Ptr |-> retval **
+  &(retval # "term_list" ->ₛ "element") # Ptr |-> z **
+  store_term z a |--
+  sllbseg_term_list x &(retval # "term_list" ->ₛ "next") (l++(a::nil)).
+Proof.
+  intros.
+  sep_apply (store_term_cell_fold retval z a); [ | auto].
+  sep_apply sllbseg_one; [ | auto].
+  sep_apply (sllbseg_seg x y &( retval # "term_list" ->ₛ "next") l (a::nil)).
+  entailer!.
+Qed.
+
+Lemma proof_of_check_list_gen_entail_wit_1 : check_list_gen_entail_wit_1.
+Proof. 
+  pre_process.
+  Exists nil; entailer!.
+  simpl.
+  pose proof cur_thm_self theo.
+  rewrite H1.
+  entailer!.
+Qed.
+
 Lemma proof_of_check_list_gen_entail_wit_2 : check_list_gen_entail_wit_2.
-Proof. Admitted. 
+Proof.
+  pre_process.
+  Exists (l_2 ++ (r :: nil)).
+  pose proof cur_thm_app theo l_2 c r tr H.
+  rewrite H5; entailer!.
+  sep_apply (sllbseg_one_app r l_2 &( "check_list") tail_ptr pa retval); [ | auto].
+  entailer!.
+Qed.
 
 Lemma proof_of_check_list_gen_return_wit_1 : check_list_gen_return_wit_1.
-Proof. Admitted. 
+Proof.
+  pre_process.
+  rewrite H.
+  destruct (sep_impl (cur_thm theo l)) eqn:Heq.
+  + unfold store_imply_res, store_ImplyProp.
+    destruct i eqn:Hi.
+    Intros y z.
+    entailer!.
+  +  unfold store_imply_res, sll_term_list, sll.
+  
+  sep_impl.
+  Admitted. 
 
 Lemma proof_of_check_list_gen_return_wit_2_1 : check_list_gen_return_wit_2_1.
 Proof. Admitted. 
@@ -316,7 +421,10 @@ Proof. Admitted.
 Lemma proof_of_check_list_gen_return_wit_2_2 : check_list_gen_return_wit_2_2.
 Proof. Admitted. 
 
-Lemma proof_of_check_list_gen_return_wit_3 : check_list_gen_return_wit_3.
+Lemma proof_of_check_list_gen_return_wit_3_1 : check_list_gen_return_wit_3_1.
+Proof. Admitted. 
+
+Lemma proof_of_check_list_gen_return_wit_3_2 : check_list_gen_return_wit_3_2.
 Proof. Admitted. 
 
 Lemma proof_of_check_list_gen_which_implies_wit_1 : check_list_gen_which_implies_wit_1.
@@ -329,9 +437,6 @@ Lemma proof_of_check_list_gen_which_implies_wit_3 : check_list_gen_which_implies
 Proof. Admitted. 
 
 Lemma proof_of_check_list_gen_which_implies_wit_4 : check_list_gen_which_implies_wit_4.
-Proof. Admitted. 
-
-Lemma proof_of_check_list_gen_which_implies_wit_5 : check_list_gen_which_implies_wit_5.
 Proof. Admitted. 
 
 Lemma proof_of_thm_apply_return_wit_1_1 : thm_apply_return_wit_1_1.
@@ -409,4 +514,3 @@ Proof.
   Exists 0; rewrite H.
   entailer!.
 Admitted.
-

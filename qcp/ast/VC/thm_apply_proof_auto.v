@@ -129,15 +129,6 @@ Proof. Admitted.
 Lemma proof_of_check_list_gen_safety_wit_9 : check_list_gen_safety_wit_9.
 Proof. Admitted. 
 
-Lemma proof_of_check_list_gen_safety_wit_10 : check_list_gen_safety_wit_10.
-Proof. Admitted. 
-
-Lemma proof_of_check_list_gen_entail_wit_1 : check_list_gen_entail_wit_1.
-Proof. Admitted. 
-
-Lemma proof_of_check_list_gen_partial_solve_wit_1_pure : check_list_gen_partial_solve_wit_1_pure.
-Proof. Admitted. 
-
 Lemma proof_of_check_list_gen_partial_solve_wit_1 : check_list_gen_partial_solve_wit_1.
 Proof. Admitted. 
 
@@ -162,9 +153,6 @@ Proof. Admitted.
 Lemma proof_of_check_list_gen_partial_solve_wit_7 : check_list_gen_partial_solve_wit_7.
 Proof. Admitted. 
 
-Lemma proof_of_check_list_gen_partial_solve_wit_8_pure : check_list_gen_partial_solve_wit_8_pure.
-Proof. Admitted. 
-
 Lemma proof_of_check_list_gen_partial_solve_wit_8 : check_list_gen_partial_solve_wit_8.
 Proof. Admitted. 
 
@@ -172,6 +160,9 @@ Lemma proof_of_check_list_gen_partial_solve_wit_9 : check_list_gen_partial_solve
 Proof. Admitted. 
 
 Lemma proof_of_check_list_gen_partial_solve_wit_10 : check_list_gen_partial_solve_wit_10.
+Proof. Admitted. 
+
+Lemma proof_of_check_list_gen_partial_solve_wit_11 : check_list_gen_partial_solve_wit_11.
 Proof. Admitted. 
 
 Lemma proof_of_thm_apply_safety_wit_1 : thm_apply_safety_wit_1.

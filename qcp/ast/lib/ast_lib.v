@@ -863,29 +863,32 @@ Fixpoint gen_pre (thm target : term): term_list :=
     | _ => nil
   end.
 
-(* todo: new store *)
-Fixpoint store_check_gen (rt thm: addr) (t: term) (cl tl: addr) (l: list term) : Assertion :=
+Fixpoint term_eq_dec (t1 t2 : term) : {t1 = t2} + {t1 <> t2}.
+Proof.
+  decide equality; try repeat decide equality.
+Qed.
+
+Fixpoint cur_term_list (theo t : term) : term_list :=
+  match term_eq_dec theo t with
+  | left _ => []
+  | right _ =>
+      match theo with
+      | TermApply (TermApply (TermConst CImpl _) a) b =>
+          a :: cur_term_list b t
+      | _ => nil
+      end
+  end.
+
+Fixpoint cur_thm (thm: term) (l: term_list) : term :=
   match l with
-      | nil => [| rt = thm |] && [| cl = tl |] && cl # Ptr |-> 0
-      | r :: l0 => match t with 
-          | TermApply (TermApply (TermConst CImpl c) r) tr => 
-              EX y z y1 z1 n: addr,
-              [| y <> NULL |] && [| z <> NULL |] && [| y1 <> NULL |] && [| z1 <> NULL |] &&
-              &(rt # "term" ->ₛ "type") # Int |-> 2 **
-              &(rt # "term" ->ₛ "content" .ₛ "Apply" .ₛ "left") # Ptr |-> y **
-              &(rt # "term" ->ₛ "content" .ₛ "Apply" .ₛ "right") # Ptr |-> z **
-              &(y # "term" ->ₛ "type") # Int |-> 2 **
-              &(y # "term" ->ₛ "content" .ₛ "Apply" .ₛ "left") # Ptr |-> y1 **
-              &(y # "term" ->ₛ "content" .ₛ "Apply" .ₛ "right") # Ptr |-> z1 **
-              &(y1 # "term" ->ₛ "type") # Int |-> 1 **
-              &(y1 # "term" ->ₛ "content" .ₛ "Const" .ₛ "type") # Int |-> ctID CImpl **
-              &(y1 # "term" ->ₛ "content" .ₛ "Const" .ₛ "content") # Int |-> c **
-              store_term z1 r ** store_term z tr **
-              cl # Ptr |-> z1 **
-              store_check_gen z thm tr (&(z1 # "term_list" ->ₛ "next")) tl l0
-          | _ => store_term rt t
+  | nil => thm
+  | t :: l0 =>
+    match thm with
+      | TermApply (TermApply (TermConst CImpl _) t) b =>
+          cur_thm b l0
+      | _ => thm
     end
-end.
+  end.
 
 Definition thm_app (thm : term) (l : var_sub_list) (goal : term): solve_res :=
   match thm_subst_allres thm l with
@@ -894,6 +897,8 @@ Definition thm_app (thm : term) (l : var_sub_list) (goal : term): solve_res :=
       if term_alpha_eq thm_ins goal then SRBool 1
       else SRTList (gen_pre thm_ins goal)
   end.
+
+
 (* Lemmas *)
 
 Lemma term_subst_v_same_name : forall (den src : var_name) (t : term),
