@@ -24,6 +24,7 @@
                (sll_term_list : Z -> list term -> Assertion)
                (sllseg_term_list : Z -> list term -> Assertion)
                (sllbseg_term_list : Z -> Z -> list term -> Assertion)
+               (store_partial_quant : Z -> Z -> partial_quant -> Assertion)
                (store_var_sub : Z -> var_sub -> Assertion)
                (store_var_sub_cell : Z -> var_sub -> Assertion)
                (sll_var_sub_list : Z -> list var_sub -> Assertion)
@@ -53,6 +54,7 @@
                (imply_res_Cont: term -> term -> option ImplyProp)
                (SRBool: Z -> solve_res)
                (store_sub_thm_res: Z -> Z -> term -> list var_sub -> Assertion)
+               (thm_subst_allres_rel: term -> list var_sub -> partial_quant -> term -> Prop)
 */
 /*@ Extern Coq (nil : {A} -> list A)
                (cons : {A} -> A -> list A -> list A)

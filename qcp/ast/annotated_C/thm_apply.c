@@ -171,48 +171,50 @@ ImplyProp* separate_imply(term* t)
 //   return check_list;
 // }
 
-// solve_res* thm_apply(term* thm, var_sub_list* lis, term* goal) 
-// /*@ With t l g
-//     Require store_term(thm, t) * 
-//             sll_var_sub_list(lis, l) * 
-//             store_term(goal, g)
-//     Ensure exists  ti,
-//             thm == thm@pre &&
-//             sll_var_sub_list(lis, l) * 
-//             store_term(goal, g) *
-//             store_solve_res(__return, thm_app(t, l, g)) *
-//             store_sub_thm_res(thm, ti, t, l)
-// */
-// {
-//   term* thm_ins = sub_thm(thm, lis);
-//   solve_res* res = malloc_solve_res();
-//   /*@ store_solve_res(res, SRBool(0))
-//       which implies
-//       res->type == 0 &&
-//       res->d.ans == 0
-//   */
-//   if (thm_ins == (void*)0) {
-//     res->type = bool_res;
-//     res->d.ans = 0;
-//   } else {
-//     // Added {} here without changing the semantics!
-//     /*@ thm_ins != 0 &&
-//         store_term_res(thm_ins, thm_subst(t, l))
-//         which implies
-//         exists tst,
-//         store_term(thm_ins, tst)
-//     */
-//     if (alpha_equiv(thm_ins, goal)) {
-//       res->type = bool_res;
-//       res->d.ans = 1;
-//     } else {
-//       res->type = termlist;
-//       /*@ res->d.ans == 0
-//           which implies
-//           res->d.list == 0
-//       */
-//       res->d.list = check_list_gen(thm_ins, goal);
-//     }
-//   }
-//   return res;
-// }
+solve_res* thm_apply(term* thm, var_sub_list* lis, term* goal) 
+/*@ With t l g
+    Require store_term(thm, t) * 
+            sll_var_sub_list(lis, l) * 
+            store_term(goal, g)
+    Ensure exists ti,
+            thm == thm@pre &&
+            sll_var_sub_list(lis, l) * 
+            store_term(goal, g) *
+            store_solve_res(__return, thm_app(t, l, g)) *
+            store_sub_thm_res(thm, ti, t, l)
+*/
+{
+  term* thm_ins = sub_thm(thm, lis);
+  solve_res* res = malloc_solve_res();
+  /*@ store_solve_res(res, SRBool(0))
+      which implies
+      res->type == 0 &&
+      res->d.ans == 0
+  */
+  if (thm_ins == (void*)0) {
+    res->type = bool_res;
+    res->d.ans = 0;
+  } else {
+    // Added {} here without changing the semantics!
+    /*@ thm_ins != 0 &&
+        store_sub_thm_res(thm, thm_ins, t, l)
+        which implies
+        exists pq st,
+        thm_subst_allres_rel(t, l, pq, st) &&
+        store_partial_quant(thm, thm_ins, pq) *
+        store_term(thm_ins, st)
+    */
+    if (alpha_equiv(thm_ins, goal)) {
+      res->type = bool_res;
+      res->d.ans = 1;
+    } else {
+      res->type = termlist;
+      /*@ res->d.ans == 0
+          which implies
+          res->d.list == 0
+      */
+      res->d.list = check_list_gen(thm_ins, goal);
+    }
+  }
+  return res;
+}

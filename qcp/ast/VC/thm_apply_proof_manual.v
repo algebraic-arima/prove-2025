@@ -304,3 +304,79 @@ Proof.
   lia.
   lia.
 Qed. 
+
+Lemma proof_of_thm_apply_return_wit_1_1 : thm_apply_return_wit_1_1.
+Proof.
+  pre_process.
+  Exists retval_3.
+  unfold thm_subst_allres_rel in H2.
+  unfold store_sub_thm_res.
+  rewrite H2.
+  entailer!.    
+  unfold thm_app.
+  rewrite H2.
+  rewrite H0 in H1; unfold term_alpha_eqn in H1.
+  destruct (term_alpha_eq st g) eqn:Heq; [ congruence | ].
+  unfold store_solve_res.
+  Exists retval_2.
+  unfold restypeID.
+  entailer!.
+Qed.
+
+Lemma proof_of_thm_apply_return_wit_1_2 : thm_apply_return_wit_1_2.
+Proof.
+  pre_process.
+  Exists retval_3.
+  unfold thm_subst_allres_rel in H1.
+  unfold store_sub_thm_res; rewrite H1.
+  unfold thm_app; rewrite H1.
+  unfold term_alpha_eqn in H0.
+  destruct (term_alpha_eq st g) eqn:Heq; [ | congruence ].
+  unfold store_solve_res, restypeID.
+  entailer!.
+Qed.
+
+Lemma proof_of_thm_apply_return_wit_1_3 : thm_apply_return_wit_1_3.
+Proof.
+  pre_process.
+  Exists retval_2.
+  rewrite H.
+  unfold store_sub_thm_res.
+  unfold thm_app.
+  destruct (thm_subst_allres t l).
+  + destruct p.
+    unfold store_term at 1.
+    destruct t0; unfold NULL.
+    - entailer!; Intros y; congruence.
+    - entailer!; Intros y; congruence.
+    - entailer!; Intros y z; congruence.
+    - entailer!; Intros y z; congruence.
+  + unfold store_solve_res.
+    entailer!.
+Qed. 
+
+Lemma proof_of_thm_apply_which_implies_wit_1 : thm_apply_which_implies_wit_1.
+Proof.
+  pre_process.
+  unfold store_solve_res, restypeID.
+  Exists 0 0.
+  entailer!.
+Qed.
+
+Lemma proof_of_thm_apply_which_implies_wit_2 : thm_apply_which_implies_wit_2.
+Proof.
+  pre_process.
+  unfold store_sub_thm_res, thm_subst_allres_rel.
+  destruct (thm_subst_allres t l).
+  + destruct p.
+    Exists p t0.
+    entailer!.
+  + entailer!.
+Qed.  
+
+Lemma proof_of_thm_apply_which_implies_wit_3 : thm_apply_which_implies_wit_3.
+Proof.
+  pre_process.
+  Exists 0; rewrite H.
+  entailer!.
+Admitted.

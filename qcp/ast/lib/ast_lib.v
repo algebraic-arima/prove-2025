@@ -190,6 +190,15 @@ Proof.
   entailer!.
 Qed.
 
+Lemma store_null_lr: forall t p q r,
+  p ** store_term 0 t ** r |-- q.
+Proof.
+  intros.
+  pose proof (store_term_unfold 0 t).
+  sep_apply H.
+  entailer!.
+Qed.
+
 Lemma store_term_fold_out: forall x t,
   x <> 0 ->
   &(x # "term" ->ₛ "type") # Int |-> termtypeID t **
@@ -793,6 +802,9 @@ Definition store_sub_thm_res (rt fin: addr) (thm: term) (l: var_sub_list): Asser
     | Some (pq, t) => store_partial_quant rt fin pq ** store_term fin t
 end.
 
+Definition thm_subst_allres_rel (thm: term) (l: var_sub_list) (pq: partial_quant) (st: term): Prop :=
+  thm_subst_allres thm l = Some (pq, st).
+
 Lemma store_sub_thm_res_fold: forall retval_2 retval st sv qterm l0 thm_pre qt qvar y,
   thm_pre <> NULL ->
   store_sub_thm_res retval_2 retval (term_subst_t st sv qterm) l0 **
@@ -835,9 +847,9 @@ Fixpoint gen_pre (thm target : term): term_list :=
   end.
 
 Definition thm_app (thm : term) (l : var_sub_list) (goal : term): solve_res :=
-  match thm_subst thm l with
+  match thm_subst_allres thm l with
   | None => SRBool 0
-  | Some thm_ins =>
+  | Some (_, thm_ins) =>
       if term_alpha_eq thm_ins goal then SRBool 1
       else SRTList (gen_pre thm_ins goal)
   end.
