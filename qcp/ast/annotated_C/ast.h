@@ -57,7 +57,9 @@
                (SRBool: Z -> solve_res)
                (store_sub_thm_res: Z -> Z -> term -> list var_sub -> Assertion)
                (thm_subst_allres_rel: term -> list var_sub -> partial_quant -> term -> Prop)
+               (store_check_gen: Z -> Z -> term -> Z -> Z -> list term -> Assertion)
 */
+
 /*@ Extern Coq (nil : {A} -> list A)
                (cons : {A} -> A -> list A -> list A)
                (app : {A} -> list A -> list A -> list A)

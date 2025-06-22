@@ -863,6 +863,30 @@ Fixpoint gen_pre (thm target : term): term_list :=
     | _ => nil
   end.
 
+(* todo: new store *)
+Fixpoint store_check_gen (rt thm: addr) (t: term) (cl tl: addr) (l: list term) : Assertion :=
+  match l with
+      | nil => [| rt = thm |] && [| cl = tl |] && cl # Ptr |-> 0
+      | r :: l0 => match t with 
+          | TermApply (TermApply (TermConst CImpl c) r) tr => 
+              EX y z y1 z1 n: addr,
+              [| y <> NULL |] && [| z <> NULL |] && [| y1 <> NULL |] && [| z1 <> NULL |] &&
+              &(rt # "term" ->ₛ "type") # Int |-> 2 **
+              &(rt # "term" ->ₛ "content" .ₛ "Apply" .ₛ "left") # Ptr |-> y **
+              &(rt # "term" ->ₛ "content" .ₛ "Apply" .ₛ "right") # Ptr |-> z **
+              &(y # "term" ->ₛ "type") # Int |-> 2 **
+              &(y # "term" ->ₛ "content" .ₛ "Apply" .ₛ "left") # Ptr |-> y1 **
+              &(y # "term" ->ₛ "content" .ₛ "Apply" .ₛ "right") # Ptr |-> z1 **
+              &(y1 # "term" ->ₛ "type") # Int |-> 1 **
+              &(y1 # "term" ->ₛ "content" .ₛ "Const" .ₛ "type") # Int |-> ctID CImpl **
+              &(y1 # "term" ->ₛ "content" .ₛ "Const" .ₛ "content") # Int |-> c **
+              store_term z1 r ** store_term z tr **
+              cl # Ptr |-> z1 **
+              store_check_gen z thm tr (&(z1 # "term_list" ->ₛ "next")) tl l0
+          | _ => store_term rt t
+    end
+end.
+
 Definition thm_app (thm : term) (l : var_sub_list) (goal : term): solve_res :=
   match thm_subst_allres thm l with
   | None => SRBool 0
@@ -870,7 +894,6 @@ Definition thm_app (thm : term) (l : var_sub_list) (goal : term): solve_res :=
       if term_alpha_eq thm_ins goal then SRBool 1
       else SRTList (gen_pre thm_ins goal)
   end.
-
 (* Lemmas *)
 
 Lemma term_subst_v_same_name : forall (den src : var_name) (t : term),

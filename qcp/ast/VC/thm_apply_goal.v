@@ -1129,8 +1129,8 @@ forall (target_pre: Z) (thm_pre: Z) (targ: term) (theo: term) (retval: Z) (retva
 .
 
 Definition check_list_gen_safety_wit_10 := 
-forall (target_pre: Z) (thm_pre: Z) (targ: term) (theo: term) (tail_ptr: Z) (l: (@list term)) (retval: Z) (retval_2: Z) (retval_3: Z) (p_concl: Z) (p_assum: Z) (p_assum_2: term) (p_concl_2: term) ,
-  [| ((sep_impl (theo)) = (imply_res_Cont (p_assum_2) (p_concl_2))) |] 
+forall (target_pre: Z) (thm_pre: Z) (targ: term) (theo: term) (tail_ptr: Z) (l: (@list term)) (retval: Z) (retval_2: Z) (retval_3: Z) (v: Z) (pa: Z) (v_2: Z) (pc: Z) (c: Z) (r: term) (tr: term) ,
+  [| (theo = (TermApply ((TermApply ((TermConst (CImpl) (c))) (r))) (tr))) |] 
   &&  [| (retval_3 <> 0) |] 
   &&  [| (retval_2 <> 0) |] 
   &&  [| (retval = 0) |] 
@@ -1138,12 +1138,21 @@ forall (target_pre: Z) (thm_pre: Z) (targ: term) (theo: term) (tail_ptr: Z) (l: 
   &&  [| (thm_pre <> 0) |] 
   &&  [| (target_pre <> 0) |] 
   &&  [| (thm_pre <> 0) |]
-  &&  ((( &( "p" ) )) # Ptr  |-> retval_2)
-  **  ((&((retval_2)  # "imply_prop" ->ₛ "assum")) # Ptr  |-> p_assum)
-  **  (store_term p_assum p_assum_2 )
-  **  ((&((retval_2)  # "imply_prop" ->ₛ "concl")) # Ptr  |-> p_concl)
-  **  (store_term p_concl p_concl_2 )
-  **  ((&((retval_3)  # "term_list" ->ₛ "element")) # Ptr  |-> p_assum)
+  &&  ((&((thm_pre)  # "term" ->ₛ "type")) # Int  |-> 2)
+  **  ((&((thm_pre)  # "term" ->ₛ "content" .ₛ "Apply" .ₛ "right")) # Ptr  |-> pc)
+  **  ((&((thm_pre)  # "term" ->ₛ "content" .ₛ "Apply" .ₛ "left")) # Ptr  |-> v_2)
+  **  ((&((v_2)  # "term" ->ₛ "type")) # Int  |-> 2)
+  **  ((&((v_2)  # "term" ->ₛ "content" .ₛ "Apply" .ₛ "right")) # Ptr  |-> pa)
+  **  ((&((v_2)  # "term" ->ₛ "content" .ₛ "Apply" .ₛ "left")) # Ptr  |-> v)
+  **  ((&((v)  # "term" ->ₛ "type")) # Int  |-> 1)
+  **  ((&((v)  # "term" ->ₛ "content" .ₛ "Const" .ₛ "type")) # Int  |-> (ctID (CImpl)))
+  **  ((&((v)  # "term" ->ₛ "content" .ₛ "Const" .ₛ "content")) # Int  |-> c)
+  **  ((( &( "p" ) )) # Ptr  |-> retval_2)
+  **  ((&((retval_2)  # "imply_prop" ->ₛ "assum")) # Ptr  |-> pa)
+  **  ((&((retval_2)  # "imply_prop" ->ₛ "concl")) # Ptr  |-> pc)
+  **  (store_term pa r )
+  **  (store_term pc tr )
+  **  ((&((retval_3)  # "term_list" ->ₛ "element")) # Ptr  |-> pa)
   **  ((&((retval_3)  # "term_list" ->ₛ "next")) # Ptr  |-> 0)
   **  ((( &( "new_node" ) )) # Ptr  |-> retval_3)
   **  (store_term target_pre targ )
@@ -1179,8 +1188,8 @@ forall (target_pre: Z) (thm_pre: Z) (targ: term) (theo: term) (tail_ptr: Z) ,
 .
 
 Definition check_list_gen_entail_wit_2 := 
-forall (target_pre: Z) (thm_pre: Z) (targ: term) (theo: term) (tail_ptr: Z) (l_2: (@list term)) (retval_2: Z) (retval_3: Z) (retval: Z) (p_concl: Z) (p_assum: Z) (p_assum_2: term) (p_concl_2: term) ,
-  [| ((sep_impl (theo)) = (imply_res_Cont (p_assum_2) (p_concl_2))) |] 
+forall (target_pre: Z) (thm_pre: Z) (targ: term) (theo: term) (tail_ptr: Z) (l_2: (@list term)) (retval_2: Z) (retval_3: Z) (retval: Z) (v: Z) (pa: Z) (v_2: Z) (pc: Z) (c: Z) (r: term) (tr: term) ,
+  [| (theo = (TermApply ((TermApply ((TermConst (CImpl) (c))) (r))) (tr))) |] 
   &&  [| (retval <> 0) |] 
   &&  [| (retval_3 <> 0) |] 
   &&  [| (retval_2 = 0) |] 
@@ -1188,17 +1197,26 @@ forall (target_pre: Z) (thm_pre: Z) (targ: term) (theo: term) (tail_ptr: Z) (l_2
   &&  [| (thm_pre <> 0) |] 
   &&  [| (target_pre <> 0) |] 
   &&  [| (thm_pre <> 0) |]
-  &&  (store_term p_assum p_assum_2 )
-  **  (store_term p_concl p_concl_2 )
-  **  ((&((retval_3)  # "imply_prop" ->ₛ "concl")) # Ptr  |-> p_concl)
-  **  ((&((retval_3)  # "imply_prop" ->ₛ "assum")) # Ptr  |-> p_assum)
-  **  ((&((retval)  # "term_list" ->ₛ "element")) # Ptr  |-> p_assum)
+  &&  (store_term pa r )
+  **  (store_term pc tr )
+  **  ((&((retval_3)  # "imply_prop" ->ₛ "concl")) # Ptr  |-> pc)
+  **  ((&((retval_3)  # "imply_prop" ->ₛ "assum")) # Ptr  |-> pa)
+  **  ((&((thm_pre)  # "term" ->ₛ "type")) # Int  |-> 2)
+  **  ((&((thm_pre)  # "term" ->ₛ "content" .ₛ "Apply" .ₛ "right")) # Ptr  |-> pc)
+  **  ((&((thm_pre)  # "term" ->ₛ "content" .ₛ "Apply" .ₛ "left")) # Ptr  |-> v_2)
+  **  ((&((v_2)  # "term" ->ₛ "type")) # Int  |-> 2)
+  **  ((&((v_2)  # "term" ->ₛ "content" .ₛ "Apply" .ₛ "right")) # Ptr  |-> pa)
+  **  ((&((v_2)  # "term" ->ₛ "content" .ₛ "Apply" .ₛ "left")) # Ptr  |-> v)
+  **  ((&((v)  # "term" ->ₛ "type")) # Int  |-> 1)
+  **  ((&((v)  # "term" ->ₛ "content" .ₛ "Const" .ₛ "type")) # Int  |-> (ctID (CImpl)))
+  **  ((&((v)  # "term" ->ₛ "content" .ₛ "Const" .ₛ "content")) # Int  |-> c)
+  **  ((&((retval)  # "term_list" ->ₛ "element")) # Ptr  |-> pa)
   **  ((&((retval)  # "term_list" ->ₛ "next")) # Ptr  |-> 0)
   **  (store_term target_pre targ )
   **  (sllbseg_term_list ( &( "check_list" ) ) tail_ptr l_2 )
   **  ((tail_ptr) # Ptr  |-> retval)
   **  ((( &( "tail_ptr" ) )) # Ptr  |-> ( &( "check_list" ) ))
-  **  ((( &( "thm" ) )) # Ptr  |-> p_concl)
+  **  ((( &( "thm" ) )) # Ptr  |-> pc)
 |--
   EX (l: (@list term)) ,
   [| (target_pre <> 0) |] 
@@ -1481,8 +1499,8 @@ forall (target_pre: Z) (thm_pre: Z) (targ: term) (theo: term) (tail_ptr: Z) (l: 
 Definition check_list_gen_partial_solve_wit_7 := check_list_gen_partial_solve_wit_7_pure -> check_list_gen_partial_solve_wit_7_aux.
 
 Definition check_list_gen_partial_solve_wit_8_pure := 
-forall (target_pre: Z) (thm_pre: Z) (targ: term) (theo: term) (tail_ptr: Z) (l: (@list term)) (retval_2: Z) (retval: Z) (retval_3: Z) (p_concl_2: Z) (p_assum_2: Z) (p_assum: term) (p_concl: term) ,
-  [| ((sep_impl (theo)) = (imply_res_Cont (p_assum) (p_concl))) |] 
+forall (target_pre: Z) (thm_pre: Z) (targ: term) (theo: term) (tail_ptr: Z) (l: (@list term)) (retval_2: Z) (retval: Z) (retval_3: Z) (v: Z) (pa: Z) (v_2: Z) (pc: Z) (c: Z) (r: term) (tr: term) ,
+  [| (theo = (TermApply ((TermApply ((TermConst (CImpl) (c))) (r))) (tr))) |] 
   &&  [| (retval_3 <> 0) |] 
   &&  [| (retval <> 0) |] 
   &&  [| (retval_2 = 0) |] 
@@ -1490,12 +1508,21 @@ forall (target_pre: Z) (thm_pre: Z) (targ: term) (theo: term) (tail_ptr: Z) (l: 
   &&  [| (thm_pre <> 0) |] 
   &&  [| (target_pre <> 0) |] 
   &&  [| (thm_pre <> 0) |]
-  &&  ((( &( "p" ) )) # Ptr  |-> retval)
-  **  ((&((retval)  # "imply_prop" ->ₛ "assum")) # Ptr  |-> p_assum_2)
-  **  (store_term p_assum_2 p_assum )
-  **  ((&((retval)  # "imply_prop" ->ₛ "concl")) # Ptr  |-> p_concl_2)
-  **  (store_term p_concl_2 p_concl )
-  **  ((&((retval_3)  # "term_list" ->ₛ "element")) # Ptr  |-> p_assum_2)
+  &&  ((&((thm_pre)  # "term" ->ₛ "type")) # Int  |-> 2)
+  **  ((&((thm_pre)  # "term" ->ₛ "content" .ₛ "Apply" .ₛ "right")) # Ptr  |-> pc)
+  **  ((&((thm_pre)  # "term" ->ₛ "content" .ₛ "Apply" .ₛ "left")) # Ptr  |-> v_2)
+  **  ((&((v_2)  # "term" ->ₛ "type")) # Int  |-> 2)
+  **  ((&((v_2)  # "term" ->ₛ "content" .ₛ "Apply" .ₛ "right")) # Ptr  |-> pa)
+  **  ((&((v_2)  # "term" ->ₛ "content" .ₛ "Apply" .ₛ "left")) # Ptr  |-> v)
+  **  ((&((v)  # "term" ->ₛ "type")) # Int  |-> 1)
+  **  ((&((v)  # "term" ->ₛ "content" .ₛ "Const" .ₛ "type")) # Int  |-> (ctID (CImpl)))
+  **  ((&((v)  # "term" ->ₛ "content" .ₛ "Const" .ₛ "content")) # Int  |-> c)
+  **  ((( &( "p" ) )) # Ptr  |-> retval)
+  **  ((&((retval)  # "imply_prop" ->ₛ "assum")) # Ptr  |-> pa)
+  **  ((&((retval)  # "imply_prop" ->ₛ "concl")) # Ptr  |-> pc)
+  **  (store_term pa r )
+  **  (store_term pc tr )
+  **  ((&((retval_3)  # "term_list" ->ₛ "element")) # Ptr  |-> pa)
   **  ((&((retval_3)  # "term_list" ->ₛ "next")) # Ptr  |-> 0)
   **  ((( &( "new_node" ) )) # Ptr  |-> retval_3)
   **  (store_term target_pre targ )
@@ -1504,15 +1531,14 @@ forall (target_pre: Z) (thm_pre: Z) (targ: term) (theo: term) (tail_ptr: Z) (l: 
   **  (sllbseg_term_list ( &( "check_list" ) ) tail_ptr l )
   **  ((tail_ptr) # Ptr  |-> retval_3)
   **  ((( &( "tail_ptr" ) )) # Ptr  |-> ( &( "check_list" ) ))
-  **  ((( &( "thm" ) )) # Ptr  |-> p_concl_2)
+  **  ((( &( "thm" ) )) # Ptr  |-> pc)
 |--
-  [| (retval <> 0) |] 
-  &&  [| ((sep_impl (theo)) = (imply_res_Cont (p_assum) (p_concl))) |]
+  [| (retval <> 0) |]
 .
 
 Definition check_list_gen_partial_solve_wit_8_aux := 
-forall (target_pre: Z) (thm_pre: Z) (targ: term) (theo: term) (tail_ptr: Z) (l: (@list term)) (retval: Z) (retval_2: Z) (retval_3: Z) (p_concl: Z) (p_assum: Z) (p_assum_2: term) (p_concl_2: term) ,
-  [| ((sep_impl (theo)) = (imply_res_Cont (p_assum_2) (p_concl_2))) |] 
+forall (target_pre: Z) (thm_pre: Z) (targ: term) (theo: term) (tail_ptr: Z) (l: (@list term)) (retval: Z) (retval_2: Z) (retval_3: Z) (v: Z) (pa: Z) (v_2: Z) (pc: Z) (c: Z) (r: term) (tr: term) ,
+  [| (theo = (TermApply ((TermApply ((TermConst (CImpl) (c))) (r))) (tr))) |] 
   &&  [| (retval_3 <> 0) |] 
   &&  [| (retval_2 <> 0) |] 
   &&  [| (retval = 0) |] 
@@ -1520,11 +1546,20 @@ forall (target_pre: Z) (thm_pre: Z) (targ: term) (theo: term) (tail_ptr: Z) (l: 
   &&  [| (thm_pre <> 0) |] 
   &&  [| (target_pre <> 0) |] 
   &&  [| (thm_pre <> 0) |]
-  &&  ((&((retval_2)  # "imply_prop" ->ₛ "assum")) # Ptr  |-> p_assum)
-  **  (store_term p_assum p_assum_2 )
-  **  ((&((retval_2)  # "imply_prop" ->ₛ "concl")) # Ptr  |-> p_concl)
-  **  (store_term p_concl p_concl_2 )
-  **  ((&((retval_3)  # "term_list" ->ₛ "element")) # Ptr  |-> p_assum)
+  &&  ((&((thm_pre)  # "term" ->ₛ "type")) # Int  |-> 2)
+  **  ((&((thm_pre)  # "term" ->ₛ "content" .ₛ "Apply" .ₛ "right")) # Ptr  |-> pc)
+  **  ((&((thm_pre)  # "term" ->ₛ "content" .ₛ "Apply" .ₛ "left")) # Ptr  |-> v_2)
+  **  ((&((v_2)  # "term" ->ₛ "type")) # Int  |-> 2)
+  **  ((&((v_2)  # "term" ->ₛ "content" .ₛ "Apply" .ₛ "right")) # Ptr  |-> pa)
+  **  ((&((v_2)  # "term" ->ₛ "content" .ₛ "Apply" .ₛ "left")) # Ptr  |-> v)
+  **  ((&((v)  # "term" ->ₛ "type")) # Int  |-> 1)
+  **  ((&((v)  # "term" ->ₛ "content" .ₛ "Const" .ₛ "type")) # Int  |-> (ctID (CImpl)))
+  **  ((&((v)  # "term" ->ₛ "content" .ₛ "Const" .ₛ "content")) # Int  |-> c)
+  **  ((&((retval_2)  # "imply_prop" ->ₛ "assum")) # Ptr  |-> pa)
+  **  ((&((retval_2)  # "imply_prop" ->ₛ "concl")) # Ptr  |-> pc)
+  **  (store_term pa r )
+  **  (store_term pc tr )
+  **  ((&((retval_3)  # "term_list" ->ₛ "element")) # Ptr  |-> pa)
   **  ((&((retval_3)  # "term_list" ->ₛ "next")) # Ptr  |-> 0)
   **  (store_term target_pre targ )
   **  (sllbseg_term_list ( &( "check_list" ) ) tail_ptr l )
@@ -1532,8 +1567,7 @@ forall (target_pre: Z) (thm_pre: Z) (targ: term) (theo: term) (tail_ptr: Z) (l: 
   **  ((( &( "tail_ptr" ) )) # Ptr  |-> ( &( "check_list" ) ))
 |--
   [| (retval_2 <> 0) |] 
-  &&  [| ((sep_impl (theo)) = (imply_res_Cont (p_assum_2) (p_concl_2))) |] 
-  &&  [| ((sep_impl (theo)) = (imply_res_Cont (p_assum_2) (p_concl_2))) |] 
+  &&  [| (theo = (TermApply ((TermApply ((TermConst (CImpl) (c))) (r))) (tr))) |] 
   &&  [| (retval_3 <> 0) |] 
   &&  [| (retval_2 <> 0) |] 
   &&  [| (retval = 0) |] 
@@ -1541,11 +1575,20 @@ forall (target_pre: Z) (thm_pre: Z) (targ: term) (theo: term) (tail_ptr: Z) (l: 
   &&  [| (thm_pre <> 0) |] 
   &&  [| (target_pre <> 0) |] 
   &&  [| (thm_pre <> 0) |]
-  &&  ((&((retval_2)  # "imply_prop" ->ₛ "assum")) # Ptr  |-> p_assum)
-  **  (store_term p_assum p_assum_2 )
-  **  ((&((retval_2)  # "imply_prop" ->ₛ "concl")) # Ptr  |-> p_concl)
-  **  (store_term p_concl p_concl_2 )
-  **  ((&((retval_3)  # "term_list" ->ₛ "element")) # Ptr  |-> p_assum)
+  &&  ((&((retval_2)  # "imply_prop" ->ₛ "assum")) # Ptr  |-> pa)
+  **  (store_term pa r )
+  **  ((&((retval_2)  # "imply_prop" ->ₛ "concl")) # Ptr  |-> pc)
+  **  (store_term pc tr )
+  **  ((&((thm_pre)  # "term" ->ₛ "type")) # Int  |-> 2)
+  **  ((&((thm_pre)  # "term" ->ₛ "content" .ₛ "Apply" .ₛ "right")) # Ptr  |-> pc)
+  **  ((&((thm_pre)  # "term" ->ₛ "content" .ₛ "Apply" .ₛ "left")) # Ptr  |-> v_2)
+  **  ((&((v_2)  # "term" ->ₛ "type")) # Int  |-> 2)
+  **  ((&((v_2)  # "term" ->ₛ "content" .ₛ "Apply" .ₛ "right")) # Ptr  |-> pa)
+  **  ((&((v_2)  # "term" ->ₛ "content" .ₛ "Apply" .ₛ "left")) # Ptr  |-> v)
+  **  ((&((v)  # "term" ->ₛ "type")) # Int  |-> 1)
+  **  ((&((v)  # "term" ->ₛ "content" .ₛ "Const" .ₛ "type")) # Int  |-> (ctID (CImpl)))
+  **  ((&((v)  # "term" ->ₛ "content" .ₛ "Const" .ₛ "content")) # Int  |-> c)
+  **  ((&((retval_3)  # "term_list" ->ₛ "element")) # Ptr  |-> pa)
   **  ((&((retval_3)  # "term_list" ->ₛ "next")) # Ptr  |-> 0)
   **  (store_term target_pre targ )
   **  (sllbseg_term_list ( &( "check_list" ) ) tail_ptr l )
@@ -1556,8 +1599,8 @@ forall (target_pre: Z) (thm_pre: Z) (targ: term) (theo: term) (tail_ptr: Z) (l: 
 Definition check_list_gen_partial_solve_wit_8 := check_list_gen_partial_solve_wit_8_pure -> check_list_gen_partial_solve_wit_8_aux.
 
 Definition check_list_gen_partial_solve_wit_9 := 
-forall (target_pre: Z) (thm_pre: Z) (targ: term) (theo: term) (tail_ptr: Z) (l: (@list term)) (retval: Z) (retval_2: Z) (retval_3: Z) (p_concl: Z) (p_assum: Z) (p_assum_2: term) (p_concl_2: term) ,
-  [| ((sep_impl (theo)) = (imply_res_Cont (p_assum_2) (p_concl_2))) |] 
+forall (target_pre: Z) (thm_pre: Z) (targ: term) (theo: term) (tail_ptr: Z) (l: (@list term)) (retval: Z) (retval_2: Z) (retval_3: Z) (v: Z) (pa: Z) (v_2: Z) (pc: Z) (c: Z) (r: term) (tr: term) ,
+  [| (theo = (TermApply ((TermApply ((TermConst (CImpl) (c))) (r))) (tr))) |] 
   &&  [| (retval_3 <> 0) |] 
   &&  [| (retval_2 <> 0) |] 
   &&  [| (retval = 0) |] 
@@ -1565,17 +1608,26 @@ forall (target_pre: Z) (thm_pre: Z) (targ: term) (theo: term) (tail_ptr: Z) (l: 
   &&  [| (thm_pre <> 0) |] 
   &&  [| (target_pre <> 0) |] 
   &&  [| (thm_pre <> 0) |]
-  &&  ((&((retval_2)  # "imply_prop" ->ₛ "concl")) # Ptr  |-> p_concl)
-  **  ((&((retval_2)  # "imply_prop" ->ₛ "assum")) # Ptr  |-> p_assum)
-  **  (store_ImplyProp retval_2 p_assum p_concl p_assum_2 p_concl_2 )
-  **  ((&((retval_3)  # "term_list" ->ₛ "element")) # Ptr  |-> p_assum)
+  &&  ((&((retval_2)  # "imply_prop" ->ₛ "concl")) # Ptr  |-> pc)
+  **  ((&((retval_2)  # "imply_prop" ->ₛ "assum")) # Ptr  |-> pa)
+  **  (store_ImplyProp retval_2 pa pc r tr )
+  **  ((&((thm_pre)  # "term" ->ₛ "type")) # Int  |-> 2)
+  **  ((&((thm_pre)  # "term" ->ₛ "content" .ₛ "Apply" .ₛ "right")) # Ptr  |-> pc)
+  **  ((&((thm_pre)  # "term" ->ₛ "content" .ₛ "Apply" .ₛ "left")) # Ptr  |-> v_2)
+  **  ((&((v_2)  # "term" ->ₛ "type")) # Int  |-> 2)
+  **  ((&((v_2)  # "term" ->ₛ "content" .ₛ "Apply" .ₛ "right")) # Ptr  |-> pa)
+  **  ((&((v_2)  # "term" ->ₛ "content" .ₛ "Apply" .ₛ "left")) # Ptr  |-> v)
+  **  ((&((v)  # "term" ->ₛ "type")) # Int  |-> 1)
+  **  ((&((v)  # "term" ->ₛ "content" .ₛ "Const" .ₛ "type")) # Int  |-> (ctID (CImpl)))
+  **  ((&((v)  # "term" ->ₛ "content" .ₛ "Const" .ₛ "content")) # Int  |-> c)
+  **  ((&((retval_3)  # "term_list" ->ₛ "element")) # Ptr  |-> pa)
   **  ((&((retval_3)  # "term_list" ->ₛ "next")) # Ptr  |-> 0)
   **  (store_term target_pre targ )
   **  (sllbseg_term_list ( &( "check_list" ) ) tail_ptr l )
   **  ((tail_ptr) # Ptr  |-> retval_3)
   **  ((( &( "tail_ptr" ) )) # Ptr  |-> ( &( "check_list" ) ))
 |--
-  [| ((sep_impl (theo)) = (imply_res_Cont (p_assum_2) (p_concl_2))) |] 
+  [| (theo = (TermApply ((TermApply ((TermConst (CImpl) (c))) (r))) (tr))) |] 
   &&  [| (retval_3 <> 0) |] 
   &&  [| (retval_2 <> 0) |] 
   &&  [| (retval = 0) |] 
@@ -1583,10 +1635,19 @@ forall (target_pre: Z) (thm_pre: Z) (targ: term) (theo: term) (tail_ptr: Z) (l: 
   &&  [| (thm_pre <> 0) |] 
   &&  [| (target_pre <> 0) |] 
   &&  [| (thm_pre <> 0) |]
-  &&  (store_ImplyProp retval_2 p_assum p_concl p_assum_2 p_concl_2 )
-  **  ((&((retval_2)  # "imply_prop" ->ₛ "concl")) # Ptr  |-> p_concl)
-  **  ((&((retval_2)  # "imply_prop" ->ₛ "assum")) # Ptr  |-> p_assum)
-  **  ((&((retval_3)  # "term_list" ->ₛ "element")) # Ptr  |-> p_assum)
+  &&  (store_ImplyProp retval_2 pa pc r tr )
+  **  ((&((retval_2)  # "imply_prop" ->ₛ "concl")) # Ptr  |-> pc)
+  **  ((&((retval_2)  # "imply_prop" ->ₛ "assum")) # Ptr  |-> pa)
+  **  ((&((thm_pre)  # "term" ->ₛ "type")) # Int  |-> 2)
+  **  ((&((thm_pre)  # "term" ->ₛ "content" .ₛ "Apply" .ₛ "right")) # Ptr  |-> pc)
+  **  ((&((thm_pre)  # "term" ->ₛ "content" .ₛ "Apply" .ₛ "left")) # Ptr  |-> v_2)
+  **  ((&((v_2)  # "term" ->ₛ "type")) # Int  |-> 2)
+  **  ((&((v_2)  # "term" ->ₛ "content" .ₛ "Apply" .ₛ "right")) # Ptr  |-> pa)
+  **  ((&((v_2)  # "term" ->ₛ "content" .ₛ "Apply" .ₛ "left")) # Ptr  |-> v)
+  **  ((&((v)  # "term" ->ₛ "type")) # Int  |-> 1)
+  **  ((&((v)  # "term" ->ₛ "content" .ₛ "Const" .ₛ "type")) # Int  |-> (ctID (CImpl)))
+  **  ((&((v)  # "term" ->ₛ "content" .ₛ "Const" .ₛ "content")) # Int  |-> c)
+  **  ((&((retval_3)  # "term_list" ->ₛ "element")) # Ptr  |-> pa)
   **  ((&((retval_3)  # "term_list" ->ₛ "next")) # Ptr  |-> 0)
   **  (store_term target_pre targ )
   **  (sllbseg_term_list ( &( "check_list" ) ) tail_ptr l )
@@ -1646,18 +1707,26 @@ forall (thm_pre: Z) (theo: term) (p: Z) ,
   [| (p <> 0) |]
   &&  (store_sep_imp_res thm_pre p theo )
 |--
-  EX (p_concl: Z)  (p_assum: Z)  (p_assum_2: term)  (p_concl_2: term) ,
-  [| ((sep_impl (theo)) = (imply_res_Cont (p_assum_2) (p_concl_2))) |]
-  &&  ((&((p)  # "imply_prop" ->ₛ "assum")) # Ptr  |-> p_assum)
-  **  (store_term p_assum p_assum_2 )
-  **  ((&((p)  # "imply_prop" ->ₛ "concl")) # Ptr  |-> p_concl)
-  **  (store_term p_concl p_concl_2 )
+  EX (v: Z)  (pa: Z)  (v_2: Z)  (pc: Z)  (c: Z)  (r: term)  (tr: term) ,
+  [| (theo = (TermApply ((TermApply ((TermConst (CImpl) (c))) (r))) (tr))) |]
+  &&  ((&((thm_pre)  # "term" ->ₛ "type")) # Int  |-> 2)
+  **  ((&((thm_pre)  # "term" ->ₛ "content" .ₛ "Apply" .ₛ "right")) # Ptr  |-> pc)
+  **  ((&((thm_pre)  # "term" ->ₛ "content" .ₛ "Apply" .ₛ "left")) # Ptr  |-> v_2)
+  **  ((&((v_2)  # "term" ->ₛ "type")) # Int  |-> 2)
+  **  ((&((v_2)  # "term" ->ₛ "content" .ₛ "Apply" .ₛ "right")) # Ptr  |-> pa)
+  **  ((&((v_2)  # "term" ->ₛ "content" .ₛ "Apply" .ₛ "left")) # Ptr  |-> v)
+  **  ((&((v)  # "term" ->ₛ "type")) # Int  |-> 1)
+  **  ((&((v)  # "term" ->ₛ "content" .ₛ "Const" .ₛ "type")) # Int  |-> (ctID (CImpl)))
+  **  ((&((v)  # "term" ->ₛ "content" .ₛ "Const" .ₛ "content")) # Int  |-> c)
+  **  ((&((p)  # "imply_prop" ->ₛ "assum")) # Ptr  |-> pa)
+  **  ((&((p)  # "imply_prop" ->ₛ "concl")) # Ptr  |-> pc)
+  **  (store_term pa r )
+  **  (store_term pc tr )
 .
 
 Definition check_list_gen_which_implies_wit_4 := 
-forall (theo: term) (p_concl: term) (p_assum: term) (p: Z) (p_assum_2: Z) (p_concl_2: Z) ,
-  [| (p <> 0) |] 
-  &&  [| ((sep_impl (theo)) = (imply_res_Cont (p_assum) (p_concl))) |]
+forall (p_concl: term) (p_assum: term) (p: Z) (p_assum_2: Z) (p_concl_2: Z) ,
+  [| (p <> 0) |]
   &&  ((&((p)  # "imply_prop" ->ₛ "assum")) # Ptr  |-> p_assum_2)
   **  (store_term p_assum_2 p_assum )
   **  ((&((p)  # "imply_prop" ->ₛ "concl")) # Ptr  |-> p_concl_2)
