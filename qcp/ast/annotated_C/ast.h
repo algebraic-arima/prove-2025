@@ -1,3 +1,7 @@
+#include "verification_stdlib.h"
+#include "verification_list.h"
+#include "safeexec_def.h"
+
 /*@ Import Coq From SimpleC.EE Require Import ast_lib */
 /*@ Import Coq From SimpleC.EE Require Import malloc */
 /*@ Import Coq From SimpleC.EE Require Import sll_tmpl */
@@ -17,6 +21,7 @@
 /*@ Extern Coq (quant_type :: *)*/
 /*@ Extern Coq (term_type :: *)*/
 /*@ Extern Coq (CImpl : const_type) 
+               (makepair: term -> list term ->  (term * (list term)))
                (store_string : Z -> list Z -> Assertion)
                (store_term : Z -> term -> Assertion)
                (store_term' : Z -> term -> Assertion)
@@ -58,6 +63,9 @@
                (thm_subst_allres_rel: term -> list var_sub -> partial_quant -> term -> Prop)
                (cur_term_list: term -> term -> list term)
                (cur_thm: term -> list term -> term)
+               (gen_res: term -> term -> list term -> Assertion)
+               (check_rel: term -> term -> program unit (term * list term))
+               (check_from_mid_rel: term -> term -> list term -> program unit (term * list term))
 */
 /*@ Extern Coq (nil : {A} -> list A)
                (cons : {A} -> A -> list A -> list A)
@@ -138,7 +146,7 @@ typedef struct solve_res {
 typedef struct imply_prop {
   term *assum;
   term *concl;
-} ImplyProp;
+} imply_prop;
 
 /* BEGIN Given Functions */
 
@@ -159,7 +167,7 @@ solve_res *malloc_solve_res()
     ;
 
 // 构造函数
-ImplyProp *createImplyProp(term *t1, term *t2)
+imply_prop *createImplyProp(term *t1, term *t2)
     /*@ With term1 term2
           Require store_term(t1, term1) *
                   store_term(t2, term2)
@@ -197,7 +205,7 @@ void free_str(char *s)
     */
     ;
 
-void free_imply_prop(ImplyProp *p)
+void free_imply_prop(imply_prop *p)
     /*@ With term1 term2 t1 t2
           Require store_ImplyProp(p, t1, t2, term1, term2)
           Ensure store_term(t1, term1) *
@@ -284,7 +292,7 @@ term* sub_thm(term* thm, var_sub_list* lis)
   */
   ;
 
-ImplyProp* separate_imply(term* t) 
+imply_prop* separate_imply(term* t) 
   /*@ With trm
     Require store_term(t, trm)
     Ensure t == t@pre && store_imply_res(__return, sep_impl(trm)) * store_term(t, trm)

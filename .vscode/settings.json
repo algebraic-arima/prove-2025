@@ -11,6 +11,9 @@
         "utility": "c",
         "limits": "c",
         "new": "c",
-        "typeinfo": "c"
+        "typeinfo": "c",
+        "sll_def.h": "c",
+        "safeexec_def.h": "c",
+        "verification_stdlib.h": "c"
     }
 }

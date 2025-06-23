@@ -10,21 +10,22 @@ From AUXLib Require Import int_auto Axioms Feq Idents List_lemma VMap.
 Require Import SetsClass.SetsClass. Import SetsNotation.
 From SimpleC.SL Require Import Mem SeparationLogic.
 Require Import Logic.LogicGenerator.demo932.Interface.
+From compcert.lib Require Import Integers.
 Local Open Scope Z_scope.
 Local Open Scope sets.
 Import ListNotations.
 Local Open Scope list.
 Require Import String.
-Require Import Coq.Arith.Wf_nat.
-Require Import Coq.Relations.Relation_Definitions.
-Require Import Coq.Relations.Relation_Operators.
-Require Import Coq.Program.Wf.
 Local Open Scope string.
+
 From SimpleC.EE Require Import sll_tmpl.
 From SimpleC.EE Require Import malloc.
 
+From StateRelMonad Require Import StateRelBasic StateRelHoare safeexec_lib.
 Import naive_C_Rules.
 Local Open Scope sac.
+Export MonadNotation.
+Local Open Scope monad.
 
 Definition var_name : Type := list Z.
 
@@ -477,8 +478,8 @@ Inductive ImplyProp : Type :=
 
 Definition store_ImplyProp (x y z: addr) (assum concl: term): Assertion :=
   [| x <> NULL |] &&
-  &(x # "ImplyProp" ->ₛ "assum") # Ptr |-> y **
-  &(x # "ImplyProp" ->ₛ "concl") # Ptr |-> z **
+  &(x # "imply_prop" ->ₛ "assum") # Ptr |-> y **
+  &(x # "imply_prop" ->ₛ "concl") # Ptr |-> z **
   store_term y assum ** store_term z concl.
 
 (* about list Z *)
@@ -833,7 +834,7 @@ Definition store_imply_res (x: addr) (impl: option ImplyProp): Assertion :=
   match impl with
   | Some (ImplP assum concl) => EX y z,
               store_ImplyProp x y z assum concl
-  | None => [| x = NULL |]
+  | None => [| x = NULL |] && emp
   end.
 
 Definition store_sep_imp_res (rt si: addr) (t: term): Assertion :=
@@ -863,22 +864,6 @@ Fixpoint gen_pre (thm target : term): term_list :=
     | _ => nil
   end.
 
-Fixpoint term_eq_dec (t1 t2 : term) : {t1 = t2} + {t1 <> t2}.
-Proof.
-  decide equality; try repeat decide equality.
-Qed.
-
-Fixpoint cur_term_list (theo t : term) : term_list :=
-  match term_eq_dec theo t with
-  | left _ => []
-  | right _ =>
-      match theo with
-      | TermApply (TermApply (TermConst CImpl _) a) b =>
-          a :: cur_term_list b t
-      | _ => nil
-      end
-  end.
-
 Fixpoint cur_thm (thm: term) (l: term_list) : term :=
   match l with
   | nil => thm
@@ -890,6 +875,16 @@ Fixpoint cur_thm (thm: term) (l: term_list) : term :=
     end
   end.
 
+Fixpoint gen (thm tar : term): bool :=
+  if term_alpha_eq thm tar then
+    true
+  else
+    match thm with
+      | TermApply (TermApply (TermConst CImpl _) t) b =>
+          gen b tar
+      | _ => false
+    end.
+
 Definition thm_app (thm : term) (l : var_sub_list) (goal : term): solve_res :=
   match thm_subst_allres thm l with
   | None => SRBool 0
@@ -898,6 +893,28 @@ Definition thm_app (thm : term) (l : var_sub_list) (goal : term): solve_res :=
       else SRTList (gen_pre thm_ins goal)
   end.
 
+Local Close Scope string.
+
+Definition makepair (x : term) (p : list term): (term * (list term)) := (x, p).
+
+Definition check_list_gen_body:
+  term * term * list term ->
+  MONAD (CntOrBrk (term * term * list term) (term * list term)) :=
+  fun '(thm, tar, l) =>
+    if term_alpha_eq thm tar then
+      ret (by_break (thm, l))
+    else
+      match sep_impl thm with 
+      | Some (ImplP r tr) =>
+        ret (by_continue (tr, tar, l ++ (r :: nil)))
+      | None => ret (by_break (thm, l))
+      end.
+
+Definition check_rel theo tar :=
+  repeat_break check_list_gen_body (theo, tar, nil).
+
+Definition check_from_mid_rel theo tar l :=
+  repeat_break check_list_gen_body (theo, tar, l).
 
 (* Lemmas *)
 
