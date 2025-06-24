@@ -15,13 +15,21 @@ Local Open Scope Z_scope.
 Local Open Scope sets.
 Local Open Scope string.
 Local Open Scope list.
-From MonadLib.StateRelMonad Require Import StateRelMonad StateRelBasic StateRelHoare FixpointLib safeexec_lib.
 Import naive_C_Rules.
+Require Import sll_merge_rel_lib.
+From StateMonad.monaderror Require Export monadEbasic monadEwhile monadesafe_lib monadEhoare.
+Local Open Scope stmonad.
+From AUXLib Require Import int_auto Axioms Feq Idents List_lemma VMap relations.
 From SimpleC.EE Require Import ast_lib.
 From SimpleC.EE Require Import malloc.
 From SimpleC.EE Require Import sll_tmpl.
 Import naive_C_Rules.
+Require Import sll_merge_rel_lib.
+Local Open Scope stmonad.
+From AUXLib Require Import int_auto Axioms Feq Idents List_lemma VMap relations.
 Local Open Scope sac.
+From MonadLib.StateRelMonad Require Import StateRelBasic StateRelHoare safeexec_lib.
+From StateMonad.monadnrm Require Import monadbasic safeexec_lib.
 
 Lemma proof_of_sub_thm_return_wit_1 : sub_thm_return_wit_1.
 Proof.

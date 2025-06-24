@@ -1,15 +1,19 @@
+/*@ Import Coq From MonadLib.StateRelMonad Require Import StateRelMonad StateRelBasic StateRelHoare FixpointLib safeexec_lib */
+
 #include "verification_stdlib.h"
 #include "verification_list.h"
-#include "safeexec_def.h"
+
+/*@ Extern Coq (M :: * => * => *) */
+/*@ Extern Coq (unit :: *) */
+/*@ Extern Coq (safeExec : {Sigma} {A} -> (Sigma -> Prop) -> M Sigma A -> (A -> Sigma -> Prop) -> Prop)
+               (bind: {Sigma} {A} {B} -> M Sigma A -> (A -> M Sigma B) -> M Sigma B)
+               (ret : {Sigma} {A} -> A -> M Sigma A)
+               (ATrue: {Sigma} -> Sigma -> Prop)
+                */
 
 /*@ Import Coq From SimpleC.EE Require Import ast_lib */
 /*@ Import Coq From SimpleC.EE Require Import malloc */
 /*@ Import Coq From SimpleC.EE Require Import sll_tmpl */
-
-
-/*@ Extern Coq (option :: * => *) */
-/*@ Extern Coq (Some: {A} -> A -> option A)
-               (None: {A} -> option A) */
 
 /*@ Extern Coq (term :: *) */
 /*@ Extern Coq (partial_quant :: *) */
@@ -64,14 +68,8 @@
                (cur_term_list: term -> term -> list term)
                (cur_thm: term -> list term -> term)
                (gen_res: term -> term -> list term -> Assertion)
-               (check_rel: term -> term -> program unit (term * list term))
-               (check_from_mid_rel: term -> term -> list term -> program unit (term * list term))
-*/
-/*@ Extern Coq (nil : {A} -> list A)
-               (cons : {A} -> A -> list A -> list A)
-               (app : {A} -> list A -> list A -> list A)
-               (rev : {A} -> list A -> list A)
-               (Zlength: {A} -> list A -> Z)
+               (check_rel: term -> term -> M unit (term * list term))
+               (check_from_mid_rel: term -> term -> list term -> M unit (term * list term))
 */
 
 typedef int bool;

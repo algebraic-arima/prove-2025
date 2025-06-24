@@ -25,8 +25,8 @@
 -R qcp/arith-hw SimpleC.EE.simple_arith
 -R qcp/tree-hw SimpleC.EE
 -R qcp/algorithm SimpleC.EE
--R monadlib/set_monad SetMonad
--R monadlib/state_rel_monad StateRelMonad
--R monadlib/monad_err MonadErr
+-R monadlib/SetMonad MonadLib.SetMonad
+-R monadlib/StateRelMonad MonadLib.StateRelMonad
+-R monadlib/MonadErr MonadLib.MonadErr
 -R qcp/ast SimpleC.EE
 -R qcp/cnf SimpleC.EE

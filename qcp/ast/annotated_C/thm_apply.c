@@ -1,7 +1,6 @@
 #include "ast.h"
 #include "verification_stdlib.h"
 #include "verification_list.h"
-#include "safeexec_def.h"
 
 term* sub_thm(term* thm, var_sub_list* lis)
 /*@ With t l
@@ -122,7 +121,7 @@ term_list* check_list_gen(term* thm, term* target)
 /*@ With theo targ X
     Require safeExec(ATrue, check_rel(theo, targ), X) && store_term(thm, theo) * store_term(target, targ)
     Ensure  exists t l, 
-            safeExec(ATrue, return(makepair(t, l)), X) &&
+            safeExec(ATrue, ret(makepair(t, l)), X) &&
             target == target@pre &&
             store_term(target, targ) *
             sll_term_list(__return, l)

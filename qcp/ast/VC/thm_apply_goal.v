@@ -14,17 +14,12 @@ Local Open Scope Z_scope.
 Local Open Scope sets.
 Local Open Scope string.
 Local Open Scope list.
+From MonadLib.StateRelMonad Require Import StateRelMonad StateRelBasic StateRelHoare FixpointLib safeexec_lib.
 Import naive_C_Rules.
-Require Import sll_merge_rel_lib.
-Local Open Scope stmonad.
-From AUXLib Require Import int_auto Axioms Feq Idents List_lemma VMap relations.
 From SimpleC.EE Require Import ast_lib.
 From SimpleC.EE Require Import malloc.
 From SimpleC.EE Require Import sll_tmpl.
 Import naive_C_Rules.
-Require Import sll_merge_rel_lib.
-Local Open Scope stmonad.
-From AUXLib Require Import int_auto Axioms Feq Idents List_lemma VMap relations.
 Local Open Scope sac.
 
 (*----- Function sub_thm -----*)
@@ -1128,7 +1123,7 @@ forall (target_pre: Z) (X: ((term * (@list term)) -> (unit -> Prop))) (targ: ter
   **  (store_term target_pre targ )
 |--
   EX (t: term)  (l: (@list term)) ,
-  [| (safeExec ATrue (return ((makepair (t) (l)))) X ) |]
+  [| (safeExec ATrue (ret ((makepair (t) (l)))) X ) |]
   &&  (store_term target_pre targ )
   **  (sll_term_list 0 l )
 .
@@ -1142,7 +1137,7 @@ forall (target_pre: Z) (X: ((term * (@list term)) -> (unit -> Prop))) (targ: ter
   **  (store_term target_pre targ )
 |--
   EX (t: term)  (l: (@list term)) ,
-  [| (safeExec ATrue (return ((makepair (t) (l)))) X ) |]
+  [| (safeExec ATrue (ret ((makepair (t) (l)))) X ) |]
   &&  (store_term target_pre targ )
   **  (sll_term_list check_list l )
 .

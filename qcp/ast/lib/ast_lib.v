@@ -8,6 +8,7 @@ Require Import Permutation.
 Require Import String.
 From AUXLib Require Import int_auto Axioms Feq Idents List_lemma VMap.
 Require Import SetsClass.SetsClass. Import SetsNotation.
+From MonadLib.StateRelMonad Require Import StateRelMonad StateRelBasic StateRelHoare FixpointLib safeexec_lib.
 From SimpleC.SL Require Import Mem SeparationLogic.
 Require Import Logic.LogicGenerator.demo932.Interface.
 From compcert.lib Require Import Integers.
@@ -21,10 +22,9 @@ Local Open Scope string.
 From SimpleC.EE Require Import sll_tmpl.
 From SimpleC.EE Require Import malloc.
 
-From StateRelMonad Require Import StateRelBasic StateRelHoare safeexec_lib.
 Import naive_C_Rules.
 Local Open Scope sac.
-Export MonadNotation.
+Import MonadNotation.
 Local Open Scope monad.
 
 Definition var_name : Type := list Z.
