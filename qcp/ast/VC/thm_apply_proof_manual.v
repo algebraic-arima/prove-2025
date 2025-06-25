@@ -300,7 +300,7 @@ Qed.
 Lemma proof_of_check_list_gen_entail_wit_1 : check_list_gen_entail_wit_1.
 Proof.
   pre_process.
-  Exists theo nil X_2.
+  Exists theo nil.
   entailer!.
   unfold sllbseg_term_list, sllbseg.
   entailer!.
@@ -364,7 +364,7 @@ Qed.
 Lemma proof_of_check_list_gen_entail_wit_2 : check_list_gen_entail_wit_2.
 Proof.
   pre_process.
-  Exists tr (l_2 ++ (r::nil)) X_2.
+  Exists tr (l_2 ++ (r::nil)).
   entailer!.
   + sep_apply sllbseg_one_app; [ entailer! | auto].
   + subst.
@@ -408,8 +408,13 @@ Proof.
   simpl; entailer!.
   unfold check_from_mid_rel in *.
   rewrite (repeat_break_unfold _ _) in H2.
-  (* prove_by_one_abs_step (by_break (makepair t_2 nil)). *)
-  Admitted. 
+  prove_by_one_abs_step (by_break (makepair t_2 nil)).
+  unfold check_list_gen_body.
+  unfold term_alpha_eqn in H1.
+  destruct term_alpha_eq eqn:Heq; [ congruence | ].
+  rewrite H.
+  abs_ret_step.
+Qed.
 
 Lemma proof_of_check_list_gen_return_wit_2 : check_list_gen_return_wit_2.
 Proof.
@@ -418,8 +423,12 @@ Proof.
   entailer!.
   unfold check_from_mid_rel in *.
   rewrite (repeat_break_unfold _ _) in H1.
-  (* prove_by_one_abs_step (by_break (makepair t_2 l_2)). *)
-  Admitted. 
+  prove_by_one_abs_step (by_break (makepair t_2 l_2)).
+  unfold check_list_gen_body.
+  unfold term_alpha_eqn in H0.
+  destruct term_alpha_eq eqn:Heq; [ | congruence].
+  abs_ret_step.
+Qed.
 
 Lemma sllbseg_2_sllseg_term: forall x y l,
   sllbseg_term_list x y l ** y # Ptr |-> 0 |--

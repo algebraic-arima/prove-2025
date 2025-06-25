@@ -1014,7 +1014,7 @@ forall (target_pre: Z) (thm_pre: Z) (X: ((term * (@list term)) -> (unit -> Prop)
 .
 
 Definition check_list_gen_safety_wit_2 := 
-forall (target_pre: Z) (targ: term) (t: term) (l: (@list term)) (X: ((term * (@list term)) -> (unit -> Prop))) (thm: Z) (tail_ptr: Z) (retval: Z) (retval_2: Z) ,
+forall (target_pre: Z) (X: ((term * (@list term)) -> (unit -> Prop))) (targ: term) (t: term) (l: (@list term)) (thm: Z) (tail_ptr: Z) (retval: Z) (retval_2: Z) ,
   [| (retval = 0) |] 
   &&  [| (retval = (term_alpha_eqn (t) (targ))) |] 
   &&  [| (safeExec ATrue (check_from_mid_rel (t) (targ) (l)) X ) |]
@@ -1032,7 +1032,7 @@ forall (target_pre: Z) (targ: term) (t: term) (l: (@list term)) (X: ((term * (@l
 .
 
 Definition check_list_gen_safety_wit_3 := 
-forall (target_pre: Z) (targ: term) (t: term) (l: (@list term)) (X: ((term * (@list term)) -> (unit -> Prop))) (thm: Z) (retval: Z) (retval_2: Z) (check_list: Z) (tail_ptr_addr_v: Z) ,
+forall (target_pre: Z) (X: ((term * (@list term)) -> (unit -> Prop))) (targ: term) (t: term) (l: (@list term)) (thm: Z) (retval: Z) (retval_2: Z) (check_list: Z) (tail_ptr_addr_v: Z) ,
   [| (retval_2 = 0) |] 
   &&  [| (retval = 0) |] 
   &&  [| (retval = (term_alpha_eqn (t) (targ))) |] 
@@ -1050,7 +1050,7 @@ forall (target_pre: Z) (targ: term) (t: term) (l: (@list term)) (X: ((term * (@l
 .
 
 Definition check_list_gen_safety_wit_4 := 
-forall (target_pre: Z) (targ: term) (t: term) (l: (@list term)) (X: ((term * (@list term)) -> (unit -> Prop))) (thm: Z) (tail_ptr: Z) (retval: Z) (retval_2: Z) (retval_3: Z) (pc: Z) (pa: Z) (c: Z) (r: term) (tr: term) ,
+forall (target_pre: Z) (X: ((term * (@list term)) -> (unit -> Prop))) (targ: term) (t: term) (l: (@list term)) (thm: Z) (tail_ptr: Z) (retval: Z) (retval_2: Z) (retval_3: Z) (pc: Z) (pa: Z) (c: Z) (r: term) (tr: term) ,
   [| (t = (TermApply ((TermApply ((TermConst (CImpl) (c))) (r))) (tr))) |] 
   &&  [| (retval_3 <> 0) |] 
   &&  [| (retval_2 <> 0) |] 
@@ -1077,12 +1077,12 @@ forall (target_pre: Z) (targ: term) (t: term) (l: (@list term)) (X: ((term * (@l
 .
 
 Definition check_list_gen_entail_wit_1 := 
-forall (target_pre: Z) (thm_pre: Z) (X_2: ((term * (@list term)) -> (unit -> Prop))) (targ: term) (theo: term) ,
-  [| (safeExec ATrue (check_rel (theo) (targ)) X_2 ) |]
+forall (target_pre: Z) (thm_pre: Z) (X: ((term * (@list term)) -> (unit -> Prop))) (targ: term) (theo: term) ,
+  [| (safeExec ATrue (check_rel (theo) (targ)) X ) |]
   &&  (store_term thm_pre theo )
   **  (store_term target_pre targ )
 |--
-  EX (t: term)  (l: (@list term))  (X: ((term * (@list term)) -> (unit -> Prop))) ,
+  EX (t: term)  (l: (@list term)) ,
   [| (safeExec ATrue (check_from_mid_rel (t) (targ) (l)) X ) |]
   &&  (store_term thm_pre t )
   **  (store_term target_pre targ )
@@ -1090,13 +1090,13 @@ forall (target_pre: Z) (thm_pre: Z) (X_2: ((term * (@list term)) -> (unit -> Pro
 .
 
 Definition check_list_gen_entail_wit_2 := 
-forall (target_pre: Z) (targ: term) (t_2: term) (l_2: (@list term)) (X_2: ((term * (@list term)) -> (unit -> Prop))) (tail_ptr: Z) (retval_2: Z) (retval_3: Z) (retval: Z) (pc: Z) (pa: Z) (c: Z) (r: term) (tr: term) ,
+forall (target_pre: Z) (X: ((term * (@list term)) -> (unit -> Prop))) (targ: term) (t_2: term) (l_2: (@list term)) (tail_ptr: Z) (retval_2: Z) (retval_3: Z) (retval: Z) (pc: Z) (pa: Z) (c: Z) (r: term) (tr: term) ,
   [| (t_2 = (TermApply ((TermApply ((TermConst (CImpl) (c))) (r))) (tr))) |] 
   &&  [| (retval <> 0) |] 
   &&  [| (retval_3 <> 0) |] 
   &&  [| (retval_2 = 0) |] 
   &&  [| (retval_2 = (term_alpha_eqn (t_2) (targ))) |] 
-  &&  [| (safeExec ATrue (check_from_mid_rel (t_2) (targ) (l_2)) X_2 ) |]
+  &&  [| (safeExec ATrue (check_from_mid_rel (t_2) (targ) (l_2)) X ) |]
   &&  (store_term pa r )
   **  (store_term pc tr )
   **  ((&((retval)  # "term_list" ->ₛ "element")) # Ptr  |-> pa)
@@ -1105,7 +1105,7 @@ forall (target_pre: Z) (targ: term) (t_2: term) (l_2: (@list term)) (X_2: ((term
   **  (sllbseg_term_list ( &( "check_list" ) ) tail_ptr l_2 )
   **  ((tail_ptr) # Ptr  |-> retval)
 |--
-  EX (t: term)  (l: (@list term))  (X: ((term * (@list term)) -> (unit -> Prop))) ,
+  EX (t: term)  (l: (@list term)) ,
   [| (safeExec ATrue (check_from_mid_rel (t) (targ) (l)) X ) |]
   &&  (store_term pc t )
   **  (store_term target_pre targ )
@@ -1114,11 +1114,11 @@ forall (target_pre: Z) (targ: term) (t_2: term) (l_2: (@list term)) (X_2: ((term
 .
 
 Definition check_list_gen_return_wit_1 := 
-forall (target_pre: Z) (X: ((term * (@list term)) -> (unit -> Prop))) (targ: term) (t_2: term) (l_2: (@list term)) (X_2: ((term * (@list term)) -> (unit -> Prop))) (retval: Z) (retval_2: Z) ,
+forall (target_pre: Z) (X: ((term * (@list term)) -> (unit -> Prop))) (targ: term) (t_2: term) (l_2: (@list term)) (retval: Z) (retval_2: Z) ,
   [| (retval_2 = 0) |] 
   &&  [| (retval = 0) |] 
   &&  [| (retval = (term_alpha_eqn (t_2) (targ))) |] 
-  &&  [| (safeExec ATrue (check_from_mid_rel (t_2) (targ) (l_2)) X_2 ) |]
+  &&  [| (safeExec ATrue (check_from_mid_rel (t_2) (targ) (l_2)) X ) |]
   &&  (store_imply_res retval_2 (sep_impl (t_2)) )
   **  (store_term target_pre targ )
 |--
@@ -1129,10 +1129,10 @@ forall (target_pre: Z) (X: ((term * (@list term)) -> (unit -> Prop))) (targ: ter
 .
 
 Definition check_list_gen_return_wit_2 := 
-forall (target_pre: Z) (X: ((term * (@list term)) -> (unit -> Prop))) (targ: term) (t_2: term) (l_2: (@list term)) (X_2: ((term * (@list term)) -> (unit -> Prop))) (retval: Z) (check_list: Z) ,
+forall (target_pre: Z) (X: ((term * (@list term)) -> (unit -> Prop))) (targ: term) (t_2: term) (l_2: (@list term)) (retval: Z) (check_list: Z) ,
   [| (retval <> 0) |] 
   &&  [| (retval = (term_alpha_eqn (t_2) (targ))) |] 
-  &&  [| (safeExec ATrue (check_from_mid_rel (t_2) (targ) (l_2)) X_2 ) |]
+  &&  [| (safeExec ATrue (check_from_mid_rel (t_2) (targ) (l_2)) X ) |]
   &&  (sll_term_list check_list l_2 )
   **  (store_term target_pre targ )
 |--
@@ -1143,7 +1143,7 @@ forall (target_pre: Z) (X: ((term * (@list term)) -> (unit -> Prop))) (targ: ter
 .
 
 Definition check_list_gen_partial_solve_wit_1 := 
-forall (target_pre: Z) (targ: term) (t: term) (l: (@list term)) (X: ((term * (@list term)) -> (unit -> Prop))) (thm: Z) (tail_ptr: Z) ,
+forall (target_pre: Z) (X: ((term * (@list term)) -> (unit -> Prop))) (targ: term) (t: term) (l: (@list term)) (thm: Z) (tail_ptr: Z) ,
   [| (safeExec ATrue (check_from_mid_rel (t) (targ) (l)) X ) |]
   &&  (store_term thm t )
   **  (store_term target_pre targ )
@@ -1158,7 +1158,7 @@ forall (target_pre: Z) (targ: term) (t: term) (l: (@list term)) (X: ((term * (@l
 .
 
 Definition check_list_gen_partial_solve_wit_2 := 
-forall (target_pre: Z) (targ: term) (t: term) (l: (@list term)) (X: ((term * (@list term)) -> (unit -> Prop))) (thm: Z) (tail_ptr: Z) (retval: Z) ,
+forall (target_pre: Z) (X: ((term * (@list term)) -> (unit -> Prop))) (targ: term) (t: term) (l: (@list term)) (thm: Z) (tail_ptr: Z) (retval: Z) ,
   [| (retval = 0) |] 
   &&  [| (retval = (term_alpha_eqn (t) (targ))) |] 
   &&  [| (safeExec ATrue (check_from_mid_rel (t) (targ) (l)) X ) |]
@@ -1177,7 +1177,7 @@ forall (target_pre: Z) (targ: term) (t: term) (l: (@list term)) (X: ((term * (@l
 .
 
 Definition check_list_gen_partial_solve_wit_3 := 
-forall (target_pre: Z) (targ: term) (t: term) (l: (@list term)) (X: ((term * (@list term)) -> (unit -> Prop))) (thm: Z) (tail_ptr: Z) (retval: Z) (retval_2: Z) ,
+forall (target_pre: Z) (X: ((term * (@list term)) -> (unit -> Prop))) (targ: term) (t: term) (l: (@list term)) (thm: Z) (tail_ptr: Z) (retval: Z) (retval_2: Z) ,
   [| (retval = 0) |] 
   &&  [| (retval = (term_alpha_eqn (t) (targ))) |] 
   &&  [| (safeExec ATrue (check_from_mid_rel (t) (targ) (l)) X ) |]
@@ -1198,7 +1198,7 @@ forall (target_pre: Z) (targ: term) (t: term) (l: (@list term)) (X: ((term * (@l
 .
 
 Definition check_list_gen_partial_solve_wit_4 := 
-forall (target_pre: Z) (targ: term) (t: term) (l: (@list term)) (X: ((term * (@list term)) -> (unit -> Prop))) (tail_ptr: Z) (retval: Z) (retval_2: Z) ,
+forall (target_pre: Z) (X: ((term * (@list term)) -> (unit -> Prop))) (targ: term) (t: term) (l: (@list term)) (tail_ptr: Z) (retval: Z) (retval_2: Z) ,
   [| (retval_2 = 0) |] 
   &&  [| (retval = 0) |] 
   &&  [| (retval = (term_alpha_eqn (t) (targ))) |] 
@@ -1219,7 +1219,7 @@ forall (target_pre: Z) (targ: term) (t: term) (l: (@list term)) (X: ((term * (@l
 .
 
 Definition check_list_gen_partial_solve_wit_5 := 
-forall (target_pre: Z) (targ: term) (t: term) (l: (@list term)) (X: ((term * (@list term)) -> (unit -> Prop))) (retval: Z) (retval_2: Z) (check_list: Z) ,
+forall (target_pre: Z) (X: ((term * (@list term)) -> (unit -> Prop))) (targ: term) (t: term) (l: (@list term)) (retval: Z) (retval_2: Z) (check_list: Z) ,
   [| (retval_2 = 0) |] 
   &&  [| (retval = 0) |] 
   &&  [| (retval = (term_alpha_eqn (t) (targ))) |] 
@@ -1238,7 +1238,7 @@ forall (target_pre: Z) (targ: term) (t: term) (l: (@list term)) (X: ((term * (@l
 .
 
 Definition check_list_gen_partial_solve_wit_6 := 
-forall (target_pre: Z) (targ: term) (t: term) (l: (@list term)) (X: ((term * (@list term)) -> (unit -> Prop))) (tail_ptr: Z) (retval: Z) (retval_2: Z) ,
+forall (target_pre: Z) (X: ((term * (@list term)) -> (unit -> Prop))) (targ: term) (t: term) (l: (@list term)) (tail_ptr: Z) (retval: Z) (retval_2: Z) ,
   [| (retval_2 <> 0) |] 
   &&  [| (retval = 0) |] 
   &&  [| (retval = (term_alpha_eqn (t) (targ))) |] 
@@ -1259,7 +1259,7 @@ forall (target_pre: Z) (targ: term) (t: term) (l: (@list term)) (X: ((term * (@l
 .
 
 Definition check_list_gen_partial_solve_wit_7_pure := 
-forall (target_pre: Z) (targ: term) (t: term) (l: (@list term)) (X: ((term * (@list term)) -> (unit -> Prop))) (thm: Z) (tail_ptr: Z) (retval_3: Z) (retval: Z) (retval_2: Z) ,
+forall (target_pre: Z) (X: ((term * (@list term)) -> (unit -> Prop))) (targ: term) (t: term) (l: (@list term)) (thm: Z) (tail_ptr: Z) (retval_3: Z) (retval: Z) (retval_2: Z) ,
   [| (retval_2 <> 0) |] 
   &&  [| (retval <> 0) |] 
   &&  [| (retval_3 = 0) |] 
@@ -1281,7 +1281,7 @@ forall (target_pre: Z) (targ: term) (t: term) (l: (@list term)) (X: ((term * (@l
 .
 
 Definition check_list_gen_partial_solve_wit_7_aux := 
-forall (target_pre: Z) (targ: term) (t: term) (l: (@list term)) (X: ((term * (@list term)) -> (unit -> Prop))) (tail_ptr: Z) (retval: Z) (retval_2: Z) (retval_3: Z) ,
+forall (target_pre: Z) (X: ((term * (@list term)) -> (unit -> Prop))) (targ: term) (t: term) (l: (@list term)) (tail_ptr: Z) (retval: Z) (retval_2: Z) (retval_3: Z) ,
   [| (retval_3 <> 0) |] 
   &&  [| (retval_2 <> 0) |] 
   &&  [| (retval = 0) |] 
@@ -1311,7 +1311,7 @@ forall (target_pre: Z) (targ: term) (t: term) (l: (@list term)) (X: ((term * (@l
 Definition check_list_gen_partial_solve_wit_7 := check_list_gen_partial_solve_wit_7_pure -> check_list_gen_partial_solve_wit_7_aux.
 
 Definition check_list_gen_partial_solve_wit_8_pure := 
-forall (target_pre: Z) (targ: term) (t: term) (l: (@list term)) (X: ((term * (@list term)) -> (unit -> Prop))) (tail_ptr: Z) (retval_2: Z) (retval: Z) (retval_3: Z) (pc: Z) (pa: Z) (c: Z) (r: term) (tr: term) ,
+forall (target_pre: Z) (X: ((term * (@list term)) -> (unit -> Prop))) (targ: term) (t: term) (l: (@list term)) (tail_ptr: Z) (retval_2: Z) (retval: Z) (retval_3: Z) (pc: Z) (pa: Z) (c: Z) (r: term) (tr: term) ,
   [| (t = (TermApply ((TermApply ((TermConst (CImpl) (c))) (r))) (tr))) |] 
   &&  [| (retval_3 <> 0) |] 
   &&  [| (retval <> 0) |] 
@@ -1337,7 +1337,7 @@ forall (target_pre: Z) (targ: term) (t: term) (l: (@list term)) (X: ((term * (@l
 .
 
 Definition check_list_gen_partial_solve_wit_8_aux := 
-forall (target_pre: Z) (targ: term) (t: term) (l: (@list term)) (X: ((term * (@list term)) -> (unit -> Prop))) (tail_ptr: Z) (retval: Z) (retval_2: Z) (retval_3: Z) (pc: Z) (pa: Z) (c: Z) (r: term) (tr: term) ,
+forall (target_pre: Z) (X: ((term * (@list term)) -> (unit -> Prop))) (targ: term) (t: term) (l: (@list term)) (tail_ptr: Z) (retval: Z) (retval_2: Z) (retval_3: Z) (pc: Z) (pa: Z) (c: Z) (r: term) (tr: term) ,
   [| (t = (TermApply ((TermApply ((TermConst (CImpl) (c))) (r))) (tr))) |] 
   &&  [| (retval_3 <> 0) |] 
   &&  [| (retval_2 <> 0) |] 
@@ -1375,7 +1375,7 @@ forall (target_pre: Z) (targ: term) (t: term) (l: (@list term)) (X: ((term * (@l
 Definition check_list_gen_partial_solve_wit_8 := check_list_gen_partial_solve_wit_8_pure -> check_list_gen_partial_solve_wit_8_aux.
 
 Definition check_list_gen_partial_solve_wit_9 := 
-forall (target_pre: Z) (targ: term) (t: term) (l: (@list term)) (X: ((term * (@list term)) -> (unit -> Prop))) (tail_ptr: Z) (retval: Z) (retval_2: Z) (retval_3: Z) (pc: Z) (pa: Z) (c: Z) (r: term) (tr: term) ,
+forall (target_pre: Z) (X: ((term * (@list term)) -> (unit -> Prop))) (targ: term) (t: term) (l: (@list term)) (tail_ptr: Z) (retval: Z) (retval_2: Z) (retval_3: Z) (pc: Z) (pa: Z) (c: Z) (r: term) (tr: term) ,
   [| (t = (TermApply ((TermApply ((TermConst (CImpl) (c))) (r))) (tr))) |] 
   &&  [| (retval_3 <> 0) |] 
   &&  [| (retval_2 <> 0) |] 
@@ -1404,7 +1404,7 @@ forall (target_pre: Z) (targ: term) (t: term) (l: (@list term)) (X: ((term * (@l
 .
 
 Definition check_list_gen_partial_solve_wit_10 := 
-forall (target_pre: Z) (targ: term) (t: term) (l: (@list term)) (X: ((term * (@list term)) -> (unit -> Prop))) (thm: Z) (tail_ptr: Z) (retval: Z) ,
+forall (target_pre: Z) (X: ((term * (@list term)) -> (unit -> Prop))) (targ: term) (t: term) (l: (@list term)) (thm: Z) (tail_ptr: Z) (retval: Z) ,
   [| (retval <> 0) |] 
   &&  [| (retval = (term_alpha_eqn (t) (targ))) |] 
   &&  [| (safeExec ATrue (check_from_mid_rel (t) (targ) (l)) X ) |]
@@ -1423,7 +1423,7 @@ forall (target_pre: Z) (targ: term) (t: term) (l: (@list term)) (X: ((term * (@l
 .
 
 Definition check_list_gen_partial_solve_wit_11 := 
-forall (target_pre: Z) (targ: term) (t: term) (l: (@list term)) (X: ((term * (@list term)) -> (unit -> Prop))) (tail_ptr: Z) (retval: Z) ,
+forall (target_pre: Z) (X: ((term * (@list term)) -> (unit -> Prop))) (targ: term) (t: term) (l: (@list term)) (tail_ptr: Z) (retval: Z) ,
   [| (retval <> 0) |] 
   &&  [| (retval = (term_alpha_eqn (t) (targ))) |] 
   &&  [| (safeExec ATrue (check_from_mid_rel (t) (targ) (l)) X ) |]

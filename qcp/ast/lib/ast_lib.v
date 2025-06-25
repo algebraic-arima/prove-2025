@@ -837,62 +837,6 @@ Definition store_imply_res (x: addr) (impl: option ImplyProp): Assertion :=
   | None => [| x = NULL |] && emp
   end.
 
-Definition store_sep_imp_res (rt si: addr) (t: term): Assertion :=
-  match t with
-    | TermApply (TermApply (TermConst CImpl c) r) tr => 
-      EX y z y1 z1: addr,
-      &(rt # "term" ->ₛ "type") # Int |-> 2 **
-      &(rt # "term" ->ₛ "content" .ₛ "Apply" .ₛ "left") # Ptr |-> y **
-      &(rt # "term" ->ₛ "content" .ₛ "Apply" .ₛ "right") # Ptr |-> z **
-      &(y # "term" ->ₛ "type") # Int |-> 2 **
-      &(y # "term" ->ₛ "content" .ₛ "Apply" .ₛ "left") # Ptr |-> y1 **
-      &(y # "term" ->ₛ "content" .ₛ "Apply" .ₛ "right") # Ptr |-> z1 **
-      &(y1 # "term" ->ₛ "type") # Int |-> 1 **
-      &(y1 # "term" ->ₛ "content" .ₛ "Const" .ₛ "type") # Int |-> ctID CImpl **
-      &(y1 # "term" ->ₛ "content" .ₛ "Const" .ₛ "content") # Int |-> c **     
-      store_ImplyProp si z1 z r tr
-    | _ => [| si = 0 |] && store_term rt t
-  end.
-
-Fixpoint gen_pre (thm target : term): term_list :=
-  if term_alpha_eq thm target then
-    nil
-  else
-    match thm with 
-    | TermApply (TermApply (TermConst CImpl c) r) tr =>
-      r :: gen_pre tr target
-    | _ => nil
-  end.
-
-Fixpoint cur_thm (thm: term) (l: term_list) : term :=
-  match l with
-  | nil => thm
-  | t :: l0 =>
-    match thm with
-      | TermApply (TermApply (TermConst CImpl _) t) b =>
-          cur_thm b l0
-      | _ => thm
-    end
-  end.
-
-Fixpoint gen (thm tar : term): bool :=
-  if term_alpha_eq thm tar then
-    true
-  else
-    match thm with
-      | TermApply (TermApply (TermConst CImpl _) t) b =>
-          gen b tar
-      | _ => false
-    end.
-
-Definition thm_app (thm : term) (l : var_sub_list) (goal : term): solve_res :=
-  match thm_subst_allres thm l with
-  | None => SRBool 0
-  | Some (_, thm_ins) =>
-      if term_alpha_eq thm_ins goal then SRBool 1
-      else SRTList (gen_pre thm_ins goal)
-  end.
-
 Local Close Scope string.
 
 Definition makepair (x : term) (p : list term): (term * (list term)) := (x, p).
@@ -907,7 +851,7 @@ Definition check_list_gen_body:
       match sep_impl thm with 
       | Some (ImplP r tr) =>
         ret (by_continue (tr, tar, l ++ (r :: nil)))
-      | None => ret (by_break (thm, l))
+      | None => ret (by_break (thm, nil))
       end.
 
 Definition check_rel theo tar :=
@@ -915,6 +859,14 @@ Definition check_rel theo tar :=
 
 Definition check_from_mid_rel theo tar l :=
   repeat_break check_list_gen_body (theo, tar, l).
+
+Definition thm_app (thm : term) (l : var_sub_list) (goal : term): solve_res :=
+  match thm_subst_allres thm l with
+  | None => SRBool 0
+  | Some (_, thm_ins) =>
+      if term_alpha_eq thm_ins goal then SRBool 1
+      else SRTList (gen_pre thm_ins goal)
+  end.
 
 (* Lemmas *)
 
