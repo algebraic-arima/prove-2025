@@ -155,3 +155,60 @@ Proof. Admitted.
 Lemma proof_of_check_list_gen_partial_solve_wit_11 : check_list_gen_partial_solve_wit_11.
 Proof. Admitted. 
 
+Lemma proof_of_thm_apply_safety_wit_1 : thm_apply_safety_wit_1.
+Proof. Admitted. 
+
+Lemma proof_of_thm_apply_safety_wit_2 : thm_apply_safety_wit_2.
+Proof. Admitted. 
+
+Lemma proof_of_thm_apply_safety_wit_3 : thm_apply_safety_wit_3.
+Proof. Admitted. 
+
+Lemma proof_of_thm_apply_safety_wit_4 : thm_apply_safety_wit_4.
+Proof. Admitted. 
+
+Lemma proof_of_thm_apply_safety_wit_5 : thm_apply_safety_wit_5.
+Proof. Admitted. 
+
+Lemma proof_of_thm_apply_safety_wit_6 : thm_apply_safety_wit_6.
+Proof. Admitted. 
+
+Lemma proof_of_thm_apply_partial_solve_wit_1 : thm_apply_partial_solve_wit_1.
+Proof. Admitted. 
+
+Lemma proof_of_thm_apply_partial_solve_wit_2 : thm_apply_partial_solve_wit_2.
+Proof. Admitted. 
+
+Lemma proof_of_thm_apply_partial_solve_wit_3 : thm_apply_partial_solve_wit_3.
+Proof. Admitted. 
+
+Lemma proof_of_thm_apply_partial_solve_wit_4_pure : thm_apply_partial_solve_wit_4_pure.
+Proof. Admitted. 
+
+Lemma proof_of_thm_apply_partial_solve_wit_4 : thm_apply_partial_solve_wit_4.
+Proof. Admitted. 
+
+Lemma proof_of_thm_apply_partial_solve_wit_5 : thm_apply_partial_solve_wit_5.
+Proof. Admitted. 
+
+Lemma proof_of_thm_apply_partial_solve_wit_6_pure : thm_apply_partial_solve_wit_6_pure.
+Proof. Admitted. 
+
+Lemma proof_of_thm_apply_partial_solve_wit_6 : thm_apply_partial_solve_wit_6.
+Proof. Admitted. 
+
+Lemma proof_of_thm_apply_partial_solve_wit_7 : thm_apply_partial_solve_wit_7.
+Proof. Admitted. 
+
+Lemma proof_of_thm_apply_partial_solve_wit_8_pure : thm_apply_partial_solve_wit_8_pure.
+Proof. Admitted. 
+
+Lemma proof_of_thm_apply_partial_solve_wit_8 : thm_apply_partial_solve_wit_8.
+Proof. Admitted. 
+
+Lemma proof_of_thm_apply_partial_solve_wit_9_pure : thm_apply_partial_solve_wit_9_pure.
+Proof. Admitted. 
+
+Lemma proof_of_thm_apply_partial_solve_wit_9 : thm_apply_partial_solve_wit_9.
+Proof. Admitted. 
+

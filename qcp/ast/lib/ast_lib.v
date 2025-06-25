@@ -860,13 +860,27 @@ Definition check_rel theo tar :=
 Definition check_from_mid_rel theo tar l :=
   repeat_break check_list_gen_body (theo, tar, l).
 
-Definition thm_app (thm : term) (l : var_sub_list) (goal : term): solve_res :=
-  match thm_subst_allres thm l with
-  | None => SRBool 0
+Definition list_gen:
+  term -> term -> MONAD (solve_res) :=
+  fun 't => fun 'g =>
+  bind (check_rel t g)
+            (fun '(_, lst) => ret (SRTList lst)).
+
+Definition thm_app: 
+  term * var_sub_list * term ->
+  MONAD (solve_res) :=
+  fun '(t, l, g) =>
+  match thm_subst_allres t l with
+  | None => ret (SRBool 0)
   | Some (_, thm_ins) =>
-      if term_alpha_eq thm_ins goal then SRBool 1
-      else SRTList (gen_pre thm_ins goal)
+      if (term_alpha_eq thm_ins g) then ret (SRBool 1)
+      else x <- (check_rel thm_ins g) ;; (match x with
+          | (_, lst) => ret (SRTList lst)
+        end)
   end.
+
+Definition thm_app_rel (thm : term) (l : var_sub_list) (goal : term) :=
+  thm_app (thm, l, goal).
 
 (* Lemmas *)
 

@@ -190,16 +190,19 @@ term_list* check_list_gen(term* thm, term* target)
 }
 
 solve_res* thm_apply(term* thm, var_sub_list* lis, term* goal) 
-/*@ With t l g
-    Require store_term(thm, t) * 
+/*@ With t l g X
+    Require thm != 0 &&
+            safeExec(ATrue, thm_app_rel(t, l, g), X) &&
+            store_term(thm, t) * 
             sll_var_sub_list(lis, l) * 
             store_term(goal, g)
-    Ensure exists ti,
+    Ensure exists sr t,
             thm == thm@pre &&
+            safeExec(ATrue, ret(sr), X) &&
+            store_term(thm, t) *
             sll_var_sub_list(lis, l) * 
             store_term(goal, g) *
-            store_solve_res(__return, thm_app(t, l, g)) *
-            store_sub_thm_res(thm, ti, t, l)
+            store_solve_res(__return, sr)
 */
 {
   term* thm_ins = sub_thm(thm, lis);
@@ -230,6 +233,13 @@ solve_res* thm_apply(term* thm, var_sub_list* lis, term* goal)
       /*@ res->d.ans == 0
           which implies
           res->d.list == 0
+      */
+      /*@ exists pq st,
+          term_alpha_eqn(st, g) == 0 &&
+          thm_subst_allres_rel(t, l, pq, st) &&
+          safeExec(ATrue, thm_app_rel(t, l, g), X)
+          which implies 
+            safeExec(ATrue, check_rel(st, g), X)
       */
       res->d.list = check_list_gen(thm_ins, goal);
     }

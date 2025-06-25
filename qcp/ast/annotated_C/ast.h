@@ -70,6 +70,7 @@
                (gen_res: term -> term -> list term -> Assertion)
                (check_rel: term -> term -> M unit (term * list term))
                (check_from_mid_rel: term -> term -> list term -> M unit (term * list term))
+               (thm_app_rel: term -> list var_sub -> term -> M unit (solve_res))
 */
 
 typedef int bool;
@@ -298,11 +299,13 @@ imply_prop* separate_imply(term* t)
   ;
 
 term_list* check_list_gen(term* thm, term* target)
-  /*@ With theo targ
-      Require store_term(thm, theo) * store_term(target, targ)
-      Ensure target == target@pre &&
-              store_term(thm@pre, theo) * store_term(target, targ) *
-              sll_term_list(__return, gen_pre(theo, targ))
+  /*@ With theo targ X
+      Require safeExec(ATrue, check_rel(theo, targ), X) && store_term(thm, theo) * store_term(target, targ)
+      Ensure  exists t l, 
+              safeExec(ATrue, ret(makepair(t, l)), X) &&
+              target == target@pre &&
+              store_term(target, targ) *
+              sll_term_list(__return, l)
   */
   ;
 
