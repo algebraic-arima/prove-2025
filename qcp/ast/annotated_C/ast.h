@@ -71,6 +71,7 @@
                (check_rel: term -> term -> M unit (term * list term))
                (check_from_mid_rel: term -> term -> list term -> M unit (term * list term))
                (thm_app_rel: term -> list var_sub -> term -> M unit (solve_res))
+               (X_rel: (solve_res -> unit -> Prop) -> (term * list term -> unit -> Prop))
 */
 
 typedef int bool;

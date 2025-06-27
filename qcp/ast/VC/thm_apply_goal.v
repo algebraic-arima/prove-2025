@@ -1635,9 +1635,9 @@ forall (goal_pre: Z) (lis_pre: Z) (thm_pre: Z) (X: (solve_res -> (unit -> Prop))
 .
 
 Definition thm_apply_return_wit_1_1 := 
-forall (goal_pre: Z) (lis_pre: Z) (thm_pre: Z) (X: (solve_res -> (unit -> Prop))) (g: term) (l: (@list var_sub)) (t_3: term) (retval_3: Z) (retval: Z) (v: Z) (res_type: Z) (pq: partial_quant) (st: term) (retval_4: Z) (v_2: Z) (retval_5: Z) (R: ((term * (@list term)) -> (unit -> Prop))) (t_2: term) (l_2: (@list term)) (retval_2: Z) ,
-  [| (safeExec ATrue (ret ((makepair (t_2) (l_2)))) R ) |] 
-  &&  [| (safeExec ATrue (check_rel (st) (g)) R ) |] 
+forall (goal_pre: Z) (lis_pre: Z) (thm_pre: Z) (X: (solve_res -> (unit -> Prop))) (g: term) (l: (@list var_sub)) (t_3: term) (retval_3: Z) (retval: Z) (v: Z) (res_type: Z) (pq: partial_quant) (st: term) (retval_4: Z) (v_2: Z) (retval_5: Z) (t_2: term) (l_2: (@list term)) (retval_2: Z) ,
+  [| (safeExec ATrue (ret ((makepair (t_2) (l_2)))) (X_rel (X)) ) |] 
+  &&  [| (safeExec ATrue (check_rel (st) (g)) (X_rel (X)) ) |] 
   &&  [| (retval_5 <> 0) |] 
   &&  [| (v_2 = 0) |] 
   &&  [| (retval_4 = 0) |] 
@@ -2025,8 +2025,8 @@ forall (goal_pre: Z) (lis_pre: Z) (thm_pre: Z) (X: (solve_res -> (unit -> Prop))
 Definition thm_apply_partial_solve_wit_8 := thm_apply_partial_solve_wit_8_pure -> thm_apply_partial_solve_wit_8_aux.
 
 Definition thm_apply_partial_solve_wit_9_pure := 
-forall (goal_pre: Z) (lis_pre: Z) (thm_pre: Z) (X: (solve_res -> (unit -> Prop))) (g: term) (l: (@list var_sub)) (t: term) (retval: Z) (retval_2: Z) (v: Z) (res_type: Z) (pq: partial_quant) (st: term) (retval_3: Z) (v_2: Z) (retval_4: Z) (R: ((term * (@list term)) -> (unit -> Prop))) ,
-  [| (safeExec ATrue (check_rel (st) (g)) R ) |] 
+forall (goal_pre: Z) (lis_pre: Z) (thm_pre: Z) (X: (solve_res -> (unit -> Prop))) (g: term) (l: (@list var_sub)) (t: term) (retval: Z) (retval_2: Z) (v: Z) (res_type: Z) (pq: partial_quant) (st: term) (retval_3: Z) (v_2: Z) (retval_4: Z) ,
+  [| (safeExec ATrue (check_rel (st) (g)) (X_rel (X)) ) |] 
   &&  [| (retval_4 <> 0) |] 
   &&  [| (v_2 = 0) |] 
   &&  [| (retval_3 = 0) |] 
@@ -2052,12 +2052,12 @@ forall (goal_pre: Z) (lis_pre: Z) (thm_pre: Z) (X: (solve_res -> (unit -> Prop))
   **  ((( &( "goal" ) )) # Ptr  |-> goal_pre)
   **  ((( &( "lis" ) )) # Ptr  |-> lis_pre)
 |--
-  [| (safeExec ATrue (check_rel (st) (g)) R ) |]
+  [| (safeExec ATrue (check_rel (st) (g)) (X_rel (X)) ) |]
 .
 
 Definition thm_apply_partial_solve_wit_9_aux := 
-forall (goal_pre: Z) (lis_pre: Z) (thm_pre: Z) (X: (solve_res -> (unit -> Prop))) (g: term) (l: (@list var_sub)) (t: term) (retval: Z) (retval_2: Z) (v: Z) (res_type: Z) (pq: partial_quant) (st: term) (retval_3: Z) (v_2: Z) (retval_4: Z) (R: ((term * (@list term)) -> (unit -> Prop))) ,
-  [| (safeExec ATrue (check_rel (st) (g)) R ) |] 
+forall (goal_pre: Z) (lis_pre: Z) (thm_pre: Z) (X: (solve_res -> (unit -> Prop))) (g: term) (l: (@list var_sub)) (t: term) (retval: Z) (retval_2: Z) (v: Z) (res_type: Z) (pq: partial_quant) (st: term) (retval_3: Z) (v_2: Z) (retval_4: Z) ,
+  [| (safeExec ATrue (check_rel (st) (g)) (X_rel (X)) ) |] 
   &&  [| (retval_4 <> 0) |] 
   &&  [| (v_2 = 0) |] 
   &&  [| (retval_3 = 0) |] 
@@ -2077,8 +2077,8 @@ forall (goal_pre: Z) (lis_pre: Z) (thm_pre: Z) (X: (solve_res -> (unit -> Prop))
   **  ((&((retval_2)  # "solve_res" ->ₛ "type")) # Int  |-> 1)
   **  (sll_var_sub_list lis_pre l )
 |--
-  [| (safeExec ATrue (check_rel (st) (g)) R ) |] 
-  &&  [| (safeExec ATrue (check_rel (st) (g)) R ) |] 
+  [| (safeExec ATrue (check_rel (st) (g)) (X_rel (X)) ) |] 
+  &&  [| (safeExec ATrue (check_rel (st) (g)) (X_rel (X)) ) |] 
   &&  [| (retval_4 <> 0) |] 
   &&  [| (v_2 = 0) |] 
   &&  [| (retval_3 = 0) |] 
@@ -2140,8 +2140,7 @@ forall (X: (solve_res -> (unit -> Prop))) (g: term) (l: (@list var_sub)) (t: ter
   &&  [| (safeExec ATrue (thm_app_rel (t) (l) (g)) X ) |]
   &&  emp
 |--
-  EX (R: ((term * (@list term)) -> (unit -> Prop))) ,
-  [| (safeExec ATrue (check_rel (st) (g)) R ) |]
+  [| (safeExec ATrue (check_rel (st) (g)) (X_rel (X)) ) |]
   &&  emp
 .
 

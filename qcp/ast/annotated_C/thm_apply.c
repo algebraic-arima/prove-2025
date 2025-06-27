@@ -234,14 +234,15 @@ solve_res* thm_apply(term* thm, var_sub_list* lis, term* goal)
           which implies
           res->d.list == 0
       */
+     term* thm_ins_c = copy_term(thm_ins);
       /*@ exists pq st,
           term_alpha_eqn(st, g) == 0 &&
           thm_subst_allres_rel(t, l, pq, st) &&
           safeExec(ATrue, thm_app_rel(t, l, g), X)
           which implies 
-            safeExec(ATrue, check_rel(st, g), X)
+          safeExec(ATrue, check_rel(st, g), X_rel(X))
       */
-      res->d.list = check_list_gen(thm_ins, goal);
+      res->d.list = check_list_gen(thm_ins_c, goal);
     }
   }
   return res;

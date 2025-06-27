@@ -16,7 +16,7 @@ DEP_FLAG = -R $(SL_DIR)SeparationLogic SimpleC.SL -R $(SL_DIR)unifysl Logic -R $
 lib_FILES = \
 	malloc.v sll_tmpl.v ast_lib.v
 
-VC_code_FILE_NAME = thm_apply
+VC_code_FILE_NAME = subst alpha_equiv thm_apply
 
 strategy_FILE_NAME = 
 

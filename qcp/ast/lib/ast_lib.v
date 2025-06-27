@@ -879,10 +879,16 @@ Definition thm_app:
         end)
   end.
 
+Definition X_rel (X: solve_res -> unit -> Prop): (term * list term -> unit -> Prop) :=
+  fun '(t, l) => fun u =>
+    X (SRTList l) u.
+
 Definition thm_app_rel (thm : term) (l : var_sub_list) (goal : term) :=
   thm_app (thm, l, goal).
 
 (* Lemmas *)
+
+Local Open Scope string.
 
 Lemma term_subst_v_same_name : forall (den src : var_name) (t : term),
   den = src ->
@@ -930,3 +936,60 @@ Proof.
     Intros y.
     contradiction.
 Qed.
+
+Lemma store_term_cell_fold: forall x y t,
+  x <> NULL ->
+  &(x # "term_list" ->ₛ "element") # Ptr |-> y **
+  store_term y t |--
+  store_term_cell x t.
+Proof.
+  intros.
+  unfold store_term_cell.
+  Exists y.
+  entailer!.
+Qed.
+
+Lemma sllbseg_one: forall a y retval,
+  retval <> NULL ->
+  y # Ptr |-> retval **
+  store_term_cell retval a |--
+  sllbseg_term_list y &(retval # "term_list" ->ₛ "next") (a::nil).
+Proof.
+  unfold sllbseg_term_list, sllbseg.
+  intros.
+  Exists retval.
+  entailer!.
+Qed.
+
+Lemma store_imply_res_zero: forall t,
+  store_imply_res 0 (sep_impl t) |-- [| sep_impl t = None |] && [|0 = NULL|] && emp.
+Proof.
+  intros.
+  remember (sep_impl t) as r.
+  unfold sep_impl in Heqr.
+  destruct t; try simpl.
+  + unfold store_imply_res; subst; entailer!.
+  + unfold store_imply_res; subst; entailer!.
+  + unfold store_imply_res.
+    destruct r; [ | entailer!].
+    destruct i; Intros x y.
+    destruct t1; try congruence.
+    destruct t1_1; try congruence.
+    destruct ctype; try congruence.
+    unfold store_ImplyProp.
+    entailer!.
+  + unfold store_imply_res; subst; entailer!.
+Qed.
+
+Lemma sllbseg_2_sllseg_term: forall x y l,
+  sllbseg_term_list x y l ** y # Ptr |-> 0 |--
+  EX h, x # Ptr |-> h ** sll_term_list h l.
+Proof.
+  intros.
+  unfold sllbseg_term_list, sll_term_list.
+  sep_apply (sllbseg_2_sllseg store_term_cell).
+  Intros h; Exists h.
+  sep_apply (sllseg_0_sll store_term_cell).
+  entailer!.
+Qed.
+
